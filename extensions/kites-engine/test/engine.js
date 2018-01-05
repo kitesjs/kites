@@ -69,7 +69,6 @@ test('kites extensions', function (troot) {
         })
 
         kites.init().then(() => {
-            console.log(kites);
             t.equal(extensionInitialized, true);
         })
     })
