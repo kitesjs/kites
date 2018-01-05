@@ -1,3 +1,4 @@
+var os = require('os');
 var path = require('path');
 var Promise = require('bluebird');
 var fsUtil = require('../util/fs');
@@ -8,7 +9,8 @@ var fs = Promise.promisifyAll(require('fs'));
 var pathToLocationCache;
 
 module.exports.get = function (config) {
-  pathToLocationCache = path.join(config.tempDirectory, 'extensions', 'locations.json')
+  var tempDirectory = config.tempDirectory || os.tmpdir();
+  pathToLocationCache = path.join(tempDirectory, 'extensions', 'locations.json');
 
   if (config.mode === 'kites-development' || config.extensionsLocationCache === false) {
     config.logger.info('Skipping extensions location cache when NODE_ENV=kites-development or when option extensionsLocationCache === false, crawling now')
@@ -59,7 +61,8 @@ module.exports.save = function (extensions, config) {
     return d.indexOf(path.join(__dirname, '../../../')) !== -1
   })
 
-  return mkdirp(path.join(config.tempDirectory, 'extensions')).then(function () {
+  var tempDirectory = config.tempDirectory || os.tmpdir();
+  return mkdirp(path.join(tempDirectory, 'extensions')).then(function () {
     return fs.statAsync(pathToLocationCache).catch(function () {
       return fs.writeFileAsync(pathToLocationCache, JSON.stringify({}), 'utf8')
     })

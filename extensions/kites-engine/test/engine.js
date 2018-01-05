@@ -21,6 +21,26 @@ test('kites extensions', function (troot) {
             t.equal(kites.aKitesExtensionInitialized, true, 'a kites extension has initialized')
         })
     })
-    
+
+    test('ability to use custom extension', (t) => {
+        t.plan(1);
+
+        var extensionInitialized = false;
+        var kites = engine({
+            rootDirectory: __dirname
+        });
+
+        kites.use({
+            name: 'test',
+            main: (kites, definition) => {
+                extensionInitialized = true
+            }
+        })
+
+        kites.init().then(() => {
+            t.equal(extensionInitialized, true, 'kites use an extension has initialized')
+        })
+    })
+
     troot.end();
 });
