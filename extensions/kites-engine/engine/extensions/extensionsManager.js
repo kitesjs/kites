@@ -62,7 +62,7 @@ class ExtensionsManager extends EventEmitter {
     }
 
     use(extension) {
-        if (typeof extension === 'functions') {
+        if (typeof extension === 'function') {
             this.usedExtensions.push({
                 main: extension,
                 directory: this.kites.options.parentModuleDirectory,

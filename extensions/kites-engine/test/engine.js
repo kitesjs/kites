@@ -59,6 +59,21 @@ test('kites extensions', function (troot) {
         })
     })
 
+    test('accept plain function as an extension', (t) => {
+        t.plan(1);
+
+        var kites = engine();
+        var extensionInitialized = false;
+        kites.use((kites) => {
+            extensionInitialized = true;
+        })
+
+        kites.init().then(() => {
+            console.log(kites);
+            t.equal(extensionInitialized, true);
+        })
+    })
+
     troot.end();
 });
 
@@ -321,6 +336,45 @@ test('kites load configuration', (troot) => {
             t.throws(() => {
                 throw err
             }, /custom.config.json/)
+        })
+
+    })
+
+    test('parse env options into kites options when loadConfig', (t) => {
+        t.plan(2);
+
+        process.env.httpPort = 3000
+        process.env.NODE_ENV = 'kites'
+
+        var kites = engine({
+            rootDirectory: __dirname,
+            discover: false,
+            loadConfig: true
+        })
+
+        kites.init().then(() => {
+            t.equal(kites.options.httpPort, '3000')
+            t.equal(kites.options.env, 'kites')
+        })
+
+    })
+
+    test('use options provided when loadConfig', (t) => {
+        t.plan(2);
+
+        delete process.env.httpPort
+        process.env.NODE_ENV = 'kites'
+
+        var kites = engine({
+            rootDirectory: __dirname,
+            discover: false,
+            loadConfig: true,
+            httpPort: 4000
+        })
+
+        kites.init().then(() => {
+            t.equal(kites.options.httpPort, 4000)
+            t.equal(kites.options.env, 'kites')
         })
 
     })
