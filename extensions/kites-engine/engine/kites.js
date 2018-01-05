@@ -239,3 +239,5 @@ class Kites extends EventEmitter {
         }
     }
 }
+
+module.exports = Kites;
