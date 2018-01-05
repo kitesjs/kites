@@ -40,7 +40,7 @@ class Kites extends EventEmitter {
     get defaults() {
         return {
             discover: true,
-            rootDirectory: path.join(__dirname, '../../../'),
+            rootDirectory: appRoot.toString(),
             appDirectory: appRoot.toString(),
             parentModuleDirectory: path.dirname(module.parent.filename),
             env: process.env.NODE_ENV || 'development',
@@ -223,9 +223,9 @@ class Kites extends EventEmitter {
                 }
             })
         } else {
-            if (!winston.loggers.get(this.name).transports.debug) {
-                winston.loggers.get(this.name).add(LogDebugTransport)
-            }
+            // remove all transports and add default Debug transport
+            winston.loggers.get(this.name).clear();
+            winston.loggers.get(this.name).add(LogDebugTransport);
         }
 
         return winston.loggers.get(this.name);

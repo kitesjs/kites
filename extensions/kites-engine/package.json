@@ -34,6 +34,7 @@
     "winston": "^2.4.0"
   },
   "devDependencies": {
+    "std-mocks": "^1.0.1",
     "supertest": "^2.0.1",
     "tap-spec": "^4.1.1",
     "tape": "^4.6.3"
