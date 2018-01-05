@@ -1,9 +1,26 @@
 'use strict';
 var os = require('os');
+var fs = require('fs');
+var path = require('path');
 var test = require('tape');
 var stdMocks = require('std-mocks');
 var engine = require('../index');
 var Logger = require('./util/testLogger');
+
+function safeUnlink(p) {
+    try {
+        fs.unlinkSync(p)
+    } catch (e) {
+
+    }
+}
+
+function removeKitesConfigFiles() {
+    safeUnlink(path.join(__dirname, 'prod.config.json'))
+    safeUnlink(path.join(__dirname, 'dev.config.json'))
+    safeUnlink(path.join(__dirname, 'kites.config.json'))
+    safeUnlink(path.join(__dirname, 'custom.config.json'))
+}
 
 test('kites extensions', function (troot) {
     let config = {
@@ -165,6 +182,147 @@ test('kites logs', function (troot) {
             t.equal(typeof kites.logger.transports.debug, 'object', 'debug transport should be not undefined')
             t.equal(typeof kites.logger.transports.memory, 'object', 'memory transport shoud be not undefined')
         })
+    })
+
+    troot.end()
+})
+
+test('kites initializeListeners', (troot) => {
+
+    test('fire initialize listeners on custom extension', (t) => {
+        t.plan(1);
+
+        var kites = engine({
+            discover: false,
+            logger: {
+                console: {
+                    transport: 'console',
+                    level: 'debug'
+                }
+            }
+        });
+        var customExtensionInitialized = false;
+
+        kites.use({
+            name: 'test',
+            main: (kites, definition) => {
+                kites.initializeListeners.add('big gun', () => {
+                    kites.logger.debug('Big gun fires!!!')
+                    customExtensionInitialized = true;
+                })
+            }
+        })
+
+        kites.init().then(() => {
+            t.equal(customExtensionInitialized, true, 'Big gun has fired')
+        })
+    })
+
+    troot.end();
+})
+
+test('kites load configuration', (troot) => {
+
+    test('parse dev.config.json when loadConfig and NODE_ENV=development', (t) => {
+        t.plan(1);
+        removeKitesConfigFiles();
+
+        process.env.NODE_ENV = 'development'
+        fs.writeFileSync(path.join(__dirname, 'dev.config.json'), JSON.stringify({
+            test: 'kites:dev'
+        }))
+
+        var kites = engine({
+            rootDirectory: __dirname,
+            loadConfig: true
+        })
+
+        kites.init().then(() => {
+            t.equal(kites.options.test, 'kites:dev')
+        })
+
+    })
+
+    test('parse prod.config.json when loadConfig and NODE_ENV=production', (t) => {
+        t.plan(1);
+        removeKitesConfigFiles();
+
+        process.env.NODE_ENV = 'production'
+        fs.writeFileSync(path.join(__dirname, 'prod.config.json'), JSON.stringify({
+            test: 'kites:prod'
+        }))
+
+        var kites = engine({
+            rootDirectory: __dirname,
+            loadConfig: true
+        })
+
+        kites.init().then(() => {
+            t.equal(kites.options.test, 'kites:prod')
+        })
+
+    })
+
+    test('parse kites.config.json when loadConfig and not set ENV', (t) => {
+        t.plan(1);
+        removeKitesConfigFiles();
+
+        delete process.env.NODE_ENV;
+        fs.writeFileSync(path.join(__dirname, 'kites.config.json'), JSON.stringify({
+            test: 'kites:default'
+        }))
+
+        var kites = engine({
+            rootDirectory: __dirname,
+            discover: false,
+            loadConfig: true
+        })
+
+        kites.init().then(() => {
+            t.equal(kites.options.test, 'kites:default')
+        })
+
+    })
+
+
+    test('parse absolute configFile option when loadConfig', (t) => {
+        t.plan(1);
+        removeKitesConfigFiles();
+
+        fs.writeFileSync(path.join(__dirname, 'custom.config.json'), JSON.stringify({
+            test: 'kites:custom'
+        }))
+
+        var kites = engine({
+            rootDirectory: __dirname,
+            discover: false,
+            configFile: path.join(__dirname, 'custom.config.json'),
+            loadConfig: true
+        })
+
+        kites.init().then(() => {
+            t.equal(kites.options.test, 'kites:custom')
+        })
+
+    })
+
+    test('throw error when configFile not found and loadConfig', (t) => {
+        t.plan(1);
+        removeKitesConfigFiles();
+
+        var kites = engine({
+            rootDirectory: __dirname,
+            discover: false,
+            configFile: path.join(__dirname, 'custom.config.json'),
+            loadConfig: true
+        })
+
+        kites.init().catch((err) => {
+            t.throws(() => {
+                throw err
+            }, /custom.config.json/)
+        })
+
     })
 
     troot.end()

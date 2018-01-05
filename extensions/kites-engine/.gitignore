@@ -60,3 +60,4 @@ typings/
 # kites
 .vscode
 test*.js
+*.config.json

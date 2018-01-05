@@ -6,6 +6,7 @@
 'use strict';
 
 const _ = require('lodash');
+const fs = require('fs');
 const path = require('path');
 const events = require('events');
 const winston = require('winston');
@@ -117,11 +118,29 @@ class Kites extends EventEmitter {
             })
             .defaults(this.options);
 
-        this.options.configFile = this.configFileName;
-        if (fs.existsSync(path.join(this.options.rootDirectory, this.options.configFile))) {
-            nfn.file({
-                file: path.join(this.options.rootDirectory, this.options.configFile)
-            })
+        if (!this.options.configFile) {
+
+            this.options.configFile = this.configFileName;
+            if (fs.existsSync(path.join(this.options.rootDirectory, this.options.configFile))) {
+                nfn.file({
+                    file: path.join(this.options.rootDirectory, this.options.configFile)
+                })
+            } else if (fs.existsSync(path.join(this.options.rootDirectory, 'kites.config.json'))) {
+                nfn.file({
+                    file: path.join(this.options.rootDirectory, 'kites.config.json')
+                })
+            }
+
+        } else {
+            let configFilePath = path.isAbsolute(this.options.configFile) ? this.options.configFile : path.join(this.options.rootDirectory, this.options.configFile);
+
+            if (!fs.existsSync(configFilePath)) {
+                throw new Error('Config file ' + this.options.configFile + ' was not found.')
+            } else {
+                nfn.file({
+                    file: configFilePath
+                })
+            }
         }
 
         this.options = nconf.get()
