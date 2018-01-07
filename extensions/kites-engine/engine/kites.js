@@ -76,8 +76,8 @@ class Kites extends EventEmitter {
         return this.options.appDirectory;
     }
 
-    defaultOption(value, defaultValue) {
-        return typeof value !== 'undefined' ? value : defaultValue;
+    defaultOption(option, defaultValue) {
+        return this.options[option] || defaultValue;
     }
 
     /**

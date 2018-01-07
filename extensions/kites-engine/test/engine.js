@@ -392,12 +392,14 @@ test('kites utilities', (t) => {
         discover: false
     });
 
-    kites.options.indexHtml = 'public/'
+    kites.options.indexHtml = 'public/index.html'
 
     t.equal(kites.rootDirectory, path.resolve(process.cwd(), '../../'));
     t.equal(kites.appDirectory, path.resolve(process.cwd()));
-    t.equal(kites.defaultPath(kites.options.indexHtml, '../dist/index.html'), path.resolve(__dirname, '../public/'));
+    t.equal(kites.defaultPath(kites.options.indexHtml, '../dist/index.html'), path.resolve(__dirname, '../public/index.html'));
     t.equal(kites.defaultPath(kites.options.indexHtmlNotSet, 'dist/index.html'), path.resolve(__dirname, '../dist/index.html'));
+    t.equal(kites.defaultOption('indexHtml', 'dist/index2.html'), 'public/index.html');
+    t.equal(kites.defaultOption('indexHtmlNotSet', 'dist/index2.html'), 'dist/index2.html');
 
     t.end();
 })
