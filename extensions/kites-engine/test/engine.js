@@ -62,7 +62,9 @@ test('kites extensions', function (troot) {
     test('accept plain function as an extension', (t) => {
         t.plan(1);
 
-        var kites = engine();
+        var kites = engine({
+            rootDirectory: __dirname
+        });
         var extensionInitialized = false;
         kites.use((kites) => {
             extensionInitialized = true;
@@ -82,7 +84,8 @@ test('kites logs', function (troot) {
         t.plan(1);
 
         var kites = engine({
-            discover: true
+            discover: true,
+            rootDirectory: __dirname
         });
         stdMocks.use({
             print: true
@@ -247,7 +250,8 @@ test('kites load configuration', (troot) => {
         }))
 
         var kites = engine({
-            rootDirectory: __dirname,
+            discover: false,
+            appDirectory: __dirname,
             loadConfig: true
         })
 
@@ -267,7 +271,8 @@ test('kites load configuration', (troot) => {
         }))
 
         var kites = engine({
-            rootDirectory: __dirname,
+            discover: false,
+            appDirectory: __dirname,
             loadConfig: true
         })
 
@@ -287,8 +292,8 @@ test('kites load configuration', (troot) => {
         }))
 
         var kites = engine({
-            rootDirectory: __dirname,
             discover: false,
+            appDirectory: __dirname,
             loadConfig: true
         })
 
@@ -379,4 +384,20 @@ test('kites load configuration', (troot) => {
     })
 
     troot.end()
+})
+
+test('kites utilities', (t) => {
+
+    var kites = engine({
+        discover: false
+    });
+
+    kites.options.indexHtml = 'public/'
+
+    t.equal(kites.rootDirectory, path.resolve(process.cwd(), '../../'));
+    t.equal(kites.appDirectory, path.resolve(process.cwd()));
+    t.equal(kites.defaultPath(kites.options.indexHtml, '../dist/index.html'), path.resolve(__dirname, '../public/'));
+    t.equal(kites.defaultPath(kites.options.indexHtmlNotSet, 'dist/index.html'), path.resolve(__dirname, '../dist/index.html'));
+
+    t.end();
 })

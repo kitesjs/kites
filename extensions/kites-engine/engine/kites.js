@@ -41,7 +41,7 @@ class Kites extends EventEmitter {
     get defaults() {
         return {
             discover: true,
-            rootDirectory: appRoot.toString(),
+            rootDirectory: path.resolve(__dirname, '../../../'),
             appDirectory: appRoot.toString(),
             parentModuleDirectory: path.dirname(module.parent.filename),
             env: process.env.NODE_ENV || 'development',
@@ -58,6 +58,40 @@ class Kites extends EventEmitter {
             return 'test.config.json';
         } else {
             return 'dev.config.json';
+        }
+    }
+
+    /**
+     * Root directory - Used to searches extensions
+     * Default in node_modules
+     */
+    get rootDirectory() {
+        return this.options.rootDirectory;
+    }
+
+    /**
+     * App directory - Used to seaches app configuration
+     */
+    get appDirectory() {
+        return this.options.appDirectory;
+    }
+
+    defaultOption(value, defaultValue) {
+        return typeof value !== 'undefined' ? value : defaultValue;
+    }
+
+    /**
+     * Get default path from appDirectory
+     * @param {string} value 
+     * @param {string} defaultValue 
+     */
+    defaultPath(value, defaultValue) {
+        if (typeof value === 'undefined') {
+            return path.resolve(this.appDirectory, defaultValue || '');
+        } if (path.isAbsolute(value)) {
+            return value;
+        } else {
+            return path.resolve(this.appDirectory, value);
         }
     }
 
@@ -121,18 +155,18 @@ class Kites extends EventEmitter {
         if (!this.options.configFile) {
 
             this.options.configFile = this.configFileName;
-            if (fs.existsSync(path.join(this.options.rootDirectory, this.options.configFile))) {
+            if (fs.existsSync(path.join(this.options.appDirectory, this.options.configFile))) {
                 nfn.file({
-                    file: path.join(this.options.rootDirectory, this.options.configFile)
+                    file: path.join(this.options.appDirectory, this.options.configFile)
                 })
-            } else if (fs.existsSync(path.join(this.options.rootDirectory, 'kites.config.json'))) {
+            } else if (fs.existsSync(path.join(this.options.appDirectory, 'kites.config.json'))) {
                 nfn.file({
-                    file: path.join(this.options.rootDirectory, 'kites.config.json')
+                    file: path.join(this.options.appDirectory, 'kites.config.json')
                 })
             }
 
         } else {
-            let configFilePath = path.isAbsolute(this.options.configFile) ? this.options.configFile : path.join(this.options.rootDirectory, this.options.configFile);
+            let configFilePath = path.isAbsolute(this.options.configFile) ? this.options.configFile : path.join(this.options.appDirectory, this.options.configFile);
 
             if (!fs.existsSync(configFilePath)) {
                 throw new Error('Config file ' + this.options.configFile + ' was not found.')
