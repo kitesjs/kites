@@ -61,6 +61,10 @@ class Kites extends EventEmitter {
         }
     }
 
+    get defaultConfigFile() {
+        return 'kites.config.json';
+    }
+
     /**
      * Root directory - Used to searches extensions
      * Default in node_modules
@@ -159,9 +163,10 @@ class Kites extends EventEmitter {
                 nfn.file({
                     file: path.join(this.options.appDirectory, this.options.configFile)
                 })
-            } else if (fs.existsSync(path.join(this.options.appDirectory, 'kites.config.json'))) {
+            } else if (fs.existsSync(path.join(this.options.appDirectory, this.defaultConfigFile))) {
+                this.options.configFile = this.defaultConfigFile;
                 nfn.file({
-                    file: path.join(this.options.appDirectory, 'kites.config.json')
+                    file: path.join(this.options.appDirectory, this.defaultConfigFile)
                 })
             }
 
