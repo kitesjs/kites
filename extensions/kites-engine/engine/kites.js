@@ -112,6 +112,7 @@ class Kites extends EventEmitter {
         }).then(() => {
             this.logger.info('kites initialized!');
             this._initialized = true;
+            this.emit('initialized', this);
             return this;
         })
     }

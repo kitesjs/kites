@@ -3,7 +3,6 @@ var test = require('tape');
 var discover = require('../../engine/extensions/discover');
 var Logger = require('../util/testLogger');
 
-// close server by exit application
 test('discover extensions', function (troot) {
     let config = {
         logger: new Logger(),

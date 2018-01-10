@@ -20,13 +20,43 @@ Extensions auto discovery
 
 Kites by default auto discovers extensions in the application's directory tree. This means `kites` by default searches for files kites.config.js which describes the extensions and applies all the extensions that are found.
 
-kites extensions auto discovery slows down the startup and can be explicitly overrided using `use` function
+```js
+// let kites autodiscover the extensions
+var kites = require('@kites/engine')({
+    logger: {
+        console: {
+        transport: 'console',
+        level: 'debug'
+    }
+});
+
+// init the kites
+kites.init().then(() => {
+    kites.logger.info('done!')
+})
+```
+
+Kites extensions auto discovery slows down the startup and can be explicitly overrided using `use` function
 
 ```js
-var kites = require('@kites/engine')({...});
-kites.use(require('@kites/express')());
-kites.use(require('kites-roomrtc')());
-kites.init();
+// do not let kites autodiscover the extensions
+// do not load extensions from locations cache
+var kites = require('@kites/engine')({
+    discover: false,
+    extensionsLocationCache: false,
+    logger: {
+        console: {
+        transport: 'console',
+        level: 'debug'
+    }
+});
+
+// explicitly use extensions
+kites.use(require('@kites/express')())
+    .use(require('@kites/roomrtc')())
+    .init().then((kites) => {
+        kites.logger.info('done!')
+    })
 ```
 
 Logging
