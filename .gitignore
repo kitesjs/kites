@@ -56,4 +56,13 @@ typings/
 
 # dotenv environment variables file
 .env
+.idea
+.vscode
+build
+build-runtime
 
+# Kites junks / exclude environment config files
+license.json
+package-lock.json
+prod.config.json
+dev.config.json

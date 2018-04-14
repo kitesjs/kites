@@ -1,0 +1,33 @@
+{
+  "name": "kites",
+  "version": "0.9.1",
+  "description": "Kites Framework",
+  "main": "app.js",
+  "scripts": {
+    "test": "node test/start.js",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vunb/kites.git"
+  },
+  "keywords": [
+    "api",
+    "kites",
+    "web-api",
+    "framework",
+    "generate"
+  ],
+  "author": "Vunb",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vunb/kites/issues"
+  },
+  "homepage": "https://kites.nodejs.vn",
+  "devDependencies": {
+    "tape": "^4.6.3"
+  },
+  "dependencies": {
+    "@kites/engine": "^0.1.2"
+  }
+}
