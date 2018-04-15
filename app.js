@@ -6,7 +6,7 @@ const kites = require('@kites/engine');
  */
 kites({
         loadConfig: true,
-        discover: false
+        discover: true
     })
     .use(require('./extensions/sum'))
     .init()
