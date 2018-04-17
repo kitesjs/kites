@@ -1,14 +1,15 @@
 'use strict'
-const kites = require('@kites/engine');
+const engine = require('@kites/engine');
+const utils = require('./extensions/utils');
 
 /**
  * minimalist kites application
  */
-kites({
+engine({
         loadConfig: true,
         discover: true
     })
-    .use(require('./extensions/sum'))
+    .use(utils)
     .init()
     .then(function (kites) {
         var total = kites.sum([2, 4, 6, 8]);
