@@ -3,6 +3,8 @@
 Core Engine of Kites
 
 [![Join the chat at https://gitter.im/nodevn/kites](https://badges.gitter.im/nodevn/kites.svg)](https://gitter.im/nodevn/kites)
+[![npm version](https://img.shields.io/npm/v/@kites/engine.svg?style=flat)](https://www.npmjs.com/package/@kites/engine)
+[![npm downloads](https://img.shields.io/npm/dm/@kites/engine.svg)](https://www.npmjs.com/package/@kites/engine)
 
 Kites is a framework providing `dynamic applications` assembling and `API` routing. It contains a lot of templates and extensions help build up applications quickly.
 
