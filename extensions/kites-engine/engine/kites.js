@@ -36,6 +36,9 @@ class Kites extends EventEmitter {
         this.logger = this._initWinston();
         this._initialized = false;
         this._fnAfterConfigLoaded = () => this;
+        this._ready = new Promise((resolve) => {
+            this.on('initialized', resolve);
+        });
     }
 
     get defaults() {
@@ -92,7 +95,7 @@ class Kites extends EventEmitter {
     defaultPath(value, defaultValue) {
         if (typeof value === 'undefined') {
             return path.resolve(this.appDirectory, defaultValue || '');
-        } if (path.isAbsolute(value)) {
+        } else if (path.isAbsolute(value)) {
             return value;
         } else {
             return path.resolve(this.appDirectory, value);
@@ -115,6 +118,14 @@ class Kites extends EventEmitter {
             this.emit('initialized', this);
             return this;
         })
+    }
+
+    ready(callback) {
+        callback = callback || (() => 1);
+        this._ready.then((kites) => {
+            callback(kites);
+        })
+        return this;
     }
 
     use(extension) {

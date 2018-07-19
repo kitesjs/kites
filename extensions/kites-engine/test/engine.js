@@ -22,6 +22,28 @@ function removeKitesConfigFiles() {
     safeUnlink(path.join(__dirname, 'custom.config.json'))
 }
 
+test('kites engine', (troot) => {
+    test('ready callback', (t) => {
+        t.plan(1);
+
+        var kites = engine({
+            discover: false
+        });
+
+        kites.ready((kites) => {
+            kites.logger.info('Kites is ready');
+            t.true(kites);
+        })
+        .init()
+        .then((kites) => {
+            kites.logger.info('Kites has initialized!');
+            t.comment('Kites is ready!')
+        })
+    })
+
+    troot.end()
+})
+
 test('kites extensions', function (troot) {
     let config = {
         logger: new Logger(),
@@ -387,7 +409,7 @@ test('kites load configuration', (troot) => {
 })
 
 test('kites utilities', (t) => {
-
+    
     var kites = engine({
         discover: false
     });
