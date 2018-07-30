@@ -25,7 +25,8 @@
   },
   "homepage": "https://kites.nodejs.vn",
   "files": [
-    "lib"
+    "lib",
+    "index.js"
   ],
   "devDependencies": {
     "tape": "^4.6.3"

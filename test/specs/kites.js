@@ -2,7 +2,7 @@
 var test = require('tape');
 var kites = require('../../index');
 
-test('kites engine', (troot) => {
+test('kites extends', (troot) => {
     test('ready callback', (t) => {
         t.plan(1);
 
