@@ -1,6 +1,6 @@
 {
   "name": "kites",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Template-based Web Application Framework",
   "main": "index.js",
   "scripts": {
