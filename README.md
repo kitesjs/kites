@@ -41,8 +41,8 @@ To change environment use cmd `set NODE_ENV=development` or use options your IDE
 Documentation
 =============
 
-* See https://kites.nodejs.vn/documentation/overview/ for an overview of concepts, guides and general documentation.
-* See https://kites.nodejs.vn/documentation/kites/templates/ for installation guides how to create a new project based on Kites Templates.
+* See [Overview](https://kites.nodejs.vn/documentation/overview/) for an overview of concepts, guides and general documentation.
+* See [Templates](https://kites.nodejs.vn/documentation/kites/templates/) for installation guides how to create a new project based on Kites Templates.
 
 Templates
 =========
