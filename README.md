@@ -5,7 +5,7 @@ Template-based Web Application Framework
 [![Join the chat at https://gitter.im/nodevn/kites](https://badges.gitter.im/nodevn/kites.svg)](https://gitter.im/nodevn/kites)
 [![npm version](https://img.shields.io/npm/v/kites.svg?style=flat)](https://www.npmjs.com/package/kites)
 [![npm downloads](https://img.shields.io/npm/dm/kites.svg)](https://www.npmjs.com/package/kites)
-[![Travis](https://travis-ci.org/vunb/kites.svg?branch=master)](https://travis-ci.org/vunb/kites)
+[![Travis](https://travis-ci.org/vunb/kites.svg?branch=stable)](https://travis-ci.org/vunb/kites)
 
 **Kites** is a framework providing `dynamic applications` assembling and `Template-based` extracting. Namely it contains a lot of templates and extensions to help building a new application quickly.
 
@@ -41,8 +41,8 @@ To change environment use cmd `set NODE_ENV=development` or use options your IDE
 Documentation
 =============
 
-* See https://kites.nodejs.vn/documentation/overview/ for an overview of concepts, guides and general documentation.
-* See https://kites.nodejs.vn/documentation/kites/templates/ for installation guides how to create a new project based on Kites Templates.
+* See [Overview](https://kites.nodejs.vn/documentation/overview/) for an overview of concepts, guides and general documentation.
+* See [Templates](https://kites.nodejs.vn/documentation/kites/templates/) for installation guides how to create a new project based on Kites Templates.
 
 Templates
 =========

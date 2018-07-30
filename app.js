@@ -1,6 +1,5 @@
 'use strict'
-const kites = require('./lib/main');
-const utils = require('./extensions/utils');
+const kites = require('kites');
 
 /**
  * minimalist kites application
@@ -10,11 +9,8 @@ kites({
         loadConfig: true,
         discover: true
     })
-    .use(utils)
     .init()
     .then(function (kites) {
-        var total = kites.sum([2, 4, 6, 8]);
-        kites.logger.info('Kites total: ', total);
         kites.logger.info('Hello world!');
     })
     .catch(function (e) {
