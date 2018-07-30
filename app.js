@@ -1,11 +1,12 @@
 'use strict'
-const engine = require('@kites/engine');
+const kites = require('./lib/main');
 const utils = require('./extensions/utils');
 
 /**
  * minimalist kites application
  */
-engine({
+kites({
+        rootDirectory: __dirname,
         loadConfig: true,
         discover: true
     })

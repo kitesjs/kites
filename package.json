@@ -1,8 +1,8 @@
 {
   "name": "kites",
-  "version": "0.9.1",
-  "description": "Kites Framework",
-  "main": "app.js",
+  "version": "1.0.0",
+  "description": "Template-based Web Application Framework",
+  "main": "lib/app.js",
   "scripts": {
     "test": "node test/start.js",
     "start": "node app.js"
@@ -24,10 +24,13 @@
     "url": "https://github.com/vunb/kites/issues"
   },
   "homepage": "https://kites.nodejs.vn",
+  "files": [
+    "lib"
+  ],
   "devDependencies": {
     "tape": "^4.6.3"
   },
   "dependencies": {
-    "@kites/engine": "^0.1.2"
+    "@kites/engine": "^0.1.4"
   }
 }

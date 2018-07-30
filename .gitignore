@@ -63,6 +63,7 @@ build
 build-runtime
 
 # Kites junks / exclude environment config files
+logs
 license.json
 package-lock.json
 prod.config.json
