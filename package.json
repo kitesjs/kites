@@ -12,11 +12,11 @@
     "url": "git+https://github.com/vunb/kites.git"
   },
   "keywords": [
-    "api",
     "kites",
-    "web-api",
+    "discover",
     "framework",
-    "generate"
+    "generate",
+    "template"
   ],
   "author": "Vunb",
   "license": "MIT",
