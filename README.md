@@ -5,6 +5,7 @@ Template-based Web Application Framework
 [![Join the chat at https://gitter.im/nodevn/kites](https://badges.gitter.im/nodevn/kites.svg)](https://gitter.im/nodevn/kites)
 [![npm version](https://img.shields.io/npm/v/kites.svg?style=flat)](https://www.npmjs.com/package/kites)
 [![npm downloads](https://img.shields.io/npm/dm/kites.svg)](https://www.npmjs.com/package/kites)
+[![Travis](https://travis-ci.org/vunb/kites.svg?branch=master)](https://travis-ci.org/vunb/kites)
 
 **Kites** is a framework providing `dynamic applications` assembling and `Template-based` extracting. Namely it contains a lot of templates and extensions to help building a new application quickly.
 
