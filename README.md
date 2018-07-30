@@ -44,6 +44,19 @@ Documentation
 * See https://kites.nodejs.vn/documentation/overview/ for an overview of concepts, guides and general documentation.
 * See https://kites.nodejs.vn/documentation/kites/templates/ for installation guides how to create a new project based on Kites Templates.
 
+Templates
+=========
+
+Here is the list of **built-in templates** and their implementation status:
+
+* [x] `mvc`: Assembling all into complete ship (**default**)
+* [x] `basic`: Template for building from scratch
+* [x] `apidoc`: Template for API Documentation
+* [x] `express`: Template for Express Application
+* [x] `chatbot`: Template for generating an AI Chatbot
+
+More templates, checkout [issue #1](https://github.com/vunb/kites/issues/1)
+
 Extensions
 ==========
 
