@@ -2,7 +2,7 @@
   "name": "kites",
   "version": "1.0.0",
   "description": "Template-based Web Application Framework",
-  "main": "lib/app.js",
+  "main": "index.js",
   "scripts": {
     "test": "node test/start.js",
     "start": "node app.js"
