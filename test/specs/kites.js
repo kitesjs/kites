@@ -16,9 +16,9 @@ test('kites engine', (troot) => {
             .init()
             .then((kites) => {
                 kites.logger.info('Kites has initialized!');
-                t.comment('Kites is ready!')
+                t.comment('Kites is ready!');
             })
     })
 
-    troot.end()
+    troot.end();
 })
