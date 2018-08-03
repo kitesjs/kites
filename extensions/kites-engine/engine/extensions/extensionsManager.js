@@ -87,6 +87,7 @@ class ExtensionsManager extends EventEmitter {
 
     _useOne(extension) {
         // extends options
+        // Review _.assign(), _.defaults(), or _.merge?
         extension.options = _.assign({}, extension.options, this.kites.options[extension.name]);
         
         if (extension.options.enabled === false) {

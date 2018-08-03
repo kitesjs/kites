@@ -36,11 +36,13 @@ exports.walkSync = function (rootPath, fileName, exclude) {
     }
 
     while (next) {
-        var list
+        var list;
         try {
-            list = fs.readdirSync(next)
+            list = fs.readdirSync(next);
         } catch (e) {
-
+            // no permissions to read folder for example
+            // just skip it
+            list = [];
         }
         list.forEach(function (i) {
             var item = path.join(next, i)
