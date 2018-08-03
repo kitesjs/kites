@@ -1,7 +1,7 @@
 {
   "name": "@kites/engine",
   "displayName": "kites",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Core Engine of Kites",
   "main": "index.js",
   "scripts": {
