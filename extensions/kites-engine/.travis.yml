@@ -1,0 +1,18 @@
+language: node_js
+
+os:
+- linux
+- osx
+
+node_js:
+- '8'
+- '10'
+
+before_install:
+# show product version
+- nvm --version
+- node --version
+- npm --version
+
+install:
+- npm install
