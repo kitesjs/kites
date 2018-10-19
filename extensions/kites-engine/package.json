@@ -12,7 +12,8 @@
     "tsc": "tsc",
     "test": "mocha -r ts-node/register src/**/*.spec.ts",
     "prepublish": "npm run build",
-    "publish": "npm publish dist --tag %npm_package_version% --access public"
+    "publish:beta": "release-it --preRelease=beta",
+    "publish:final": "release-it"
   },
   "repository": {
     "type": "git",
@@ -53,6 +54,7 @@
     "@types/std-mocks": "^1.0.0",
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
+    "release-it": "^7.6.1",
     "rimraf": "^2.6.2",
     "std-mocks": "^1.0.1",
     "supertest": "^2.0.1",

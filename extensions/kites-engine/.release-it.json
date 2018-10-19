@@ -1,0 +1,28 @@
+{
+    "safeBump": false,
+    "buildCommand": "yarn build",
+    "requireCleanWorkingDir": false,
+    "src": {
+        "commit": false,
+        "commitMessage": "Release %s",
+        "tag": false,
+        "tagName": "%s",
+        "tagAnnotation": "Release %s",
+        "pushRepo": "origin",
+        "beforeStartCommand": false,
+        "beforeStageCommand": false,
+        "afterReleaseCommand": "rimraf ./*.tgz",
+        "githubAssets": [
+            "*.tgz"
+        ]
+    },
+    "npm": {
+        "publish": true,
+        "publishPath": "dist/",
+        "tag": "latest"
+    },
+    "github": {
+        "release": false,
+        "tokenRef": "GITHUB_RELEASE_IT_TOKEN"
+    }
+}
