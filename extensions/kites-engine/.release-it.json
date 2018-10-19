@@ -8,7 +8,7 @@
         "tagName": "%s",
         "tagAnnotation": "Release %s",
         "pushRepo": "origin",
-        "beforeStartCommand": false,
+        "beforeStartCommand": "rimraf ./*.tgz",
         "beforeStageCommand": false,
         "afterReleaseCommand": "rimraf ./*.tgz",
         "githubAssets": [
