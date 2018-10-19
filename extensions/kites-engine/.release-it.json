@@ -1,5 +1,5 @@
 {
-    "buildCommand": "yarn build",
+    "buildCommand": "yarn build && yarn pack",
     "requireCleanWorkingDir": false,
     "src": {
         "commit": true,
@@ -22,7 +22,7 @@
     },
     "github": {
         "release": true,
-        "assets": "dist/*.zip",
+        "assets": "*.tgz",
         "tokenRef": "GITHUB_RELEASE_IT_TOKEN",
         "note": "Must set tokenRef as environment variable"
     }
