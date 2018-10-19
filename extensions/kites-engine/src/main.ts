@@ -6,6 +6,7 @@ export {
   ICollectionItem,
 } from './engine/event-collection';
 export {KitesCore, IKitesOptions} from './engine/kites';
+export { KitesExtention, KitesExtensionDefinition } from './extensions/extensions';
 
 /**
  * Return a new kites instance
