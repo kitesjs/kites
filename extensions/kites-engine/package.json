@@ -1,19 +1,18 @@
 {
   "name": "@kites/engine",
   "displayName": "kites",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.1",
   "description": "Core Engine of Kites",
-  "main": "dist/src/main.js",
+  "main": "src/main.js",
+  "types": "src/main.d.ts",
   "scripts": {
     "build": "tsc && npm run lint",
     "clean": "rimraf ./dist",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "tsc": "tsc",
     "test": "mocha -r ts-node/register src/**/*.spec.ts",
-    "premajor": "release-it premajor --preReleaseId=beta --npm.tag=beta --github.preRelease --verbose",
-    "release-patch": "release-it",
-    "release-minor": "release-it minor",
-    "release-beta": "release-it major --preRelease=beta"
+    "prepublish": "npm run build",
+    "publish": "npm publish dist --tag %npm_package_version% --access public"
   },
   "repository": {
     "type": "git",
@@ -54,7 +53,6 @@
     "@types/std-mocks": "^1.0.0",
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
-    "release-it": "^7.6.1",
     "rimraf": "^2.6.2",
     "std-mocks": "^1.0.1",
     "supertest": "^2.0.1",
@@ -66,7 +64,7 @@
     "typescript-eslint-parser": "^20.0.0"
   },
   "files": [
-    "dist",
-    "index.js"
+    "src",
+    "dist"
   ]
 }
