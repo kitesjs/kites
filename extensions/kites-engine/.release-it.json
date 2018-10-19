@@ -1,11 +1,10 @@
 {
-    "safeBump": false,
     "buildCommand": "yarn build",
     "requireCleanWorkingDir": false,
     "src": {
-        "commit": false,
+        "commit": true,
         "commitMessage": "Release %s",
-        "tag": false,
+        "tag": true,
         "tagName": "%s",
         "tagAnnotation": "Release %s",
         "pushRepo": "origin",
@@ -22,7 +21,9 @@
         "tag": "latest"
     },
     "github": {
-        "release": false,
-        "tokenRef": "GITHUB_RELEASE_IT_TOKEN"
+        "release": true,
+        "assets": "dist/*.zip",
+        "tokenRef": "GITHUB_RELEASE_IT_TOKEN",
+        "note": "Must set tokenRef as environment variable"
     }
 }
