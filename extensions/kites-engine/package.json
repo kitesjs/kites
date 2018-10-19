@@ -11,6 +11,7 @@
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "tsc": "tsc",
     "test": "mocha -r ts-node/register src/**/*.spec.ts",
+    "prepublish": "npm login",
     "release:beta": "release-it --preRelease=beta --verbose",
     "release:final": "release-it --verbose"
   },
