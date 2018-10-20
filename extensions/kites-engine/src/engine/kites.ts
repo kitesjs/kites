@@ -26,7 +26,7 @@ export default function newKites(options: IKitesOptions) {
 /**
  * Kites callback on ready
  */
-export type KitesReadyCallback = (kites: KitesCore) => void;
+export type KitesReadyCallback = (kites: IKites) => void;
 
 /**
  * Kites Options
@@ -46,7 +46,27 @@ export interface IKitesOptions {
     extensions?: string[];
 }
 
-export class KitesCore extends EventEmitter {
+/**
+ * Kite Interface
+ */
+export interface IKites {
+    [key: string]: any;
+    name: string;
+    version: string;
+    options: IKitesOptions;
+    initializeListeners: EventCollectionEmitter;
+    logger: LoggerInstance;
+    afterConfigLoaded(fn: KitesReadyCallback): IKites;
+    ready(callback: KitesReadyCallback): IKites;
+    discover(): IKites;
+    use(extension: KitesExtention|KitesExtensionDefinition): IKites;
+    init(): Promise<IKites>;
+}
+
+/**
+ * Kites engine core
+ */
+export class KitesCore extends EventEmitter implements IKites {
 
     [key: string]: any; // key allow assign any object to kites!
     name: string;
@@ -55,7 +75,7 @@ export class KitesCore extends EventEmitter {
     initializeListeners: EventCollectionEmitter;
     extensionsManager: ExtensionsManager;
     logger: LoggerInstance;
-    private fnAfterConfigLoaded: Function;
+    private fnAfterConfigLoaded: KitesReadyCallback;
     private isReady: Promise<KitesCore>;
 
     constructor(options?: IKitesOptions) {
@@ -175,7 +195,7 @@ export class KitesCore extends EventEmitter {
      * Assign config loaded callback
      * @param fn Function
      */
-    afterConfigLoaded(fn: Function) {
+    afterConfigLoaded(fn: KitesReadyCallback) {
         this.fnAfterConfigLoaded = fn;
         return this;
     }

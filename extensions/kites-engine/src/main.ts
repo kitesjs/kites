@@ -5,7 +5,7 @@ export {
   EventCollectionEmitter,
   ICollectionItem,
 } from './engine/event-collection';
-export {KitesCore, IKitesOptions} from './engine/kites';
+export { IKites, KitesCore, IKitesOptions } from './engine/kites';
 export { KitesExtention, KitesExtensionDefinition } from './extensions/extensions';
 
 /**

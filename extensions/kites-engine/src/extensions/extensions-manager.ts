@@ -2,17 +2,17 @@ import { EventEmitter } from 'events';
 import * as _ from 'lodash';
 import * as os from 'os';
 import * as path from 'path';
-import { KitesCore } from '../main';
+import { IKites } from '../main';
 import { discover } from './discover';
 import { KitesExtensionDefinition, KitesExtention } from './extensions';
 import sorter from './sorter';
 
 export class ExtensionsManager extends EventEmitter {
-    protected kites: KitesCore;
+    protected kites: IKites;
     protected availableExtensions: KitesExtention[];
     protected usedExtensions: KitesExtention[];
 
-    constructor(kites: KitesCore) {
+    constructor(kites: IKites) {
         super();
 
         this.kites = kites;

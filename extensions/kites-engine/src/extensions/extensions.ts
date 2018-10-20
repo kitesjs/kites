@@ -1,9 +1,9 @@
-import { KitesCore } from '../main';
+import { IKites } from '../main';
 
 /**
  * Kites extension definition (callback)
  */
-export type KitesExtensionDefinition = (kites: KitesCore, definition: KitesExtention) => void;
+export type KitesExtensionDefinition = (kites: IKites, definition: KitesExtention) => void;
 
 /**
  * Kites extension definition
