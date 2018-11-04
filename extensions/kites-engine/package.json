@@ -36,7 +36,6 @@
     "app-root-path": "^2.0.1",
     "bluebird": "^3.5.1",
     "debug": "^3.1.0",
-    "listener-collection": "^1.2.0",
     "lodash": "^4.17.4",
     "mkdirp": "^0.5.1",
     "nconf": "^0.10.0",
