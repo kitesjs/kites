@@ -1,8 +1,25 @@
 import { assert, expect } from 'chai';
+import * as fs from 'fs';
 import * as path from 'path';
 import {KitesCore} from './kites';
 
 import * as stdMocks from 'std-mocks';
+
+function safeUnlink(fn: string) {
+    try {
+        console.log('Remove config file: ', fn);
+        fs.unlinkSync(fn);
+    } catch (e) {
+        // do nothing
+    }
+}
+
+function removeKitesConfigFiles() {
+    safeUnlink(path.join(__dirname, 'prod.config.json'));
+    safeUnlink(path.join(__dirname, 'dev.config.json'));
+    safeUnlink(path.join(__dirname, 'kites.config.json'));
+    safeUnlink(path.join(__dirname, 'custom.config.json'));
+}
 
 describe('kites engine', () => {
 
@@ -196,5 +213,144 @@ describe('kites initializeListeners', () => {
 
         let newkites = await core.init();
         expect(newkites.customExtensionInitialized).eq(true);
+    });
+});
+
+describe('kites load configuration', () => {
+    beforeEach(() => {
+
+        removeKitesConfigFiles();
+    });
+
+    it('should parse dev.config.json when loadConfig and NODE_ENV=development', async () => {
+        process.env.NODE_ENV = 'development';
+        fs.writeFileSync(path.join(__dirname, 'dev.config.json'), JSON.stringify({
+            test: 'kites:dev'
+        }));
+
+        let core = new KitesCore({
+            appDirectory: __dirname,
+            discover: false,
+            loadConfig: true
+        });
+
+        let kites = await core.init();
+        expect(kites.options.test).eq('kites:dev');
+    });
+
+    it('should parse prod.config.json when loadConfig and NODE_ENV=production', async () => {
+        process.env.NODE_ENV = 'production';
+        fs.writeFileSync(path.join(__dirname, 'prod.config.json'), JSON.stringify({
+            test: 'kites:prod'
+        }));
+
+        let core = new KitesCore({
+            appDirectory: __dirname,
+            discover: false,
+            loadConfig: true
+        });
+
+        let kites = await core.init();
+        expect(kites.options.test).eq('kites:prod');
+    });
+
+    it('should parse kites.config.json when loadConfig and not set NODE_ENV', async () => {
+        delete process.env.NODE_ENV;
+        fs.writeFileSync(path.join(__dirname, 'kites.config.json'), JSON.stringify({
+            test: 'kites:default'
+        }));
+
+        let core = new KitesCore({
+            appDirectory: __dirname,
+            discover: false,
+            loadConfig: true
+        });
+
+        let kites = await core.init();
+        expect(kites.options.test).eq('kites:default');
+    });
+
+    it('should parse absolute configFile option when loadConfig', async () => {
+
+        fs.writeFileSync(path.join(__dirname, 'custom.config.json'), JSON.stringify({
+            test: 'kites:custom'
+        }));
+
+        let core = new KitesCore({
+            appDirectory: __dirname,
+            configFile: path.join(__dirname, 'custom.config.json'),
+            discover: false,
+            loadConfig: true
+        });
+
+        let kites = await core.init();
+        expect(kites.options.test).eq('kites:custom');
+    });
+
+    it('should throws error when configFile not found and loadConfig', async () => {
+
+        let core = new KitesCore({
+            appDirectory: __dirname,
+            configFile: path.join(__dirname, 'custom.config.json'),
+            discover: false,
+            loadConfig: true
+        });
+
+        try {
+            await core.init();
+        } catch (err) {
+            expect(/custom.config.json was not found.$/.test(err)).eq(true);
+        }
+    });
+
+});
+
+describe('kites load env options', () => {
+    it('should parse env options into kites options when loadConfig', async () => {
+        process.env.httpPort = '3000';
+        process.env.NODE_ENV = 'kites';
+
+        let core = new KitesCore({
+            appDirectory: __dirname,
+            discover: false,
+            loadConfig: true
+        });
+
+        let kites = await core.init();
+        expect(kites.options.httpPort).eq('3000');
+        expect(kites.options.env).eq('kites');
+    });
+
+    it('should use options provided when loadConfig', async () => {
+        delete process.env.httpPort;
+        process.env.NODE_ENV = 'kites';
+
+        let core = new KitesCore({
+            appDirectory: __dirname,
+            discover: false,
+            httpPort: 4000,
+            loadConfig: true
+        });
+
+        let kites = await core.init();
+        expect(kites.options.httpPort).eq(4000);
+        expect(kites.options.env).eq('kites');
+    });
+});
+
+describe('kites utilities', () => {
+    it('should access app path', () => {
+        let kites = new KitesCore({
+            discover: false
+        });
+
+        kites.options.indexHtml = 'public/index.html';
+        expect(kites.rootDirectory).eq(path.resolve(process.cwd(), '../'));
+        expect(kites.appDirectory).eq(process.cwd());
+        expect(kites.defaultPath(kites.options.indexHtml)).eq(path.resolve(kites.appDirectory, 'public/index.html'));
+        expect(kites.defaultPath(kites.options.indexHtmlNotSet)).eq(kites.appDirectory);
+        expect(kites.defaultOption('indexHtml', 'dist/index2.html')).eq('public/index.html');
+        expect(kites.defaultOption('indexHtmlNotSet', 'public/index2.html')).eq('public/index2.html');
+
     });
 });

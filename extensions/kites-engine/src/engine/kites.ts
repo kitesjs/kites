@@ -1,7 +1,7 @@
 import * as appRoot from 'app-root-path';
 import * as fs from 'fs';
 import * as _ from 'lodash';
-import * as nconf from 'nconf';
+// import * as nconf from 'nconf';
 import * as path from 'path';
 import {LoggerInstance, MemoryTransportInstance} from 'winston';
 
@@ -150,13 +150,21 @@ export class KitesCore extends EventEmitter implements IKites {
     }
 
     /**
+     * Get kites option or default value
+     * @param option
+     * @param defaultValue
+     */
+    defaultOption(option: string, defaultValue: any) {
+        return this.options[option] || defaultValue;
+    }
+
+    /**
      * Get default path from appDirectory
      * @param {string} value
-     * @param {string} defaultValue
      */
-    defaultPath(value: string, defaultValue: string) {
+    defaultPath(value: string) {
         if (typeof value === 'undefined') {
-            return path.resolve(this.appDirectory, defaultValue || '');
+            return this.appDirectory;
         } else if (path.isAbsolute(value)) {
             return value;
         } else {
@@ -237,13 +245,15 @@ export class KitesCore extends EventEmitter implements IKites {
     }
 
     private _loadConfig() {
-        let nfn = nconf.get().env({
-            separator: ':'
-        })
-        .env({
-            separator: '_'
-        })
-        .defaults(this.options);
+        var nconf = require('nconf');
+        let nfn = nconf.argv()
+            .env({
+                separator: ':'
+            })
+            .env({
+                separator: '_'
+            })
+            .defaults(this.options);
 
         if (!this.options.configFile) {
 
