@@ -6,8 +6,9 @@
   "main": "src/main.js",
   "types": "src/main.d.ts",
   "scripts": {
-    "build": "tsc && npm run lint",
+    "build": "tsc && npm run lint && npm run copy",
     "clean": "rimraf ./dist",
+    "copy": "copyfiles README.md LICENSE dist",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "tsc": "tsc",
     "test": "mocha -r ts-node/register src/**/*.spec.ts",
@@ -53,6 +54,7 @@
     "@types/node": "^10.11.7",
     "@types/std-mocks": "^1.0.0",
     "chai": "^4.2.0",
+    "copyfiles": "^2.1.0",
     "mocha": "^5.2.0",
     "release-it": "^7.6.1",
     "rimraf": "^2.6.2",
@@ -67,6 +69,7 @@
   },
   "files": [
     "src",
-    "dist"
+    "LICENSE",
+    "README.md"
   ]
 }
