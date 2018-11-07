@@ -22,10 +22,7 @@
     "./node_modules/@types/node/index.d.ts"
   ],
   "include": [
-    "src/**/*.ts",
-    "lib/main.js",
-    "lib/kites.ts",
-    "src/main.js"
+    "src/**/*.ts"
   ],
   "exclude": [
     "node_modules",

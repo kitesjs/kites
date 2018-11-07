@@ -51,7 +51,7 @@
     "typescript-eslint-parser": "^20.0.0"
   },
   "dependencies": {
-    "@kites/engine": "^0.1.4",
+    "@kites/engine": "^1.0.0",
     "mkdirp": "0.5.1"
   }
 }

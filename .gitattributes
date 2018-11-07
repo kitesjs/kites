@@ -202,12 +202,13 @@ Procfile    text
 *.exe binary
 *.pyc binary
 
-# EHR.QLHIS Project
+# Project text
 .gitignore text
 *.gitattributes text
 *.md text
 
 # Project binary
+*.lock   binary
 *.dll    binary
 *.doc    binary
 *.docx   binary
