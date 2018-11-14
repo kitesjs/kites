@@ -1,6 +1,6 @@
 import { KitesCore } from '@kites/engine';
-import { assert, expect } from 'chai';
-import { InitKites } from './main';
+import { expect } from 'chai';
+import InitKites from './main';
 
 describe('kites engine', () => {
 
