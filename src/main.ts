@@ -7,13 +7,14 @@ import { Kites } from './kites';
 /**
  * Export necessary things
  */
-export { IKites, KitesCore, IKitesOptions} from '@kites/engine';
+export { IKites, IKitesOptions, KitesCore} from '@kites/engine';
+export { Kites } from './kites';
 
 /**
  * Extends Kites Core
  * @param {Object} options
  */
-export function InitKites(options: IKitesOptions) {
+export default function InitKites(options: IKitesOptions) {
 
     const parent = module.parent || module;
     const optionsToUse = Object.assign({}, {
