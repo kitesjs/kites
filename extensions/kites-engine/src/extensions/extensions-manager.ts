@@ -62,7 +62,7 @@ export class ExtensionsManager extends EventEmitter {
         return Promise.resolve()
             .then(() => {
                 if (typeof extension.main === 'function') {
-                    extension.main.call(this, this.kites, extension);
+                    (extension.main as Function).call(this, this.kites, extension);
                     return Promise.resolve();
                 } else if (extension.directory) {
                     let extPath = path.join(extension.directory, extension.main);

@@ -216,3 +216,5 @@ Procfile    text
 # No text automatically
 /dist/* -text
 /docs/* -text
+yarn.lock -text
+package-lock.json -text
