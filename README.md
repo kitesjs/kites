@@ -104,10 +104,18 @@ var kites = require('kites')({
 
 // explicitly use extensions
 kites.use(require('@kites/express')())
-    .use(require('@kites/roomrtc')())
     .use(require('./path/to/your/extension')())
+    .use((kites) => {
+        kites.sum = function (arr) {
+            return arr.reduce((total, i) => total + i, 0)
+        }
+    })
     .init().then((kites) => {
-        kites.logger.info('done!')
+        let total = kites.sum([3, 4, 5])
+
+        kites.logger.info('init done!')
+        kites.logger.info('sum: ', total);
+        // 12
     })
 ```
 

@@ -1,8 +1,12 @@
-'use strict';
-const path = require('path')
-const mkdirp = require('mkdirp')
+import { IKites } from '@kites/engine';
+import * as mkdirp from 'mkdirp';
+import * as path from 'path';
 
-function addTransports(kites) {
+/**
+ * Route configuration to add logger Transports
+ * @param {Object} kites
+ */
+export function addTransports(kites: IKites) {
     if (
         kites.logger.transports.console ||
         kites.logger.transports.file ||
@@ -15,39 +19,39 @@ function addTransports(kites) {
     }
 
     // default enable debug level for development
-    const defaultLevel = kites.options.env === 'production' ? 'info' : 'debug'
+    const defaultLevel = kites.options.env === 'production' ? 'info' : 'debug';
 
     /**
      * Log to console
      */
     kites.options.logger.console = Object.assign({
-        transport: 'console',
+        colorize: true,
         level: defaultLevel,
         timestamp: true,
-        colorize: true
-    }, kites.options.logger.console)
+        transport: 'console',
+    }, kites.options.logger.console);
 
     /**
      * Log to file (info)
      */
     kites.options.logger.file = Object.assign({
-        transport: 'file',
-        level: defaultLevel,
         filename: 'logs/kites.log',
+        json: false,
+        level: defaultLevel,
         maxsize: 10485760,
-        json: false
-    }, kites.options.logger.file)
+        transport: 'file',
+    }, kites.options.logger.file);
 
     /**
      * Log to file (error)
      */
     kites.options.logger.error = Object.assign({
-        transport: 'file',
-        level: 'error',
         filename: 'logs/error.log',
         handleExceptions: true,
-        json: false
-    }, kites.options.logger.error)
+        json: false,
+        level: 'error',
+        transport: 'file',
+    }, kites.options.logger.error);
 
     /**
      * winston doesn't create the directories for logs automatically
@@ -55,14 +59,6 @@ function addTransports(kites) {
      * without errors, so we break the consistency here and precreate the logs directory if the config equals to default
      */
     if (kites.options.logger.file.filename === 'logs/kites.log') {
-        mkdirp.sync(path.dirname(kites.options.logger.file.filename))
+        mkdirp.sync(path.dirname(kites.options.logger.file.filename));
     }
-}
-
-/**
- * Route configuration to add logger Transports
- * @param {Object} kites
- */
-module.exports = (kites) => {
-    addTransports(kites)
 }

@@ -64,7 +64,9 @@ build-runtime
 
 # Kites junks / exclude environment config files
 logs
+dist
 license.json
 package-lock.json
 prod.config.json
 dev.config.json
+test*.js
