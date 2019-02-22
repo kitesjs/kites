@@ -16,7 +16,7 @@
         ]
     },
     "npm": {
-        "publish": true,
+        "publish": false,
         "publishPath": "dist/",
         "tag": "latest"
     },
