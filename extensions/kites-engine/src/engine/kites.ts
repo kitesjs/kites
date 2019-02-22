@@ -34,6 +34,7 @@ export type KitesReadyCallback = (kites: IKites) => void;
 export interface IKitesOptions {
     [key: string]: any;
     discover?: boolean;
+    loadConfig?: boolean;
     rootDirectory?: string;
     appDirectory?: string;
     parentModuleDirectory?: string;
@@ -381,8 +382,9 @@ export class KitesCore extends EventEmitter implements IKites {
             });
         } else {
             // remove all transports and add default Debug transport
+            let debugTransportOpts = this.options.logger && this.options.logger.debug;
             winston.loggers.get(this.name).clear();
-            winston.loggers.get(this.name).add(InitDebugTransport());
+            winston.loggers.get(this.name).add(InitDebugTransport(debugTransportOpts), undefined, true);
         }
 
         return winston.loggers.get(this.name);
