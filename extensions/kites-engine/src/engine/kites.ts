@@ -20,7 +20,7 @@ import { KitesExtensionDefinition, KitesExtention } from '../extensions/extensio
  * @param options
  */
 export default function newKites(options: IKitesOptions) {
-    return new KitesCore(options);
+    return new KitesInstance(options);
 }
 
 /**
@@ -67,7 +67,7 @@ export interface IKites {
 /**
  * Kites engine core
  */
-export class KitesCore extends EventEmitter implements IKites {
+export class KitesInstance extends EventEmitter implements IKites {
 
     [key: string]: any; // key allow assign any object to kites!
     name: string;
@@ -77,7 +77,7 @@ export class KitesCore extends EventEmitter implements IKites {
     extensionsManager: ExtensionsManager;
     logger: LoggerInstance;
     private fnAfterConfigLoaded: KitesReadyCallback;
-    private isReady: Promise<KitesCore>;
+    private isReady: Promise<KitesInstance>;
 
     constructor(options?: IKitesOptions) {
         super();

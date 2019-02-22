@@ -1,11 +1,11 @@
 import * as path from 'path';
-import {IKitesOptions, KitesCore} from './engine/kites';
+import {IKitesOptions, KitesInstance} from './engine/kites';
 
 export {
   EventCollectionEmitter,
   ICollectionItem,
 } from './engine/event-collection';
-export { IKites, KitesCore, IKitesOptions } from './engine/kites';
+export { IKites, KitesInstance, IKitesOptions } from './engine/kites';
 export { KitesExtention, KitesExtensionDefinition } from './extensions/extensions';
 
 /**
@@ -18,5 +18,5 @@ export default function(options: IKitesOptions) {
         parentModuleDirectory: path.dirname(parent.filename)
     }, options);
     // init a new kites
-    return new KitesCore(opts);
+    return new KitesInstance(opts);
 }

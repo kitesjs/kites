@@ -1,7 +1,7 @@
 import { assert, expect } from 'chai';
 import * as fs from 'fs';
 import * as path from 'path';
-import {KitesCore} from './kites';
+import { KitesInstance } from './kites';
 
 import * as stdMocks from 'std-mocks';
 
@@ -24,13 +24,13 @@ function removeKitesConfigFiles() {
 describe('kites engine', () => {
 
     it('should fire ready callback', async () => {
-        var core = new KitesCore({
+        var core = new KitesInstance({
             discover: false
         });
 
         core = await core.ready((kites) => {
             kites.logger.info('Kites is ready!');
-            expect(kites).instanceOf(KitesCore);
+            expect(kites).instanceOf(KitesInstance);
         }).init();
 
         core.logger.info('Kites has initialized!');
@@ -38,7 +38,7 @@ describe('kites engine', () => {
 
     it('should use function as an extension', async () => {
         var extensionInitialized = false;
-        var core = new KitesCore({
+        var core = new KitesInstance({
             discover: false
         });
 
@@ -57,7 +57,7 @@ describe('kites engine', () => {
     });
 
     it('should auto discover when no use called', async () => {
-        var core = new KitesCore({
+        var core = new KitesInstance({
             extensionsLocationCache: false,
             rootDirectory: path.resolve('test')
         });
@@ -69,7 +69,7 @@ describe('kites engine', () => {
     });
 
     it('should accept plain function as an extension', async () => {
-        var core = new KitesCore({
+        var core = new KitesInstance({
             discover: false
         });
 
@@ -84,7 +84,7 @@ describe('kites engine', () => {
 
 describe('kites logs', () => {
     it('should not log to console by default', async () => {
-        let core = new KitesCore({
+        let core = new KitesInstance({
             discover: false
         });
 
@@ -102,7 +102,7 @@ describe('kites logs', () => {
     });
 
     it('should keep silent logs', async () => {
-        let core = new KitesCore({
+        let core = new KitesInstance({
             discover: false,
             logger: {
                 silent: true
@@ -123,7 +123,7 @@ describe('kites logs', () => {
     });
 
     it('should have Debug transport for logs enabled by default', () => {
-        new KitesCore({
+        new KitesInstance({
             discover: false
         }).init().then((kites) => {
             expect(kites.logger.transports).to.have.property('debug');
@@ -131,7 +131,7 @@ describe('kites logs', () => {
     });
 
     it('should fail to configure custom transport that does not have enough options', async () => {
-        let core = new KitesCore({
+        let core = new KitesInstance({
             discover: false,
             logger: {
                 console: {
@@ -147,7 +147,7 @@ describe('kites logs', () => {
     });
 
     it('should not load disabled transports for loggger', async () => {
-        let core = new KitesCore({
+        let core = new KitesInstance({
             discover: false,
             logger: {
                 console: {
@@ -168,7 +168,7 @@ describe('kites logs', () => {
     });
 
     it('should configure custom transports for logger', async () => {
-        let core = new KitesCore({
+        let core = new KitesInstance({
             discover: false,
             logger: {
                 console: {
@@ -190,7 +190,7 @@ describe('kites logs', () => {
 
 describe('kites initializeListeners', () => {
     it('should fire initialize listeners on custom extension', async () => {
-        let core = new KitesCore({
+        let core = new KitesInstance({
             discover: false,
             logger: {
                 console: {
@@ -228,7 +228,7 @@ describe('kites load configuration', () => {
             test: 'kites:dev'
         }));
 
-        let core = new KitesCore({
+        let core = new KitesInstance({
             appDirectory: __dirname,
             discover: false,
             loadConfig: true
@@ -244,7 +244,7 @@ describe('kites load configuration', () => {
             test: 'kites:prod'
         }));
 
-        let core = new KitesCore({
+        let core = new KitesInstance({
             appDirectory: __dirname,
             discover: false,
             loadConfig: true
@@ -260,7 +260,7 @@ describe('kites load configuration', () => {
             test: 'kites:default'
         }));
 
-        let core = new KitesCore({
+        let core = new KitesInstance({
             appDirectory: __dirname,
             discover: false,
             loadConfig: true
@@ -276,7 +276,7 @@ describe('kites load configuration', () => {
             test: 'kites:custom'
         }));
 
-        let core = new KitesCore({
+        let core = new KitesInstance({
             appDirectory: __dirname,
             configFile: path.join(__dirname, 'custom.config.json'),
             discover: false,
@@ -289,7 +289,7 @@ describe('kites load configuration', () => {
 
     it('should throws error when configFile not found and loadConfig', async () => {
 
-        let core = new KitesCore({
+        let core = new KitesInstance({
             appDirectory: __dirname,
             configFile: path.join(__dirname, 'custom.config.json'),
             discover: false,
@@ -310,7 +310,7 @@ describe('kites load env options', () => {
         process.env.httpPort = '3000';
         process.env.NODE_ENV = 'kites';
 
-        let core = new KitesCore({
+        let core = new KitesInstance({
             appDirectory: __dirname,
             discover: false,
             loadConfig: true
@@ -325,7 +325,7 @@ describe('kites load env options', () => {
         delete process.env.httpPort;
         process.env.NODE_ENV = 'kites';
 
-        let core = new KitesCore({
+        let core = new KitesInstance({
             appDirectory: __dirname,
             discover: false,
             httpPort: 4000,
@@ -340,7 +340,7 @@ describe('kites load env options', () => {
 
 describe('kites utilities', () => {
     it('should access app path', () => {
-        let kites = new KitesCore({
+        let kites = new KitesInstance({
             discover: false
         });
 
