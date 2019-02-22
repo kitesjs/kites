@@ -12,7 +12,7 @@ export { KitesExtention, KitesExtensionDefinition } from './extensions/extension
  * Return a new kites instance
  * @param options
  */
-export default function(options: IKitesOptions) {
+export default function(options?: IKitesOptions) {
     let parent = module.parent || module;
     let opts = Object.assign({
         parentModuleDirectory: path.dirname(parent.filename)

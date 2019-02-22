@@ -12,7 +12,7 @@ Kites is a framework providing `dynamic applications` assembling and `API` routi
 Extensions auto discovery
 =========================
 
-Kites by default auto discovers extensions in the application's directory tree. This means `kites` by default searches for files `kites.config.js` which describes the extensions and applies all the extensions that are found.
+Kites by default auto discovers extensions in the application's directory tree. This means `kites` by default searches for files `kites.config.js` which describes the extensions and applies all the extensions that are found. You have a short code, but powerful!
 
 TypeScript version:
 
@@ -20,59 +20,51 @@ TypeScript version:
 // let kites autodiscover the extensions
 import kites from "@kites/engine";
 
-(async function bootstrap() {
-    const app = await kites({
-        logger: {
-            console: {
-                transport: 'console',
-                level: 'debug'
-            }
-        }
-    }).init();
-
+async function bootstrap() {
+    const app = await kites().init();
     app.logger.info('A new kites started!');
-})();
+}
+
+bootstrap();
 ```
 
 Node/JavaScript version:
 
 ```js
 // let kites autodiscover the extensions
-var kites = require('@kites/engine')({
-    logger: {
-        console: {
-        transport: 'console',
-        level: 'debug'
-    }
-});
+const kites = require('@kites/engine');
 
 // init the kites
-kites.init().then((app) => {
+kites().init().then((app) => {
     app.logger.info('A new kites started!')
 })
 ```
 
-Kites extensions auto discovery might slows down the startup and can be explicitly override by using `use` function
+Kites extensions auto discovery might slows down the startup and can be explicitly override by using `use` function. The following code snippet is more complex a bit.
 
 ```js
-// do not let kites autodiscover the extensions
-// do not load extensions from locations cache
-var kites = require('@kites/engine')({
-    discover: false,
-    extensionsLocationCache: false,
-    logger: {
-        console: {
-        transport: 'console',
-        level: 'debug'
-    }
-});
+import kites from "@kites/engine";
+import express from "@kites/express";
+import roomrtc from "@kites/roomrtc";
 
-// explicitly use extensions
-kites.use(require('@kites/express')())
-    .use(require('@kites/roomrtc')())
-    .init().then((app) => {
-        app.logger.info('done!')
+async function bootstrap() {
+    const app = await kites({
+        discover: false,        // do not let kites autodiscover the extensions
+        extensionsLocationCache: false, // do not load extensions from locations cache
+        logger: {
+            console: {
+            transport: 'console',
+            level: 'debug'
+        }
     })
+    .use(express())
+    .use(roomrtc())
+    .init();
+
+    app.logger.info('A new kites started!');
+}
+
+bootstrap();
 ```
 
 Extensions
@@ -87,7 +79,7 @@ TODO:
 Logging
 =======
 
-kites leverages [winston](https://github.com/winstonjs/winston) logging abstraction together with [debug](https://github.com/visionmedia/debug) utility. To output logs in the console just simply set the DEBUG environment variable
+kites leverages [winston 2](https://github.com/winstonjs/winston) logging abstraction together with [debug](https://github.com/visionmedia/debug) utility. To output logs in the console just simply set the DEBUG environment variable
 
 ```bash
 DEBUG=kites node app.js
@@ -101,10 +93,12 @@ set DEBUG=kites & node app.js
 
 kites exposes `logger` property which can be used to adapt the logging as you like. You can for example just add [winston](https://github.com/winstonjs/winston) console transport and filter in only important log messages into console.
 
-```js
-var kites = require('@kites/engine')();
-var winston = require('winston');
-kites.logger.add(winston.transports.Console, { level: 'info' });
+```ts
+import kites from '@kites/engine';
+import winston from 'winston';
+
+const app = kites();
+app.logger.add(winston.transports.Console, { level: 'info' });
 ```
 
 
