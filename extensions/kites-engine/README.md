@@ -18,7 +18,7 @@ TypeScript version:
 
 ```ts
 // let kites autodiscover the extensions
-import kites from "@kites/engine";
+import kites from '@kites/engine';
 
 async function bootstrap() {
     const app = await kites().init();
@@ -43,9 +43,9 @@ kites().init().then((app) => {
 Kites extensions auto discovery might slows down the startup and can be explicitly override by using `use` function. The following code snippet is more complex a bit.
 
 ```js
-import kites from "@kites/engine";
-import express from "@kites/express";
-import roomrtc from "@kites/roomrtc";
+import kites from '@kites/engine';
+import express from '@kites/express';
+import roomrtc from '@kites/roomrtc';
 
 async function bootstrap() {
     const app = await kites({
