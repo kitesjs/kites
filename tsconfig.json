@@ -16,7 +16,8 @@
       "es2015",
       "es2017",
       "es2017.object"
-    ]
+    ],
+    "moduleResolution": "node"
   },
   "files": [
     "./node_modules/@types/node/index.d.ts"

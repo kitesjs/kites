@@ -1,6 +1,6 @@
-import { IKitesOptions, KitesCore } from '@kites/engine';
+import { IKitesOptions, KitesInstance } from '@kites/engine';
 
-export class Kites extends KitesCore {
+export class Kites extends KitesInstance {
     constructor(options: IKitesOptions) {
         super(options);
     }

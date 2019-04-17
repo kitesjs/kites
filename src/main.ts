@@ -7,14 +7,20 @@ import { Kites } from './kites';
 /**
  * Export necessary things
  */
-export { IKites, IKitesOptions, KitesCore} from '@kites/engine';
+export { IKites, IKitesOptions, KitesInstance} from '@kites/engine';
 export { Kites } from './kites';
 
 /**
  * Extends Kites Core
  * @param {Object} options
  */
-export default function InitKites(options: IKitesOptions) {
+export default function kites(options: boolean | IKitesOptions) {
+
+    if (typeof options === 'boolean') {
+        options = {
+            discover: options
+        };
+    }
 
     const parent = module.parent || module;
     const optionsToUse = Object.assign({}, {
@@ -24,8 +30,8 @@ export default function InitKites(options: IKitesOptions) {
         rootDirectory: path.join(__dirname, '../../../'),
     }, options);
 
-    const kites = new Kites(optionsToUse);
-    kites.version = pkg.version;
+    const app = new Kites(optionsToUse);
+    app.version = pkg.version;
 
-    return kites.afterConfigLoaded(addTransports);
+    return app.afterConfigLoaded(addTransports);
 }

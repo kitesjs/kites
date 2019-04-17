@@ -62,29 +62,29 @@ Extensions
 
 **Kites** is an eco-system and has many modules which can be assembled into a larger application. You are welcome to write your own extension or even publish it to the community.
 
-TODO:
-
-* Write an article for implementing custom kites extension
-
 Extensions auto discovery
 =========================
 
 Kites by default auto discovers extensions in the application's directory tree. This means `kites` by default searches for files `kites.config.js` which describes the extensions and applies all the extensions that are found.
 
-```js
-// let kites autodiscover the extensions
-var kites = require('kites')({
-    logger: {
-        console: {
-        transport: 'console',
-        level: 'debug'
-    }
-});
+```ts
+import kites from 'kites';
 
-// init the kites
-kites.init().then(() => {
-    kites.logger.info('done!')
-})
+async function bootstrap() {
+    const app = await kites({
+        logger: {
+            console: {
+            transport: 'console',
+            level: 'debug'
+        }
+    })
+    .init();
+
+    app.logger.info('A new kites started!');
+}
+
+// let kites autodiscover the extensions
+bootstrap();
 ```
 
 Kites extensions auto discovery slows down the startup and can be explicitly using `use` function with mode `discover: false`

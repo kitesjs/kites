@@ -1,19 +1,15 @@
-import { KitesCore } from '@kites/engine';
+import { KitesInstance } from '@kites/engine';
 import { expect } from 'chai';
-import InitKites from './main';
+import kites from './main';
 
 describe('kites engine', () => {
 
-    it('should fire ready callback', async () => {
-        var core = InitKites({
-            discover: false
-        });
+  it('should be a kites instance', async () => {
+    const app = await kites(false).init();
 
-        core = await core.ready((kites) => {
-            kites.logger.info('Kites is ready!');
-            expect(kites).instanceOf(KitesCore);
-        }).init();
+    expect(app.options.discover).eq(false, 'Discover option must be Falsy');
+    expect(app).instanceOf(KitesInstance);
 
-        core.logger.info('Kites has initialized!');
-    });
+    app.logger.info('Kites has initialized!');
+  });
 });
