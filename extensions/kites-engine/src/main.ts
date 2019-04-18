@@ -6,17 +6,25 @@ export {
   ICollectionItem,
 } from './engine/event-collection';
 export { IKites, KitesInstance, IKitesOptions } from './engine/kites';
-export { KitesExtention, KitesExtensionDefinition } from './extensions/extensions';
+export { KitesExtention, ExtensionDefinition, ExtentionOptions } from './extensions/extensions';
 
 /**
  * Return a new kites instance
  * @param options
  */
-export default function(options?: IKitesOptions) {
+export default function(options?: IKitesOptions | boolean) {
+    if (typeof options === 'boolean') {
+        options = {
+            discover: options
+        };
+    }
+
+    // create kites instance
     let parent = module.parent || module;
     let opts = Object.assign({
         parentModuleDirectory: path.dirname(parent.filename)
     }, options);
+
     // init a new kites
     return new KitesInstance(opts);
 }

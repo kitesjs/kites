@@ -4,7 +4,7 @@ import * as os from 'os';
 import * as path from 'path';
 import { IKites } from '../main';
 import { discover } from './discover';
-import { KitesExtensionDefinition, KitesExtention } from './extensions';
+import { ExtensionDefinition, KitesExtention } from './extensions';
 import sorter from './sorter';
 
 export class ExtensionsManager extends EventEmitter {
@@ -31,11 +31,11 @@ export class ExtensionsManager extends EventEmitter {
      * Use a kites extension
      * @param extension
      */
-    use(extension: KitesExtention|KitesExtensionDefinition) {
+    use(extension: KitesExtention|ExtensionDefinition) {
         if (typeof extension === 'function') {
             this.usedExtensions.push({
                 dependencies: [],
-                directory: this.kites.parentModuleDirectory,
+                directory: this.kites.options.parentModuleDirectory,
                 main: extension,
                 name: extension.name || '<no-name>'
             });
@@ -64,10 +64,14 @@ export class ExtensionsManager extends EventEmitter {
                 if (typeof extension.main === 'function') {
                     (extension.main as Function).call(this, this.kites, extension);
                     return Promise.resolve();
-                } else if (extension.directory) {
+                } else if (typeof extension.main === 'string' && extension.directory) {
+                    // TODO: REMOVE, reason: Un-Support
                     let extPath = path.join(extension.directory, extension.main);
                     let extModule = require(extPath);
                     extModule.call(this, this.kites, extension);
+                    return Promise.resolve();
+                } else if (typeof extension.init === 'function') {
+                    (extension.init as Function).call(this, this.kites, extension);
                     return Promise.resolve();
                 } else {
                     return Promise.reject('Invalid kites extension: ' + extension.name);
