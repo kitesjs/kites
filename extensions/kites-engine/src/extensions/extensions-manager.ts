@@ -4,7 +4,7 @@ import * as os from 'os';
 import * as path from 'path';
 import { IKites } from '../main';
 import { discover } from './discover';
-import { ExtensionDefinition, KitesExtention } from './extensions';
+import { ExtensionDefinition, ExtentionOptions, KitesExtention } from './extensions';
 import sorter from './sorter';
 
 export class ExtensionsManager extends EventEmitter {
@@ -37,7 +37,7 @@ export class ExtensionsManager extends EventEmitter {
                 dependencies: [],
                 directory: this.kites.options.parentModuleDirectory,
                 main: extension,
-                name: extension.name || '<no-name>'
+                name: extension.name || '<no-name>',
             });
         } else {
             this.usedExtensions.push(extension);
@@ -52,9 +52,10 @@ export class ExtensionsManager extends EventEmitter {
     useOne(extension: KitesExtention) {
         // extends options
         // Review _.assign(), _.defaults(), or _.merge?
-        extension.options = _.assign({}, extension.options, this.kites.options[extension.name]);
+        const options = _.assign<ExtentionOptions, ExtentionOptions|undefined, ExtentionOptions|undefined>({}, extension.options, this.kites.options[extension.name]);
+        extension.options = options;
 
-        if (extension.options.enabled === false) {
+        if (options.enabled === false) {
             this.kites.logger.debug(`Extension ${extension.name} is disabled, skipping`);
             return Promise.resolve();
         }
@@ -78,8 +79,8 @@ export class ExtensionsManager extends EventEmitter {
                 }
             })
             .then(() => {
-                if (extension.options.enabled !== false) {
-                    this.emit('extension-registered', extension);
+                if (options.enabled !== false) {
+                    this.emit('extension:registered', extension);
                 } else {
                     this.kites.logger.debug(`Extension ${extension.name} was disabled`);
                 }

@@ -61,15 +61,17 @@ export async function get(config: IDiscoverOptions) {
 export async function save(extensions: KitesExtention[], config: IDiscoverOptions) {
     let location = path.join(__dirname, '../../../');
     let directories = extensions
-    .map((e) => path.join(e.directory, KITES_CONFIG_FILE))
-    .filter(x => x.indexOf(location) > -1);
+        .map(x => path.join(x.directory + '', KITES_CONFIG_FILE))
+        .filter(x => x.indexOf(location) > -1);
 
     let tempDirectory = config.tempDirectory || os.tmpdir();
     let pathToLocationCache = path.join(tempDirectory, 'extensions');
     let fileToLocationCache = path.join(pathToLocationCache, 'locations.json');
     config.logger.info('Saving cache to location: ' + fileToLocationCache);
+
     await mkdirp(pathToLocationCache);
     await (stat(fileToLocationCache).catch(() => writeFile(fileToLocationCache, JSON.stringify({}), 'utf-8')));
+
     let content = await readFile(fileToLocationCache, 'utf-8');
     let nodes: any = {};
     try {

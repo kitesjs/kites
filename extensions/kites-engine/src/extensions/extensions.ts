@@ -22,7 +22,7 @@ export interface KitesExtention {
     [key: string]: any;
     main?: string|Function|ExtensionDefinition; // TODO: remove
     name: string;
-    options?: boolean|any;
+    options?: ExtentionOptions;
     directory?: string; // TODO: remove
     dependencies?: Array<string|Function|ExtensionDefinition>;
     init?: (app: IKites, options: ExtentionOptions) => any;
