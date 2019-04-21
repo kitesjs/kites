@@ -1,7 +1,7 @@
 {
   "name": "@kites/engine",
   "displayName": "kites",
-  "version": "1.2.0-beta.1",
+  "version": "1.2.0-beta.2",
   "description": "Core Engine of Kites",
   "main": "src/main.js",
   "types": "src/main.d.ts",
