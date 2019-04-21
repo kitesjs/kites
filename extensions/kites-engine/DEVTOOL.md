@@ -32,4 +32,5 @@
 3. Chạy lệnh build và nâng phiên bản mới, chú ý tùy chọn commit và đẩy tags lên Github luôn
     * > npm run release:beta
 4. Phát hành phiên bản `beta` với lệnh
+    * > npm run build
     * > npm publish dist/ --tag beta

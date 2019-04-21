@@ -26,7 +26,7 @@ describe('kites engine', () => {
 
     it('should fire ready callback', async () => {
 
-        await engine(false).ready((app) => {
+        await engine().ready((app) => {
             app.logger.info('Kites is ready!');
             expect(app).instanceOf(KitesInstance);
         }).init();
@@ -39,40 +39,43 @@ describe('kites engine', () => {
                 return 'abc';
             }
 
-            init(app: IKites) {
-                app.logger.info('Kites extension initializing ...');
+            init(core: IKites) {
+                core.logger.info('Kites extension initializing ...');
+                expect(core.isInitialized).eq(false, 'The application should not be ready!');
             }
         }
 
-        const app2 = await engine(false).use(new Aa()).init();
-        expect(app2).instanceOf(KitesInstance);
+        const app = await engine().use(new Aa()).init();
+        expect(app.isInitialized).eq(true, 'The application should be ready!');
+        expect(app).instanceOf(KitesInstance);
     });
 
     it('should use function as an extension', async () => {
         var extensionInitialized = false;
 
-        const core = await engine(false).use({
+        const app = await engine().use({
             directory: '',
-            main: (app, definition) => {
-                app.logger.info('Kites use function as an extension!!!', definition.name);
-                app.guest = true;
+            main: (core, definition) => {
+                core.logger.info('Kites use function as an extension!!!', definition.name);
+                core.guest = true;
                 extensionInitialized = true;
             },
             name: 'test',
         }).init();
 
         expect(extensionInitialized).eq(true, 'extension has initialized!');
-        expect(core.guest).eq(true, 'attach an object to kites!');
+        expect(app.guest).eq(true, 'attach an object to kites!');
     });
 
-    it('should auto discover when no use called', async () => {
+    it('should auto discover when the feature is enabled', async () => {
 
         await engine({
+            discover: true,
             extensionsLocationCache: false,
             rootDirectory: path.resolve('test')
-        }).ready((app) => {
-            app.logger.info('Kites is ready!');
-            expect(app.aKitesExtensionInitialized).eq(true, 'found a kites extension which has initialized!');
+        }).ready((core) => {
+            core.logger.info('Kites is ready!');
+            expect(core.aKitesExtensionInitialized).eq(true, 'found a kites extension which has initialized!');
         }).init();
     });
 
@@ -110,7 +113,6 @@ describe('kites logs', () => {
         });
 
         let app = await engine({
-            discover: false,
             logger: {
                 silent: true
             }
@@ -133,7 +135,6 @@ describe('kites logs', () => {
     it('should fail to configure custom transport that does not have enough options', async () => {
 
         await engine({
-            discover: false,
             logger: {
                 console: {
                     transport: 'console'
@@ -150,7 +151,6 @@ describe('kites logs', () => {
     it('should not load disabled transports for loggger', async () => {
 
         let app = await engine({
-            discover: false,
             logger: {
                 console: {
                     level: 'debug',
@@ -171,7 +171,6 @@ describe('kites logs', () => {
     it('should configure custom transports for logger', async () => {
 
         let app = await engine({
-            discover: false,
             logger: {
                 console: {
                     level: 'debug',
@@ -191,7 +190,6 @@ describe('kites logs', () => {
 describe('kites initializeListeners', () => {
     it('should fire initialize listeners on custom extension', async () => {
         let kites = engine({
-            discover: false,
             logger: {
                 console: {
                     level: 'debug',
@@ -200,11 +198,11 @@ describe('kites initializeListeners', () => {
             }
         });
 
-        kites.use((kts, definition) => {
-            kts.logger.info('Log ext definition: ', definition);
-            kts.initializeListeners.add('big gun', () => {
-                kts.logger.debug('Big gun fires!!!');
-                kts.customExtensionInitialized  = true;
+        kites.use((core, definition) => {
+            core.logger.info('Log ext definition: ', definition);
+            core.initializeListeners.add('big gun', () => {
+                core.logger.debug('Big gun fires!!!');
+                core.customExtensionInitialized  = true;
             });
         });
 
@@ -227,7 +225,6 @@ describe('kites load configuration', () => {
 
         let kites = engine({
             appDirectory: __dirname,
-            discover: false,
             loadConfig: true
         });
 
@@ -243,7 +240,6 @@ describe('kites load configuration', () => {
 
         let kites = engine({
             appDirectory: __dirname,
-            discover: false,
             loadConfig: true
         });
 
@@ -259,7 +255,6 @@ describe('kites load configuration', () => {
 
         let kites = engine({
             appDirectory: __dirname,
-            discover: false,
             loadConfig: true
         });
 
@@ -276,7 +271,6 @@ describe('kites load configuration', () => {
         let kites = engine({
             appDirectory: __dirname,
             configFile: path.join(__dirname, 'custom.config.json'),
-            discover: false,
             loadConfig: true
         });
 
@@ -289,7 +283,6 @@ describe('kites load configuration', () => {
         let kites = engine({
             appDirectory: __dirname,
             configFile: path.join(__dirname, 'custom.config.json'),
-            discover: false,
             loadConfig: true
         });
 
@@ -309,7 +302,6 @@ describe('kites load env options', () => {
 
         let kites = engine({
             appDirectory: __dirname,
-            discover: false,
             loadConfig: true
         });
 
@@ -324,7 +316,6 @@ describe('kites load env options', () => {
 
         const app = new KitesInstance({
             appDirectory: __dirname,
-            discover: false,
             httpPort: 4000,
             loadConfig: true
         });
@@ -337,9 +328,7 @@ describe('kites load env options', () => {
 
 describe('kites utilities', () => {
     it('should access app path', () => {
-        let app = new KitesInstance({
-            discover: false
-        });
+        let app = new KitesInstance();
 
         app.options.indexHtml = 'public/index.html';
         expect(app.rootDirectory).eq(path.resolve(process.cwd(), '../'));

@@ -48,6 +48,7 @@ export interface IKites {
     version: string;
     options: IKitesOptions;
     initializeListeners: EventCollectionEmitter;
+    isInitialized: boolean;
     logger: LoggerInstance;
     afterConfigLoaded(fn: KitesReadyCallback): IKites;
     ready(callback: KitesReadyCallback): IKites;
@@ -70,6 +71,7 @@ export class KitesInstance extends EventEmitter implements IKites {
     logger: LoggerInstance;
     private fnAfterConfigLoaded: KitesReadyCallback;
     private isReady: Promise<KitesInstance>;
+    private initialized: boolean;
 
     constructor(options?: IKitesOptions) {
         super();
@@ -82,6 +84,7 @@ export class KitesInstance extends EventEmitter implements IKites {
         this.options = Object.assign(this.defaults, options);
         this.initializeListeners = new EventCollectionEmitter();
         this.extensionsManager = new ExtensionsManager(this);
+        this.initialized = false;
 
         // properties
         this.logger = this._initWinston();
@@ -92,11 +95,17 @@ export class KitesInstance extends EventEmitter implements IKites {
 
     }
 
+    get isInitialized() {
+        return this.initialized;
+    }
+
     get defaults() {
         let parent = module.parent || module;
         return {
             appDirectory: appRoot.toString(),
-            discover: true,
+            // TODO: separate kites-discover as an extension
+            // EXAMPLE: kites.use(discover(true))
+            discover: false,
             env: process.env.NODE_ENV || 'development',
             logger: {
                 silent: false
@@ -176,7 +185,6 @@ export class KitesInstance extends EventEmitter implements IKites {
 
     /**
      * Use a function as a kites extension
-     * TODO: pass string to load folder and discover extension Function in this path
      * @param extension
      */
     use(extension: KitesExtention|ExtensionDefinition) {
@@ -217,6 +225,8 @@ export class KitesInstance extends EventEmitter implements IKites {
 
         this.logger.info('kites initialized!');
         this.emit('initialized', this);
+
+        this.initialized = true;
         return this;
     }
 

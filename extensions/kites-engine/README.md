@@ -9,10 +9,14 @@ Core Engine of Kites
 
 Kites is a framework providing `dynamic applications` assembling and `API` routing. It contains a lot of templates and extensions help build up applications quickly.
 
+The engine is a core component that is responsible for connecting extensions and initializing in order to launch the Web application.
+
 Extensions auto discovery
 =========================
 
-Kites by default auto discovers extensions in the application's directory tree. This means `kites` by default searches for files `kites.config.js` which describes the extensions and applies all the extensions that are found. You have a short code, but powerful!
+Kites engine has an option to allow the application auto discover extensions in the directory tree. This means `kites` will searches for files `kites.config.js` which describes the extensions and applies all the extensions that are found automatically.
+
+This is fundamental principle for allowing extensions as plugins to be automatically plugged into the system. You have a short code, but powerful!
 
 TypeScript version:
 
@@ -21,7 +25,7 @@ TypeScript version:
 import engine from '@kites/engine';
 
 async function bootstrap() {
-    const app = await engine().init();
+    const app = await engine(true).init();
     app.logger.info('A new kites engine started!');
 }
 
@@ -35,12 +39,12 @@ Node/JavaScript version:
 const engine = require('@kites/engine');
 
 // init the kites engine
-engine().init().then((app) => {
+engine(true).init().then((app) => {
     app.logger.info('A new kites engine started!')
 })
 ```
 
-Kites extensions auto discovery might slows down the startup and can be explicitly override by using `use` function. The following code snippet is more complex a bit.
+Kites extensions auto discovery might slows down the startup and can be explicitly override by using `use` function. The following code has a slightly complicated configuration.
 
 ```js
 import engine from '@kites/engine';

@@ -11,6 +11,9 @@ trim_trailing_whitespace = true
 # editorconfig-tools is unable to ignore longs strings or urls
 max_line_length = null
 
+[*.md]
+trim_trailing_whitespace = false
+
 # 4 space indentation
 [*.js]
 indent_style = space
