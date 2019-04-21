@@ -12,7 +12,7 @@ export { KitesExtention, ExtensionDefinition, ExtentionOptions } from './extensi
  * Return a new kites instance
  * @param options
  */
-export default function(options?: IKitesOptions | boolean) {
+export default function engine(options?: IKitesOptions | boolean) {
     if (typeof options === 'boolean') {
         options = {
             discover: options
