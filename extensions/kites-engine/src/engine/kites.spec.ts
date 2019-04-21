@@ -1,7 +1,7 @@
 import { assert, expect } from 'chai';
 import * as fs from 'fs';
 import * as path from 'path';
-import kites, { KitesExtention } from '../main';
+import engine, { KitesExtention } from '../main';
 import { IKites, KitesInstance } from './kites';
 
 import * as stdMocks from 'std-mocks';
@@ -26,7 +26,7 @@ describe('kites engine', () => {
 
     it('should fire ready callback', async () => {
 
-        await kites(false).ready((app) => {
+        await engine(false).ready((app) => {
             app.logger.info('Kites is ready!');
             expect(app).instanceOf(KitesInstance);
         }).init();
@@ -44,14 +44,14 @@ describe('kites engine', () => {
             }
         }
 
-        const app2 = await kites(false).use(new Aa()).init();
+        const app2 = await engine(false).use(new Aa()).init();
         expect(app2).instanceOf(KitesInstance);
     });
 
     it('should use function as an extension', async () => {
         var extensionInitialized = false;
 
-        const core = await kites(false).use({
+        const core = await engine(false).use({
             directory: '',
             main: (app, definition) => {
                 app.logger.info('Kites use function as an extension!!!', definition.name);
@@ -67,7 +67,7 @@ describe('kites engine', () => {
 
     it('should auto discover when no use called', async () => {
 
-        await kites({
+        await engine({
             extensionsLocationCache: false,
             rootDirectory: path.resolve('test')
         }).ready((app) => {
@@ -78,7 +78,7 @@ describe('kites engine', () => {
 
     it('should accept plain function as an extension', async () => {
 
-        await kites(false).use((app) => {
+        await engine(false).use((app) => {
             app.guest2 = true;
         }).ready((app) => {
             expect(app.guest2).eq(true, 'kites use function definition as an extension!');
@@ -94,7 +94,7 @@ describe('kites logs', () => {
             print: true
         });
 
-        await kites(false).use((app) => {
+        await engine(false).use((app) => {
             app.guest2 = true;
         }).ready(() => {
             stdMocks.restore();
@@ -109,7 +109,7 @@ describe('kites logs', () => {
             print: true
         });
 
-        let app = await kites({
+        let app = await engine({
             discover: false,
             logger: {
                 silent: true
@@ -125,14 +125,14 @@ describe('kites logs', () => {
     });
 
     it('should have Debug transport for logs enabled by default', () => {
-        kites(false).init().then((app) => {
+        engine(false).init().then((app) => {
             expect(app.logger.transports).to.have.property('debug');
         });
     });
 
     it('should fail to configure custom transport that does not have enough options', async () => {
 
-        await kites({
+        await engine({
             discover: false,
             logger: {
                 console: {
@@ -148,7 +148,8 @@ describe('kites logs', () => {
     });
 
     it('should not load disabled transports for loggger', async () => {
-        let engine = new KitesInstance({
+
+        let app = await engine({
             discover: false,
             logger: {
                 console: {
@@ -161,15 +162,15 @@ describe('kites logs', () => {
                     transport: 'memory',
                 }
             }
-        });
+        }).init();
 
-        let app = await engine.init();
         assert.isUndefined(app.logger.transports.memory, 'memory transport shoud be undefined');
         assert.isNotNull(app.logger.transports.debug, 'debug transport should be not undefined or null');
     });
 
     it('should configure custom transports for logger', async () => {
-        let engine = new KitesInstance({
+
+        let app = await engine({
             discover: false,
             logger: {
                 console: {
@@ -181,9 +182,7 @@ describe('kites logs', () => {
                     transport: 'memory'
                 }
             }
-        });
-
-        let app = await engine.init();
+        }).init();
         assert.isNotNull(app.logger.transports.memory, 'memory transport shoud be not undefined or null');
         assert.isNotNull(app.logger.transports.debug, 'debug transport should be not undefined or null');
     });
@@ -191,7 +190,7 @@ describe('kites logs', () => {
 
 describe('kites initializeListeners', () => {
     it('should fire initialize listeners on custom extension', async () => {
-        let engine = new KitesInstance({
+        let kites = engine({
             discover: false,
             logger: {
                 console: {
@@ -201,7 +200,7 @@ describe('kites initializeListeners', () => {
             }
         });
 
-        engine.use((kts, definition) => {
+        kites.use((kts, definition) => {
             kts.logger.info('Log ext definition: ', definition);
             kts.initializeListeners.add('big gun', () => {
                 kts.logger.debug('Big gun fires!!!');
@@ -209,7 +208,7 @@ describe('kites initializeListeners', () => {
             });
         });
 
-        let app = await engine.init();
+        let app = await kites.init();
         expect(app.customExtensionInitialized).eq(true);
     });
 });
@@ -226,13 +225,13 @@ describe('kites load configuration', () => {
             test: 'kites:dev'
         }));
 
-        let engine = new KitesInstance({
+        let kites = engine({
             appDirectory: __dirname,
             discover: false,
             loadConfig: true
         });
 
-        let app = await engine.init();
+        let app = await kites.init();
         expect(app.options.test).eq('kites:dev');
     });
 
@@ -242,13 +241,13 @@ describe('kites load configuration', () => {
             test: 'kites:prod'
         }));
 
-        let engine = new KitesInstance({
+        let kites = engine({
             appDirectory: __dirname,
             discover: false,
             loadConfig: true
         });
 
-        let app = await engine.init();
+        let app = await kites.init();
         expect(app.options.test).eq('kites:prod');
     });
 
@@ -258,13 +257,13 @@ describe('kites load configuration', () => {
             test: 'kites:default'
         }));
 
-        let engine = new KitesInstance({
+        let kites = engine({
             appDirectory: __dirname,
             discover: false,
             loadConfig: true
         });
 
-        let app = await engine.init();
+        let app = await kites.init();
         expect(app.options.test).eq('kites:default');
     });
 
@@ -274,20 +273,20 @@ describe('kites load configuration', () => {
             test: 'kites:custom'
         }));
 
-        let engine = new KitesInstance({
+        let kites = engine({
             appDirectory: __dirname,
             configFile: path.join(__dirname, 'custom.config.json'),
             discover: false,
             loadConfig: true
         });
 
-        let app = await engine.init();
+        let app = await kites.init();
         expect(app.options.test).eq('kites:custom');
     });
 
     it('should throws error when configFile not found and loadConfig', async () => {
 
-        let engine = new KitesInstance({
+        let kites = engine({
             appDirectory: __dirname,
             configFile: path.join(__dirname, 'custom.config.json'),
             discover: false,
@@ -295,7 +294,7 @@ describe('kites load configuration', () => {
         });
 
         try {
-            await engine.init();
+            await kites.init();
         } catch (err) {
             expect(/custom.config.json was not found.$/.test(err)).eq(true);
         }
@@ -308,13 +307,13 @@ describe('kites load env options', () => {
         process.env.httpPort = '3000';
         process.env.NODE_ENV = 'kites';
 
-        let engine = new KitesInstance({
+        let kites = engine({
             appDirectory: __dirname,
             discover: false,
             loadConfig: true
         });
 
-        let app = await engine.init();
+        let app = await kites.init();
         expect(app.options.httpPort).eq('3000');
         expect(app.options.env).eq('kites');
     });

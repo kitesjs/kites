@@ -16,14 +16,6 @@ import pkg from '../../package.json';
 import { ExtensionDefinition, KitesExtention } from '../extensions/extensions';
 
 /**
- * Default to create a new Kites
- * @param options
- */
-export default function newKites(options: IKitesOptions) {
-    return new KitesInstance(options);
-}
-
-/**
  * Kites callback on ready
  */
 export type KitesReadyCallback = (kites: IKites) => void;
