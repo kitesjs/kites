@@ -18,11 +18,11 @@ TypeScript version:
 
 ```ts
 // let kites autodiscover the extensions
-import kites from '@kites/engine';
+import engine from '@kites/engine';
 
 async function bootstrap() {
-    const app = await kites().init();
-    app.logger.info('A new kites started!');
+    const app = await engine().init();
+    app.logger.info('A new kites engine started!');
 }
 
 bootstrap();
@@ -32,23 +32,23 @@ Node/JavaScript version:
 
 ```js
 // let kites autodiscover the extensions
-const kites = require('@kites/engine');
+const engine = require('@kites/engine');
 
-// init the kites
-kites().init().then((app) => {
-    app.logger.info('A new kites started!')
+// init the kites engine
+engine().init().then((app) => {
+    app.logger.info('A new kites engine started!')
 })
 ```
 
 Kites extensions auto discovery might slows down the startup and can be explicitly override by using `use` function. The following code snippet is more complex a bit.
 
 ```js
-import kites from '@kites/engine';
+import engine from '@kites/engine';
 import express from '@kites/express';
 import roomrtc from '@kites/roomrtc';
 
 async function bootstrap() {
-    const app = await kites({
+    const app = await engine({
         discover: false,        // do not let kites autodiscover the extensions
         extensionsLocationCache: false, // do not load extensions from locations cache
         logger: {
@@ -61,7 +61,7 @@ async function bootstrap() {
     .use(roomrtc())
     .init();
 
-    app.logger.info('A new kites started!');
+    app.logger.info('A new kites engine started!');
 }
 
 bootstrap();
@@ -94,10 +94,10 @@ set DEBUG=kites & node app.js
 kites exposes `logger` property which can be used to adapt the logging as you like. You can for example just add [winston](https://github.com/winstonjs/winston) console transport and filter in only important log messages into console.
 
 ```ts
-import kites from '@kites/engine';
+import engine from '@kites/engine';
 import winston from 'winston';
 
-const app = kites();
+const app = engine();
 app.logger.add(winston.transports.Console, { level: 'info' });
 ```
 
