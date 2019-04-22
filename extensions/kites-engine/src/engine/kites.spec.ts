@@ -1,7 +1,7 @@
 import { assert, expect } from 'chai';
 import * as fs from 'fs';
 import * as path from 'path';
-import engine, { KitesExtention } from '../main';
+import engine, { KitesExtension } from '../main';
 import { IKites, KitesInstance } from './kites';
 
 import * as stdMocks from 'std-mocks';
@@ -34,7 +34,7 @@ describe('kites engine', () => {
     });
 
     it('should use a legal extension', async () => {
-        class Aa implements KitesExtention {
+        class Aa implements KitesExtension {
             get name() {
                 return 'abc';
             }
