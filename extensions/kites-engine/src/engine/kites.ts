@@ -13,7 +13,7 @@ import { EventCollectionEmitter } from './event-collection';
 
 import winston = require('winston');
 import pkg from '../../package.json';
-import { ExtensionDefinition, KitesExtention } from '../extensions/extensions';
+import { ExtensionDefinition, KitesExtension } from '../extensions/extensions';
 
 /**
  * Kites callback on ready
@@ -53,7 +53,7 @@ export interface IKites {
     afterConfigLoaded(fn: KitesReadyCallback): IKites;
     ready(callback: KitesReadyCallback): IKites;
     discover(): IKites;
-    use(extension: KitesExtention|ExtensionDefinition): IKites;
+    use(extension: KitesExtension|ExtensionDefinition): IKites;
     init(): Promise<IKites>;
 }
 
@@ -187,7 +187,7 @@ export class KitesInstance extends EventEmitter implements IKites {
      * Use a function as a kites extension
      * @param extension
      */
-    use(extension: KitesExtention|ExtensionDefinition) {
+    use(extension: KitesExtension|ExtensionDefinition) {
         this.extensionsManager.use(extension);
         return this;
     }

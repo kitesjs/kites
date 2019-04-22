@@ -4,13 +4,13 @@ import * as os from 'os';
 import * as path from 'path';
 import { IKites } from '../main';
 import { discover } from './discover';
-import { ExtensionDefinition, ExtentionOptions, KitesExtention } from './extensions';
+import { ExtensionDefinition, ExtensionOptions, KitesExtension } from './extensions';
 import sorter from './sorter';
 
 export class ExtensionsManager extends EventEmitter {
     protected kites: IKites;
-    protected availableExtensions: KitesExtention[];
-    protected usedExtensions: KitesExtention[];
+    protected availableExtensions: KitesExtension[];
+    protected usedExtensions: KitesExtension[];
 
     constructor(kites: IKites) {
         super();
@@ -31,7 +31,7 @@ export class ExtensionsManager extends EventEmitter {
      * Use a kites extension
      * @param extension
      */
-    use(extension: KitesExtention|ExtensionDefinition) {
+    use(extension: KitesExtension|ExtensionDefinition) {
         if (typeof extension === 'function') {
             this.usedExtensions.push({
                 dependencies: [],
@@ -44,15 +44,15 @@ export class ExtensionsManager extends EventEmitter {
         }
     }
 
-    useMany(extensions: KitesExtention[]) {
+    useMany(extensions: KitesExtension[]) {
         var promises = extensions.map((e) => this.useOne(e));
         return Promise.all(promises);
     }
 
-    useOne(extension: KitesExtention) {
+    useOne(extension: KitesExtension) {
         // extends options
         // Review _.assign(), _.defaults(), or _.merge?
-        const options = _.assign<ExtentionOptions, ExtentionOptions|undefined, ExtentionOptions|undefined>({}, extension.options, this.kites.options[extension.name]);
+        const options = _.assign<ExtensionOptions, ExtensionOptions|undefined, ExtensionOptions|undefined>({}, extension.options, this.kites.options[extension.name]);
         extension.options = options;
 
         if (options.enabled === false) {

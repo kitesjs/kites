@@ -1,6 +1,6 @@
-import { KitesExtention } from './extensions';
+import { KitesExtension } from './extensions';
 
-export default function sorter(ea: KitesExtention, eb: KitesExtention) {
+export default function sorter(ea: KitesExtension, eb: KitesExtension) {
     // Extension is a node module
     // -> Sort by dependencies length
     ea.dependencies = ea.dependencies || [];

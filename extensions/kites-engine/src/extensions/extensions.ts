@@ -4,12 +4,12 @@ import { IKites } from '../main';
 /**
  * Kites extension definition (callback)
  */
-export type ExtensionDefinition = (kites: IKites | KitesInstance, definition: ExtentionOptions) => void;
+export type ExtensionDefinition = (kites: IKites | KitesInstance, definition: ExtensionOptions) => void;
 
 /**
  * Kites extension options
  */
-export interface ExtentionOptions {
+export interface ExtensionOptions {
     [key: string]: any;
     enabled?: boolean;
     name?: string;
@@ -18,12 +18,12 @@ export interface ExtentionOptions {
 /**
  * Kites extension definition
  */
-export interface KitesExtention {
+export interface KitesExtension {
     [key: string]: any;
     main?: string|Function|ExtensionDefinition; // TODO: remove
     name: string;
-    options?: ExtentionOptions;
+    options?: ExtensionOptions;
     directory?: string; // TODO: remove
     dependencies?: Array<string|Function|ExtensionDefinition>;
-    init?: (app: IKites, options: ExtentionOptions) => any;
+    init?: (app: IKites, options: ExtensionOptions) => any;
 }

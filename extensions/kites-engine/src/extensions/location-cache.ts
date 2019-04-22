@@ -5,7 +5,7 @@ import path from 'path';
 import {promisify} from 'util';
 
 import { IDiscoverOptions } from './discover';
-import { KitesExtention } from './extensions';
+import { KitesExtension } from './extensions';
 import { walkSync } from './fs';
 
 const mkdirp = promisify(_mkdirp);
@@ -58,7 +58,7 @@ export async function get(config: IDiscoverOptions) {
     }
 }
 
-export async function save(extensions: KitesExtention[], config: IDiscoverOptions) {
+export async function save(extensions: KitesExtension[], config: IDiscoverOptions) {
     let location = path.join(__dirname, '../../../');
     let directories = extensions
         .map(x => path.join(x.directory + '', KITES_CONFIG_FILE))
