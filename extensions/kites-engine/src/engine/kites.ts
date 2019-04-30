@@ -52,7 +52,7 @@ export interface IKites {
     logger: LoggerInstance;
     afterConfigLoaded(fn: KitesReadyCallback): IKites;
     ready(callback: KitesReadyCallback): IKites;
-    discover(): IKites;
+    discover(option?: string|boolean): IKites;
     use(extension: KitesExtension|ExtensionDefinition): IKites;
     init(): Promise<IKites>;
 }
@@ -103,12 +103,17 @@ export class KitesInstance extends EventEmitter implements IKites {
         let parent = module.parent || module;
         return {
             appDirectory: appRoot.toString(),
-            // TODO: separate kites-discover as an extension
-            // EXAMPLE: kites.use(discover(true))
+            // TODO: separate kites discover as an api
+            // EXAMPLE 1: kites.discover(true)
+            // EXAMPLE 2: kites.discover(false)
+            // EXAMPLE 3: kites.discover('/path/to/discover')
             discover: false,
             env: process.env.NODE_ENV || 'development',
             logger: {
-                silent: false
+                console: {
+                    level: 'debug',
+                    transport: 'console'
+                }
             },
             parentModuleDirectory: path.dirname(parent.filename),
             rootDirectory: path.resolve(__dirname, '../../../'),
@@ -195,8 +200,15 @@ export class KitesInstance extends EventEmitter implements IKites {
     /**
      * Enable auto discover extensions
      */
-    discover() {
-        this.options.discover = true;
+    discover(option: string|boolean) {
+        if (typeof option === 'string') {
+            this.options.discover = true;
+            this.options.rootDirectory = option;
+        } else if (typeof option === 'boolean') {
+            this.options.discover = option;
+        } else {
+            this.options.discover = true;
+        }
         return this;
     }
 

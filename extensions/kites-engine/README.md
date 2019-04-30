@@ -11,22 +11,17 @@ Kites is a framework providing `dynamic applications` assembling and `API` routi
 
 The engine is a core component that is responsible for connecting extensions and initializing in order to launch the Web application.
 
-Extensions auto discovery
-=========================
+Simplest Example
+================
 
-Kites engine has an option to allow the application auto discover extensions in the directory tree. This means `kites` will searches for files `kites.config.js` which describes the extensions and applies all the extensions that are found automatically.
-
-This is fundamental principle for allowing extensions as plugins to be automatically plugged into the system. You have a short code, but powerful!
-
-TypeScript version:
+Here below is `TypeScript` version: The application simply prints out a greeting: **Hello World!**
 
 ```ts
-// let kites autodiscover the extensions
 import engine from '@kites/engine';
 
 async function bootstrap() {
-    const app = await engine(true).init();
-    app.logger.info('A new kites engine started!');
+    const app = await engine().init();
+    app.logger.info('Hello World!');
 }
 
 bootstrap();
@@ -35,16 +30,39 @@ bootstrap();
 Node/JavaScript version:
 
 ```js
-// let kites autodiscover the extensions
 const engine = require('@kites/engine');
 
 // init the kites engine
-engine(true).init().then((app) => {
-    app.logger.info('A new kites engine started!')
+engine().init().then((core) => {
+    core.logger.info('Hello World!')
 })
 ```
 
-Kites extensions auto discovery might slows down the startup and can be explicitly override by using `use` function. The following code has a slightly complicated configuration.
+API Usage
+=========
+
+* Read documentation at [kites.nodejs.vn](https://kites.nodejs.vn/documentation/)
+
+Extensions auto discovery
+=========================
+
+Kites engine has an option to allow the application auto discover extensions in the directory tree. This means `kites` will searches for files `kites.config.js` which describes the extensions and applies all the extensions that are found automatically.
+
+This is fundamental principle for allowing extensions as plugins to be automatically plugged into the system. The application completed with minimalist lines of code, but very powerful!
+
+```ts
+import engine from '@kites/engine';
+
+async function bootstrap() {
+    // let kites autodiscover the extensions
+    const app = await engine(true).init();
+    app.logger.info('A new kites engine started!');
+}
+
+bootstrap();
+```
+
+Kites extensions auto discovery might slows down the startup and can be explicitly override by using `use` function. The following code has a slightly complicated configuration for each extensions.
 
 ```js
 import engine from '@kites/engine';
@@ -52,18 +70,10 @@ import express from '@kites/express';
 import roomrtc from '@kites/roomrtc';
 
 async function bootstrap() {
-    const app = await engine({
-        discover: false,        // do not let kites autodiscover the extensions
-        extensionsLocationCache: false, // do not load extensions from locations cache
-        logger: {
-            console: {
-            transport: 'console',
-            level: 'debug'
-        }
-    })
-    .use(express())
-    .use(roomrtc())
-    .init();
+    const app = await engine()
+        .use(express())
+        .use(roomrtc())
+        .init();
 
     app.logger.info('A new kites engine started!');
 }
@@ -74,7 +84,7 @@ bootstrap();
 Extensions
 ==========
 
-You are welcome to write your own extension or even publish it to the community.
+You are welcome to write your own extension or even publish it to the community. Please check `test/extensions` to see an example.
 
 TODO:
 

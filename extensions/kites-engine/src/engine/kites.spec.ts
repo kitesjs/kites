@@ -26,9 +26,9 @@ describe('kites engine', () => {
 
     it('should fire ready callback', async () => {
 
-        await engine().ready((app) => {
-            app.logger.info('Kites is ready!');
-            expect(app).instanceOf(KitesInstance);
+        await engine().ready((core) => {
+            core.logger.info('Kites is ready!');
+            expect(core).instanceOf(KitesInstance);
         }).init();
 
     });
@@ -81,8 +81,8 @@ describe('kites engine', () => {
 
     it('should accept plain function as an extension', async () => {
 
-        await engine(false).use((app) => {
-            app.guest2 = true;
+        await engine(false).use((core) => {
+            core.guest2 = true;
         }).ready((app) => {
             expect(app.guest2).eq(true, 'kites use function definition as an extension!');
         }).init();
@@ -91,20 +91,6 @@ describe('kites engine', () => {
 });
 
 describe('kites logs', () => {
-    it('should not log to console by default', async () => {
-
-        stdMocks.use({
-            print: true
-        });
-
-        await engine(false).use((app) => {
-            app.guest2 = true;
-        }).ready(() => {
-            stdMocks.restore();
-            let stdoutContent = stdMocks.flush();
-            expect(stdoutContent.stdout.length).eq(0, 'stdout is empty');
-        }).init();
-    });
 
     it('should keep silent logs', async () => {
 
