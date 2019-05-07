@@ -30,8 +30,8 @@ export default function kites(options: boolean | IKitesOptions) {
         rootDirectory: path.join(__dirname, '../../../'),
     }, options);
 
-    const app = new Kites(optionsToUse);
-    app.version = pkg.version;
+    const core = new Kites(optionsToUse);
+    core.version = pkg.version;
 
-    return app.afterConfigLoaded(addTransports);
+    return core.afterConfigLoaded(addTransports);
 }

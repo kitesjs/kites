@@ -38,6 +38,32 @@ npm run dev
 
 To change environment use cmd `set NODE_ENV=development` or use options your IDE provides. If you don't specify node environment kites assumes `development` as default.
 
+Simplest Application
+====================
+
+Here below is `TypeScript` version: The application simply prints out a greeting: **Hello World!**
+
+```ts
+import kites from 'kites';
+
+async function bootstrap() {
+    const app = await kites().init();
+    app.logger.info('Hello World!');
+}
+
+bootstrap();
+```
+
+Node/JavaScript version:
+
+```js
+const kites = require('kites');
+
+kites().init().then((core) => {
+    core.logger.info('Hello World!');
+});
+```
+
 Documentation
 =============
 
@@ -65,81 +91,53 @@ Extensions
 Extensions auto discovery
 =========================
 
-Kites by default auto discovers extensions in the application's directory tree. This means `kites` by default searches for files `kites.config.js` which describes the extensions and applies all the extensions that are found.
+Kites has an option to allow the application auto discover extensions in the directory tree. This means `kites` will searches for files `kites.config.js` which describes the extensions and applies all the extensions that are found automatically.
+
+This is fundamental principle for allowing extensions as plugins to be automatically plugged into the system. The application completed with minimalist lines of code, but very powerful!
 
 ```ts
 import kites from 'kites';
 
 async function bootstrap() {
-    const app = await kites({
-        logger: {
-            console: {
-            transport: 'console',
-            level: 'debug'
-        }
-    })
-    .init();
-
+    // let kites autodiscover the extensions
+    const app = await kites(true).init();
     app.logger.info('A new kites started!');
 }
 
-// let kites autodiscover the extensions
 bootstrap();
 ```
 
-Kites extensions auto discovery slows down the startup and can be explicitly using `use` function with mode `discover: false`
+Kites extensions auto discovery might slows down the startup and can be explicitly override by using `use` function. The following code has a slightly complicated configuration for each extension which we want to use.
 
-```js
-// do not let kites autodiscover the extensions
-// do not load extensions from locations cache
-var kites = require('kites')({
-    discover: false,
-    extensionsLocationCache: false,
-    logger: {
-        console: {
-        transport: 'console',
-        level: 'debug'
-    }
-});
+```ts
+import express from '@kites/express';
+import kites from 'kites';
 
-// explicitly use extensions
-kites.use(require('@kites/express')())
-    .use(require('./path/to/your/extension')())
-    .use((kites) => {
-        kites.sum = function (arr) {
-            return arr.reduce((total, i) => total + i, 0)
-        }
-    })
-    .init().then((kites) => {
-        let total = kites.sum([3, 4, 5])
+async function bootstrap() {
+    const app = await kites()
+        .use(express())
+        .on('express:config', app => {
+            app.get('/hi', (req, res) => res.send('hello!'));
+        })
+        .init();
 
-        kites.logger.info('init done!')
-        kites.logger.info('sum: ', total);
-        // 12
-    })
+    app.logger.info(`A new kites started! Let's browse http://localhost:3000/hi`);
+}
+
+// let kites fly!
+bootstrap();
 ```
 
 Logging
 =======
 
-kites leverages [winston](https://github.com/winstonjs/winston) logging abstraction together with [debug](https://github.com/visionmedia/debug) utility. To output logs in the console just simply set the DEBUG environment variable
-
-```bash
-DEBUG=kites node app.js
-```
-
-on windows:
-
-```bash
-set DEBUG=kites & node app.js
-```
-
 kites exposes `logger` property which can be used to adapt the logging as you like. You can for example just add [winston](https://github.com/winstonjs/winston) console transport and filter in only important log messages into console.
 
-```js
-var kites = require('kites')();
-var winston = require('winston');
-kites.logger.add(winston.transports.Console, { level: 'info' });
+```ts
+import kites from 'kites';
+import { transports } from 'winston';
+
+kites().logger.add(transports.Console, { level: 'info' });
 ```
 
 # License
