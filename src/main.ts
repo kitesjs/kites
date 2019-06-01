@@ -14,7 +14,7 @@ export { Kites } from './kites';
  * Extends Kites Core
  * @param {Object} options
  */
-export default function kites(options: boolean | IKitesOptions) {
+export default function kites(options?: boolean | IKitesOptions) {
 
     if (typeof options === 'boolean') {
         options = {

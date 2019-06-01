@@ -7,6 +7,8 @@
     "strict": true,
     "strictPropertyInitialization": false,
     "resolveJsonModule": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "esModuleInterop": true,
     /* Compile options*/
     "outDir": "dist",
