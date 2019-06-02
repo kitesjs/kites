@@ -1,5 +1,5 @@
 {
-  "name": "@kites/engine",
+  "name": "@kites/core",
   "displayName": "kites",
   "version": "1.2.0",
   "description": "Core Engine of Kites",
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vunb/kites-engine.git"
+    "url": "git+https://github.com/vunb/kites.git"
   },
   "keywords": [
     "kites-framework",
@@ -29,9 +29,9 @@
   "author": "vunb",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/vunb/kites-engine/issues"
+    "url": "https://github.com/vunb/kites/issues"
   },
-  "homepage": "https://github.com/vunb/kites-engine#readme",
+  "homepage": "https://github.com/vunb/kites#readme",
   "dependencies": {
     "@types/winston": "^2.4.4",
     "app-root-path": "^2.0.1",

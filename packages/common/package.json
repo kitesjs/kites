@@ -5,7 +5,7 @@
   "author": "vunb",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kitesjs/kites"
+    "url": "https://github.com/vunb/kites"
   },
   "publishConfig": {
     "access": "public"
