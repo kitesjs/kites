@@ -15,9 +15,7 @@
     "sourceMap": true,
     "declaration": true,
     "lib": [
-      "es2015",
-      "es2017",
-      "es2017.object"
+      "es7"
     ],
     "moduleResolution": "node"
   },
@@ -25,7 +23,8 @@
     "./node_modules/@types/node/index.d.ts"
   ],
   "include": [
-    "src/**/*.ts"
+    "packages/**/*",
+    "extensions/**/*"
   ],
   "exclude": [
     "node_modules",

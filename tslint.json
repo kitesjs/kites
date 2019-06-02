@@ -3,7 +3,9 @@
     "extends": [
         "tslint:recommended"
     ],
-    "jsRules": {},
+    "jsRules": {
+      "no-unused-expression": true
+    },
     "rules": {
         "no-console": false,
         "no-var-keyword": false,

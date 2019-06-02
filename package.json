@@ -7,7 +7,7 @@
     "build": "tsc && npm run lint && npm run copy",
     "clean": "rimraf ./dist",
     "copy": "copyfiles README.md LICENSE dist",
-    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "lint": "tslint -p tsconfig.json -c tslint.json \"extensions/**/*.ts\" -e \"*.spec.ts\"",
     "tsc": "tsc",
     "test": "mocha -r ts-node/register extensions/**/*.spec.ts",
     "publish:beta": "npm publish dist/ --tag beta",
