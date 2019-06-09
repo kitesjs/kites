@@ -49,10 +49,17 @@
     "mocha": "5.2.0",
     "release-it": "10.4.4",
     "rimraf": "2.6.2",
+    "std-mocks": "^1.0.1",
     "ts-node": "8.2.0",
     "tslint": "5.16.0",
     "typescript": "3.5.1",
-    "typescript-eslint-parser": "20.0.0"
+    "typescript-eslint-parser": "20.0.0",
+    "@types/app-root-path": "^1.2.4",
+    "@types/debug": "^0.0.31",
+    "@types/lodash": "^4.14.117",
+    "@types/nconf": "^0.0.37",
+    "@types/std-mocks": "^1.0.0",
+    "supertest": "^3.4.2"
   },
   "dependencies": {
     "@kites/engine": "1.2.0",
