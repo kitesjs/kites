@@ -1,21 +1,22 @@
 import { expect } from 'chai';
-import { resolve } from 'path';
+import { join, resolve } from 'path';
 
-import InitDebugLogger from '../logger';
+import createDebugLogger from '../logger';
 import * as cache from './location-cache';
 
 describe('Location cache', () => {
 
-    before(() => {
-      // remove ~/test/cache folder before test
-    });
+  before(() => {
+    // remove ~/test/cache folder before test
+  });
 
-    it('should get one and save it!', async () => {
-        let extensions: any = await cache.get({
-            logger: InitDebugLogger('location-cache'),
-            rootDirectory: resolve('test')
-        });
-        console.log('Found: ', extensions);
-        expect(extensions.length).eq(1);
+  it('should get one and save it!', async () => {
+    const rootDirectory = join(__dirname, '../../test');
+    let extensions: any = await cache.get({
+      logger: createDebugLogger('location-cache'),
+      rootDirectory: rootDirectory
     });
+    console.log('Found: ', extensions, rootDirectory);
+    expect(extensions.length).eq(1);
+  });
 });

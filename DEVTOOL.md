@@ -1,11 +1,11 @@
 # Development Tools
 
-* node ^8.11.1
-* npm ^6.0.1
-* yarn ^1.7.0
-* typescript ^3.1.2
-* tslint ^5.11.0
-* ts-node ^7.0.1
+* node ^10.15.0
+* npm ^6.4.1
+* yarn ^1.13.0
+* typescript ^3.5.1
+* tslint ^5.16.0
+* ts-node ^8.2.0
 * mocha ^5.2.0
 * chai ^4.2.0
 * release-it ^7.6.1

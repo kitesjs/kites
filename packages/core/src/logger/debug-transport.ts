@@ -1,22 +1,17 @@
 import debug from 'debug';
-import { Transport, TransportOptions } from 'winston';
+import Transport from 'winston-transport';
 
 export class DebugTransport extends Transport {
 
-    private debugger: debug.IDebugger;
+  private debugger: debug.IDebugger;
 
-    constructor(options?: TransportOptions) {
-        super(options);
-        this.name = 'debug';
-        this.debugger = debug('kites');
-    }
+  constructor(options?: Transport.TransportStreamOptions) {
+    super(options);
+    this.debugger = debug('kites');
+  }
 
-    public log(level: string, msg: string, meta: any, callback: Function) {
-        this.debugger(`${level} ${msg}`);
-        callback(null, true);
-    }
-}
-
-export default function InitDebugTransport(options?: TransportOptions) {
-    return new DebugTransport(options);
+  public log(info, callback: Function) {
+    this.debugger(info);
+    callback(null, true);
+  }
 }

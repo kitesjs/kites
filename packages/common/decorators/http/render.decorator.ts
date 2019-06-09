@@ -7,7 +7,8 @@ import { RENDER_METADATA } from '../../constants';
  */
 export function Render(template: string): MethodDecorator {
   return (target: object, key, descriptor) => {
-    Reflect.defineMetadata(RENDER_METADATA, template, descriptor.value);
+    const value = typeof descriptor.value === 'undefined' ? undefined : descriptor.value;
+    Reflect.defineMetadata(RENDER_METADATA, template, value);
     return descriptor;
   };
 }
