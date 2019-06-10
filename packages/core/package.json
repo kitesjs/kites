@@ -1,0 +1,37 @@
+{
+  "name": "@kites/core",
+  "displayName": "kites",
+  "version": "1.2.0",
+  "description": "Core Engine of Kites",
+  "main": "src/main.js",
+  "types": "src/main.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vunb/kites.git"
+  },
+  "keywords": [
+    "kites",
+    "templates",
+    "extensions",
+    "plugins"
+  ],
+  "author": "vunb",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vunb/kites/issues"
+  },
+  "homepage": "https://github.com/vunb/kites#readme",
+  "dependencies": {
+    "app-root-path": "^2.0.1",
+    "debug": "^3.1.0",
+    "lodash": "^4.17.4",
+    "mkdirp": "^0.5.1",
+    "nconf": "^0.10.0",
+    "winston": "3.2.1"
+  },
+  "files": [
+    "src",
+    "LICENSE",
+    "README.md"
+  ]
+}

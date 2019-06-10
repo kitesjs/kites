@@ -64,6 +64,12 @@ kites().init().then((core) => {
 });
 ```
 
+Featues
+=======
+
+* Front-end development
+* Storage provider
+
 Documentation
 =============
 

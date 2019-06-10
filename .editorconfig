@@ -7,14 +7,14 @@ charset = utf-8
 end_of_line = lf
 insert_final_newline = true
 trim_trailing_whitespace = true
-
-# editorconfig-tools is unable to ignore longs strings or urls
-max_line_length = null
-
-# 4 space indentation
-[*.js]
+max_line_length = 250
 indent_style = space
-indent_size = 4
+indent_size = 2
+
+# Markdown style
+[*.md]
+max_line_length = off
+trim_trailing_whitespace = false
 
 # Tab indentation (no size specified)
 [Makefile]

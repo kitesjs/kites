@@ -3,19 +3,25 @@
     /* Basic Options */
     "target": "es6",
     "module": "commonjs",
+    "noImplicitAny": false,
+    "noUnusedLocals": false,
+    "removeComments": true,
+    "noLib": false,
     /* Enable all strict type-checking options. */
     "strict": true,
     "strictPropertyInitialization": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
     /* Compile options*/
     "outDir": "dist",
     "sourceMap": true,
-    "declaration": true,
+    "declaration": false,
+    "strictNullChecks": false,
+    "allowJs": true,
     "lib": [
-      "es2015",
-      "es2017",
-      "es2017.object"
+      "es7"
     ],
     "moduleResolution": "node"
   },
@@ -23,7 +29,8 @@
     "./node_modules/@types/node/index.d.ts"
   ],
   "include": [
-    "src/**/*.ts"
+    "packages/**/*",
+    "extensions/**/*"
   ],
   "exclude": [
     "node_modules",

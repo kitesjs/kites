@@ -1,0 +1,23 @@
+{
+  "name": "@kites/common",
+  "version": "1.1.0",
+  "description": "Template-based Web Application Framework",
+  "author": "vunb",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vunb/kites"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "axios": "0.18.0",
+    "cli-color": "1.4.0",
+    "uuid": "3.3.2"
+  },
+  "peerDependencies": {
+    "reflect-metadata": "^0.1.12",
+    "rxjs": "^6.0.0"
+  }
+}

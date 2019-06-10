@@ -7,12 +7,10 @@
     "build": "tsc && npm run lint && npm run copy",
     "clean": "rimraf ./dist",
     "copy": "copyfiles README.md LICENSE dist",
-    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "lint": "tslint -p tsconfig.json -c tslint.json \"**/*.ts\" -e \"*.spec.ts\"",
     "tsc": "tsc",
-    "test": "mocha -r ts-node/register src/**/*.spec.ts",
-    "publish:beta": "npm publish dist/ --tag beta",
-    "release:beta": "release-it --preRelease=beta --verbose",
-    "release:final": "release-it --verbose"
+    "test": "mocha -r ts-node/register extensions/**/*.spec.ts packages/**/*.spec.ts --reporter spec --retries 3 --require node_modules/reflect-metadata/Reflect.js",
+    "publish:beta": "npm publish dist/ --tag beta"
   },
   "repository": {
     "type": "git",
@@ -20,10 +18,9 @@
   },
   "keywords": [
     "kites",
-    "discover",
-    "framework",
-    "generate",
-    "template"
+    "templates",
+    "extensions",
+    "plugins"
   ],
   "author": "Vunb",
   "license": "MIT",
@@ -36,22 +33,43 @@
     "README.md"
   ],
   "devDependencies": {
-    "@types/chai": "4.1.6",
+    "@types/chai": "4.1.7",
+    "@types/chai-as-promised": "7.1.0",
+    "@types/express": "4.16.1",
     "@types/mkdirp": "0.5.2",
-    "@types/mocha": "5.2.5",
-    "@types/node": "10.11.7",
+    "@types/mocha": "5.2.6",
+    "@types/node": "10.14.7",
     "chai": "4.2.0",
+    "chai-as-promised": "7.1.1",
     "copyfiles": "2.1.0",
+    "lerna": "3.14.1",
     "mocha": "5.2.0",
-    "release-it": "7.6.1",
     "rimraf": "2.6.2",
-    "ts-node": "7.0.1",
-    "tslint": "5.11.0",
-    "typescript": "3.1.2",
-    "typescript-eslint-parser": "20.0.0"
+    "std-mocks": "^1.0.1",
+    "ts-node": "8.2.0",
+    "tslint": "5.16.0",
+    "typescript": "3.5.1",
+    "typescript-eslint-parser": "20.0.0",
+    "@types/app-root-path": "^1.2.4",
+    "@types/debug": "^0.0.31",
+    "@types/lodash": "^4.14.117",
+    "@types/nconf": "^0.0.37",
+    "@types/std-mocks": "^1.0.0",
+    "supertest": "^3.4.2"
   },
   "dependencies": {
-    "@kites/engine": "^1.1.0",
-    "mkdirp": "0.5.1"
+    "@kites/engine": "1.2.0",
+    "@kites/express": "1.0.1",
+    "mkdirp": "0.5.1",
+    "reflect-metadata": "0.1.13",
+    "winston": "3.2.1",
+    "app-root-path": "2.0.1",
+    "debug": "3.1.0",
+    "lodash": "4.17.4",
+    "nconf": "0.10.0"
+  },
+  "peerDependencies": {
+    "@kites/engine": ">=1.2.0",
+    "@kites/express": ">=1.0.1"
   }
 }
