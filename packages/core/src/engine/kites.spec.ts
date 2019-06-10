@@ -1,3 +1,4 @@
+import * as appRoot from 'app-root-path';
 import { assert, expect } from 'chai';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -273,6 +274,6 @@ describe('kites utilities', () => {
   it('should access app path', () => {
     let app = new KitesInstance();
     expect(app.rootDirectory).eq(path.resolve(process.cwd(), 'packages'));
-    expect(app.appDirectory).eq(path.resolve(process.cwd(), 'packages', 'core'));
+    expect(app.appDirectory).eq(appRoot.toString());
   });
 });
