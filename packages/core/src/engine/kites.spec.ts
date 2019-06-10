@@ -69,23 +69,23 @@ describe('kites engine', () => {
 
   it('should auto discover when the feature is enabled', async () => {
 
-    await engine({
+    const rootDirectory = path.join(__dirname, '../../test');
+    const app = await engine({
       discover: true,
       extensionsLocationCache: false,
-      rootDirectory: path.resolve('test')
-    }).ready((core) => {
-      core.logger.info('Kites is ready!');
-      expect(core.aKitesExtensionInitialized).eq(true, 'found a kites extension which has initialized!');
+      rootDirectory: rootDirectory
     }).init();
+
+    expect(app.aKitesExtensionInitialized).eq(true, 'found a kites extension which has initialized!');
   });
 
   it('should accept plain function as an extension', async () => {
 
-    await engine(false).use((core) => {
+    const app = await engine(false).use((core) => {
       core.guest2 = true;
-    }).ready((app) => {
-      expect(app.guest2).eq(true, 'kites use function definition as an extension!');
     }).init();
+
+    expect(app.guest2).eq(true, 'kites use function definition as an extension!');
   });
 
 });
@@ -110,12 +110,6 @@ describe('kites logs', () => {
 
     let allTransportAreSilent = Object.keys(app.logger.transports).every((name) => app.logger.transports[name].silent === true);
     expect(allTransportAreSilent).eq(true, 'all transports are silent');
-  });
-
-  it('should have Debug transport for logs enabled by default', () => {
-    engine(false).init().then((app) => {
-      expect(app.logger.transports).to.have.property('debug');
-    });
   });
 
   it('should fail to configure custom transport that does not have enough options', async () => {
@@ -279,5 +273,6 @@ describe('kites utilities', () => {
   it('should access app path', () => {
     let app = new KitesInstance();
     expect(app.rootDirectory).eq(path.resolve(process.cwd(), 'packages'));
+    expect(app.appDirectory).eq(path.resolve(process.cwd(), 'packages', 'core'));
   });
 });
