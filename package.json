@@ -10,9 +10,7 @@
     "lint": "tslint -p tsconfig.json -c tslint.json \"**/*.ts\" -e \"*.spec.ts\"",
     "tsc": "tsc",
     "test": "mocha -r ts-node/register extensions/**/*.spec.ts packages/**/*.spec.ts --reporter spec --retries 3 --require node_modules/reflect-metadata/Reflect.js",
-    "publish:beta": "npm publish dist/ --tag beta",
-    "release:beta": "release-it --preRelease=beta --verbose",
-    "release:final": "release-it --verbose"
+    "publish:beta": "npm publish dist/ --tag beta"
   },
   "repository": {
     "type": "git",
@@ -20,10 +18,9 @@
   },
   "keywords": [
     "kites",
-    "discover",
-    "framework",
-    "generate",
-    "template"
+    "templates",
+    "extensions",
+    "plugins"
   ],
   "author": "Vunb",
   "license": "MIT",
@@ -47,7 +44,6 @@
     "copyfiles": "2.1.0",
     "lerna": "3.14.1",
     "mocha": "5.2.0",
-    "release-it": "10.4.4",
     "rimraf": "2.6.2",
     "std-mocks": "^1.0.1",
     "ts-node": "8.2.0",

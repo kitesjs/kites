@@ -5,26 +5,15 @@
   "description": "Core Engine of Kites",
   "main": "src/main.js",
   "types": "src/main.d.ts",
-  "scripts": {
-    "build": "tsc && npm run lint && npm run copy",
-    "clean": "rimraf ./dist",
-    "copy": "copyfiles README.md LICENSE dist",
-    "lint": "tslint -c tslint.json 'src/**/*.ts'",
-    "tsc": "tsc",
-    "test": "mocha -r ts-node/register src/**/*.spec.ts",
-    "publish:beta": "npm publish dist/ --tag beta",
-    "release:beta": "release-it --preRelease=beta --verbose",
-    "release:final": "release-it --verbose"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vunb/kites.git"
   },
   "keywords": [
-    "kites-framework",
-    "web-framework",
-    "api-framework",
-    "restful"
+    "kites",
+    "templates",
+    "extensions",
+    "plugins"
   ],
   "author": "vunb",
   "license": "MIT",
@@ -39,24 +28,6 @@
     "mkdirp": "^0.5.1",
     "nconf": "^0.10.0",
     "winston": "3.2.1"
-  },
-  "devDependencies": {
-    "@types/app-root-path": "^1.2.4",
-    "@types/chai": "^4.1.6",
-    "@types/debug": "^0.0.31",
-    "@types/lodash": "^4.14.117",
-    "@types/mkdirp": "^0.5.2",
-    "@types/mocha": "^5.2.5",
-    "@types/nconf": "^0.0.37",
-    "@types/node": "^10.11.7",
-    "@types/std-mocks": "^1.0.0",
-    "chai": "^4.2.0",
-    "copyfiles": "^2.1.0",
-    "mocha": "^5.2.0",
-    "release-it": "^10.1.0",
-    "rimraf": "^2.6.2",
-    "std-mocks": "^1.0.1",
-    "supertest": "^3.4.2"
   },
   "files": [
     "src",

@@ -48,7 +48,7 @@ export interface IKites {
   options: IKitesOptions;
   initializeListeners: EventCollectionEmitter;
   isInitialized: boolean;
-  logger: Logger;
+  logger: winston.Logger;
   afterConfigLoaded(fn: KitesReadyCallback): IKites;
   ready(callback: KitesReadyCallback): IKites;
   discover(option?: string | boolean): IKites;
@@ -67,7 +67,7 @@ export class KitesInstance extends EventEmitter implements IKites {
   options: IKitesOptions;
   initializeListeners: EventCollectionEmitter;
   extensionsManager: ExtensionsManager;
-  logger: Logger;
+  logger: winston.Logger;
   private fnAfterConfigLoaded: KitesReadyCallback;
   private isReady: Promise<KitesInstance>;
   private initialized: boolean;
@@ -266,7 +266,7 @@ export class KitesInstance extends EventEmitter implements IKites {
     // return this._configureWinstonTransports(this.options.logger);
   }
 
-  private _silentLogs(logger: Logger) {
+  private _silentLogs(logger: winston.Logger) {
     if (logger.transports) {
       _.keys(logger.transports).forEach((name) => {
         logger.transports[name].silent = true;

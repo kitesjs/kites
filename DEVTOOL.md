@@ -8,13 +8,7 @@
 * ts-node ^8.2.0
 * mocha ^5.2.0
 * chai ^4.2.0
-* release-it ^7.6.1
-
-# Installation Scripts
-
-1. npm install -g typescript@latest
-2. npm install -g tslint@latest
-3. yarn add --dev ts-node tslint typescript typescript-eslint-parser @types/node rimraf
+* lerna ^3.14.1
 
 # Visual Studio Code IDE
 
@@ -23,14 +17,12 @@
 * TSLint for VS Code
 * GitLens
 
-# Quy trình cập nhật phiên bản npmjs
+# The developer flow
 
-1. Mở Terminal or CMD
-2. Kiểm tra phiên bản hiện tại, release-it sẽ lấy làm căn cứ để đánh phiên bản tiếp theo
-    * Hiện tại npm scripts, cấu hình `release-it` quản lý semver ở mức độ `patch`
-    * Ví dụ phiên bản hiện tại đang là `1.1.0-beta.1`, next sẽ là `1.1.0-beta.2`
-    * Ví dụ phiên bản hiện tại là `1.1.1`, next sẽ là `1.1.2`
-3. Chạy lệnh build và nâng phiên bản mới, chú ý tùy chọn commit và đẩy tags lên Github luôn
-    * > npm run release:beta
-4. Phát hành phiên bản `beta` với lệnh
-    * > npm publish dist/ --tag beta
+1. npx lerna import ~/projects/my-single-repo-package-1 --flatten
+2. npx lerna version --force-publish
+
+# References
+
+* [Lerna - A tool for managing JavaScript projects with multiple packages](https://lerna.js.org/)
+* [Moving from multiple repositories to a lerna-js mono-repo](https://medium.com/p/80f6657cb443)
