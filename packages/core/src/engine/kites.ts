@@ -10,7 +10,6 @@ import { ExtensionsManager } from '../extensions/extensions-manager';
 import createDebugLogger, { DebugTransport } from '../logger';
 import { EventCollectionEmitter } from './event-collection';
 
-import winston = require('winston');
 import pkg from '../../package.json';
 import { ExtensionDefinition, KitesExtension } from '../extensions/extensions';
 
@@ -48,7 +47,7 @@ export interface IKites {
   options: IKitesOptions;
   initializeListeners: EventCollectionEmitter;
   isInitialized: boolean;
-  logger: winston.Logger;
+  logger: Logger;
   afterConfigLoaded(fn: KitesReadyCallback): IKites;
   ready(callback: KitesReadyCallback): IKites;
   discover(option?: string | boolean): IKites;
@@ -67,7 +66,7 @@ export class KitesInstance extends EventEmitter implements IKites {
   options: IKitesOptions;
   initializeListeners: EventCollectionEmitter;
   extensionsManager: ExtensionsManager;
-  logger: winston.Logger;
+  logger: Logger;
   private fnAfterConfigLoaded: KitesReadyCallback;
   private isReady: Promise<KitesInstance>;
   private initialized: boolean;
@@ -266,7 +265,7 @@ export class KitesInstance extends EventEmitter implements IKites {
     // return this._configureWinstonTransports(this.options.logger);
   }
 
-  private _silentLogs(logger: winston.Logger) {
+  private _silentLogs(logger: Logger) {
     if (logger.transports) {
       _.keys(logger.transports).forEach((name) => {
         logger.transports[name].silent = true;
