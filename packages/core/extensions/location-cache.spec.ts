@@ -11,7 +11,7 @@ describe('Location cache', () => {
   });
 
   it('should get one and save it!', async () => {
-    const rootDirectory = join(__dirname, '../../test');
+    const rootDirectory = join(__dirname, '../test');
     let extensions: any = await cache.get({
       logger: createDebugLogger('location-cache'),
       rootDirectory: rootDirectory

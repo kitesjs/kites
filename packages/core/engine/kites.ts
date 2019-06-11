@@ -10,8 +10,8 @@ import { ExtensionsManager } from '../extensions/extensions-manager';
 import createDebugLogger, { DebugTransport } from '../logger';
 import { EventCollectionEmitter } from './event-collection';
 
-import pkg from '../../package.json';
 import { ExtensionDefinition, KitesExtension } from '../extensions/extensions';
+import pkg from '../package.json';
 
 /**
  * Kites callback on ready

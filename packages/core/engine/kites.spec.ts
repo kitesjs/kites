@@ -70,7 +70,7 @@ describe('kites engine', () => {
 
   it('should auto discover when the feature is enabled', async () => {
 
-    const rootDirectory = path.join(__dirname, '../../test');
+    const rootDirectory = path.join(__dirname, '../test');
     const app = await engine({
       discover: true,
       extensionsLocationCache: false,

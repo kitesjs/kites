@@ -5,7 +5,7 @@ import { discover } from './discover';
 
 describe('Discover extensions', () => {
   it('should load an extension', async () => {
-    const rootDirectory = join(__dirname, '../../test');
+    const rootDirectory = join(__dirname, '../test');
     let extensions: any = await discover({
       logger: createDebugLogger('discover'),
       rootDirectory: rootDirectory
