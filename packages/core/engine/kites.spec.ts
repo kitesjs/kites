@@ -273,7 +273,7 @@ describe('kites load env options', () => {
 describe('kites utilities', () => {
   it('should access app path', () => {
     let app = new KitesInstance();
-    expect(app.rootDirectory).eq(path.resolve(process.cwd(), 'packages'));
+    expect(app.rootDirectory).eq(process.cwd());
     expect(app.appDirectory).eq(appRoot.toString());
   });
 });
