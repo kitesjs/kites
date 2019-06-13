@@ -62,7 +62,7 @@ docs
 build
 build-runtime
 
-# Kites junks / exclude environment config files
+# junks
 logs
 dist
 license.json
@@ -70,3 +70,16 @@ package-lock.json
 prod.config.json
 dev.config.json
 test*.js
+
+# bundle
+packages/**/*.d.ts
+packages/**/*.js
+
+# misc
+.DS_Store
+lerna-debug.log
+npm-debug.log
+yarn-error.log
+/**/npm-debug.log
+/packages/**/.npmignore
+/packages/**/LICENSE
