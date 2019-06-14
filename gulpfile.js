@@ -13,9 +13,9 @@ const packages = {
 const modules = Object.keys(packages);
 const source = 'packages';
 const distId = process.argv.indexOf('--dist');
-const dist = distId < 0 ? 'dist' : process.argv[distId + 1];
+const dist = distId < 0 ? source : process.argv[distId + 1];
 
-gulp.task('default', function() {
+gulp.task('default', function () {
   modules.forEach(module => {
     gulp.watch(
       [`${source}/${module}/**/*.ts`, `${source}/${module}/*.ts`],
@@ -24,17 +24,22 @@ gulp.task('default', function() {
   });
 });
 
-gulp.task('copy-misc', function() {
+gulp.task('copy-misc', function () {
   return gulp
     .src(['README.md', 'LICENSE', '.npmignore'])
     .pipe(gulp.dest(`${source}/common`))
     .pipe(gulp.dest(`${source}/core`))
 });
 
-gulp.task('clean:output', function() {
+gulp.task('clean:output', function () {
   return gulp
     .src(
-      [dist],
+      [
+        `${source}/**/*.js`,
+        `${source}/**/*.d.ts`,
+        `${source}/**/*.js.map`,
+        `!${source}/**/test/**`
+      ],
       {
         read: false,
         allowEmpty: true
@@ -43,7 +48,7 @@ gulp.task('clean:output', function() {
     .pipe(clean());
 });
 
-gulp.task('clean:dirs', function(done) {
+gulp.task('clean:dirs', function (done) {
   deleteEmpty.sync(`${source}/`);
   done();
 });
