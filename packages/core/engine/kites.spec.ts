@@ -2,10 +2,11 @@ import * as appRoot from 'app-root-path';
 import { assert, expect } from 'chai';
 import * as fs from 'fs';
 import * as path from 'path';
-import engine, { KitesExtension } from '..';
 import { IKites, KitesInstance } from './kites';
 
 import * as stdMocks from 'std-mocks';
+import { KitesExtension } from '../extensions/extensions';
+import { engine } from './main';
 
 function safeUnlink(fn: string) {
   try {
