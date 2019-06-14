@@ -1,18 +1,21 @@
 language: node_js
 
 os:
-- linux
-- osx
+  - linux
+  - osx
 
 node_js:
-- '8'
-- '10'
+  - '8'
+  - '10'
+  - '11'
 
 before_install:
 # show product version
-- nvm --version
-- node --version
-- npm --version
+  - npm i -g npm@latest
+  - nvm --version
+  - node --version
+  - npm --version
 
 install:
-- npm install
+  - npm ci
+  - npm run build:dev
