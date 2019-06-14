@@ -1,12 +1,17 @@
-import { ApplicationOptions, AppConfig } from '@kites/common';
+import { AppConfig, ApplicationOptions } from '@kites/common';
+import { IKitesOptions } from '../engine/kites';
+import { engine } from '../engine/main';
 
 export const appInfo: ApplicationOptions = {} as any;
 
-export function Launcher(appConfig: AppConfig): ClassDecorator {
-  Object.assign(appInfo, appConfig);
+export function Launcher(options: IKitesOptions): ClassDecorator {
+  Object.assign(appInfo, options);
 
   (async () => {
     let shutdownResolve;
+
+    const app = await engine(options).init();
+    // app.logger.info('Server started!');
 
     console.log('Server started!');
 

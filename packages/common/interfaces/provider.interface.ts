@@ -1,6 +1,6 @@
-import { Type } from "./type.interface";
-import { Abstract } from "./abstract.interface";
-import { Scope } from "./scope-options.interface";
+import { Abstract } from './abstract.interface';
+import { Scope } from './scope-options.interface';
+import { Type } from './type.interface';
 
 export type Provider<T = any> =
   | Type<any>

@@ -1,4 +1,4 @@
-import { Launcher } from "./launcher";
+import { Launcher } from './launcher';
 
 @Launcher({
   extensions: []

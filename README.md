@@ -51,7 +51,9 @@ To change environment use cmd `set NODE_ENV=development` or use options your IDE
 Simplest Application
 ====================
 
-Here below is `TypeScript` version: The application simply prints out a greeting: **Hello World!**
+The application below simply prints out a greeting: **Hello World!**
+
+`TypeScript` version:
 
 ```ts
 import kites from 'kites';
@@ -64,7 +66,7 @@ async function bootstrap() {
 bootstrap();
 ```
 
-Node/JavaScript version:
+`JavaScript` version:
 
 ```js
 const kites = require('kites');
