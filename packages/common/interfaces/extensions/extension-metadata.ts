@@ -1,13 +1,13 @@
-import { Type } from "../type.interface";
-import { Provider } from "../provider.interface";
-import { DynamicExtension } from "./dynamic-extension";
-import { Abstract } from "interfaces/abstract.interface";
+import { Abstract } from 'interfaces/abstract.interface';
+import { Provider } from '../provider.interface';
+import { Type } from '../type.interface';
+import { DynamicExtension } from './dynamic-extension';
 
 export interface ExtensionMetadata {
   imports?: Array<
     Type<any> | DynamicExtension | Promise<DynamicExtension>
   >;
-  controllers?: Type<any>[];
+  controllers?: Array<Type<any>>;
   providers?: Provider[];
   exports?: Array<
     | DynamicExtension

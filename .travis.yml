@@ -1,9 +1,5 @@
 language: node_js
 
-os:
-  - linux
-  - osx
-
 node_js:
   - '8'
   - '10'
@@ -19,3 +15,7 @@ before_install:
 install:
   - npm ci
   - npm run build:dev
+
+script:
+  - npm run lint
+  - npm test
