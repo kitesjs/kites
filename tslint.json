@@ -10,6 +10,7 @@
     "no-console": false,
     "no-var-keyword": false,
     "no-empty": false,
+    "no-empty-interface": false,
     "ban-types": false,
     "object-literal-shorthand": false,
     "member-access": false,

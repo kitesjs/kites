@@ -50,6 +50,7 @@
     "@types/mocha": "5.2.6",
     "@types/nconf": "^0.0.37",
     "@types/node": "10.14.7",
+    "@types/reflect-metadata": "^0.1.0",
     "@types/std-mocks": "^1.0.0",
     "chai": "4.2.0",
     "chai-as-promised": "7.1.1",
