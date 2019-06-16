@@ -1,4 +1,4 @@
-import { Abstract } from 'interfaces/abstract.interface';
+import { Abstract } from '../abstract.interface';
 import { Provider } from '../provider.interface';
 import { Type } from '../type.interface';
 import { DynamicExtension } from './dynamic-extension';
