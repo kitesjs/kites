@@ -16,11 +16,7 @@
     "strict": true,
     "strictNullChecks": false,
     "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "types": [
-      "mocha",
-      "reflect-metadata"
-    ]
+    "esModuleInterop": true
   },
   "exclude": [
     "../node_modules"
