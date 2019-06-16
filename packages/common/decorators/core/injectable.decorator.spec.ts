@@ -9,7 +9,7 @@ describe('@Injectable', () => {
     constructor(param: number, test: string) { }
   }
 
-  it('should enhance component with "design:paramtypes" metadata', () => {
+  it('should enhance provider with "design:paramtypes" metadata', () => {
     const constructorParams = Reflect.getMetadata(
       'design:paramtypes',
       TestMiddleware,

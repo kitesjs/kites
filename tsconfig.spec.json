@@ -5,11 +5,5 @@
   ],
   "exclude": [
     "node_modules"
-  ],
-  "compilerOptions": {
-    "types": [
-      "mocha",
-      "reflect-metadata"
-    ]
-  }
+  ]
 }
