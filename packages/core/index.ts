@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 export {
   EventCollectionEmitter,
   ICollectionItem,
