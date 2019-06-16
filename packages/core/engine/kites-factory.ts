@@ -19,5 +19,9 @@ export function engine(options?: IKitesOptions | boolean) {
   }, options);
 
   // init a new kites
-  return new KitesInstance(opts);
+  const kites = new KitesInstance(opts);
+  kites.initializeListeners.add('scan', () => {
+    kites.logger.info('Scanning ....');
+  });
+  return kites;
 }

@@ -37,6 +37,7 @@
       "check-type"
     ],
     "arrow-parens": false,
+    "object-literal-sort-keys": false,
     "only-arrow-functions": false,
     "max-line-length": [
       true,

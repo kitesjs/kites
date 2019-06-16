@@ -2,7 +2,7 @@ import { KitesInstance } from '../engine/kites-instance';
 import { IKites } from '../index';
 
 /**
- * Kites extension definition (callback)
+ * Kites extension definition
  */
 export type ExtensionDefinition = (kites: IKites | KitesInstance, definition: ExtensionOptions) => void;
 
