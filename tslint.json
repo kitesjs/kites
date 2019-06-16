@@ -13,6 +13,7 @@
     "no-empty-interface": false,
     "ban-types": false,
     "object-literal-shorthand": false,
+    "max-classes-per-file": false,
     "member-access": false,
     "prefer-const": false,
     "trailing-comma": false,
