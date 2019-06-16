@@ -23,6 +23,7 @@ export type KitesReadyCallback = (kites: IKites) => void;
  */
 export interface IKitesOptions {
   [key: string]: any;
+  imports?: KitesExtension[];
   discover?: boolean | string; // string for path discovery
   loadConfig?: boolean;
   rootDirectory?: string;
@@ -34,7 +35,6 @@ export interface IKitesOptions {
   cacheAvailableExtensions?: any;
   tempDirectory?: string;
   extensionsLocationCache?: boolean;
-  extensions?: string[];
 }
 
 /**
@@ -220,9 +220,9 @@ export class KitesInstance extends EventEmitter implements IKites {
   set(option: string, value: string) {
     const tokens = option.split(':');
     if (tokens.length === 2) {
-        this.options[tokens[0]][tokens[1]] = value;
+      this.options[tokens[0]][tokens[1]] = value;
     } else if (tokens.length === 1) {
-        this.options[tokens[0]] = value;
+      this.options[tokens[0]] = value;
     }
   }
 

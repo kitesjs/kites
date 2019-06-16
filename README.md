@@ -13,7 +13,7 @@ Take a look at this:
 
 ```ts
 @Launcher({
-  extensions?: [], // ... kites extensions manually imported here
+  imports?: [], // ... kites extensions manually imported here
   discover?: Array<string> | string | boolean; // autodiscover extensions in app's child directories or given path
 })
 class App {}
