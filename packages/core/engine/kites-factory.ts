@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { IKitesOptions, KitesInstance } from './kites';
+import { IKitesOptions, KitesInstance } from './kites-instance';
 
 /**
  * Return a new kites instance

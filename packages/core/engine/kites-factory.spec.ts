@@ -1,4 +1,4 @@
-import { engine } from './main';
+import { engine } from './kites-factory';
 
 describe('kites init', () => {
   it('should init a new kites instance without options!', async () => {

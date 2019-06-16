@@ -1,6 +1,6 @@
 import { AppConfig, ApplicationOptions } from '@kites/common';
-import { IKitesOptions } from '../engine/kites';
-import { engine } from '../engine/main';
+import { engine } from '../engine/kites-factory';
+import { IKitesOptions } from '../engine/kites-instance';
 
 export const appInfo: ApplicationOptions = {} as any;
 

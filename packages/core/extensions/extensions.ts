@@ -1,4 +1,4 @@
-import { KitesInstance } from '../engine/kites';
+import { KitesInstance } from '../engine/kites-instance';
 import { IKites } from '../index';
 
 /**
