@@ -1,4 +1,17 @@
-import { ClassProvider, FactoryProvider, getInjectionToken, InjectionToken, isClassProvider, isInjectable, isValueProvider, PARAMTYPES_METADATA, Provider, Token, Type, ValueProvider } from '@kites/common';
+import {
+  ClassProvider,
+  FactoryProvider,
+  getInjectionToken,
+  InjectionToken,
+  isClassProvider,
+  isInjectable,
+  isValueProvider,
+  PARAMTYPES_METADATA,
+  Provider,
+  Token,
+  Type,
+  ValueProvider
+} from '@kites/common';
 
 type InjectableParam = Type<any>;
 
