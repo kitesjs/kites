@@ -22,6 +22,7 @@ export class Container {
   addProvider<T>(provider: Provider<T>) {
     this.assertInjectableIfClassProvider(provider);
     this.providers.set(provider.provide, provider);
+    return this;
   }
 
   inject<T>(type: Token<T>): T {
