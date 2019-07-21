@@ -1,4 +1,5 @@
 import * as path from 'path';
+import { DependenciesScanner } from '../injector/scanner';
 import { IKitesOptions, KitesInstance } from './kites-instance';
 
 /**
@@ -22,6 +23,8 @@ export function engine(options?: IKitesOptions | boolean) {
   const kites = new KitesInstance(opts);
   kites.initializeListeners.add('scan', () => {
     kites.logger.info('Scanning ....');
+    const scanner = new DependenciesScanner(kites);
+    scanner.scan();
   });
   return kites;
 }

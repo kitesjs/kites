@@ -1,3 +1,4 @@
+import { Type } from '../../common/interfaces/type.interface';
 import { KitesInstance } from '../engine/kites-instance';
 import { IKites } from '../index';
 
@@ -16,7 +17,7 @@ export interface ExtensionOptions {
 }
 
 /**
- * Kites extension definition
+ * Kites extension definition TODO:  extends Type<any>
  */
 export interface KitesExtension {
   [key: string]: any;

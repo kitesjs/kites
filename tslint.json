@@ -7,6 +7,8 @@
     "no-unused-expression": true
   },
   "rules": {
+    "arrow-return-shorthand": true,
+    "callable-types": true,
     "no-console": false,
     "no-var-keyword": false,
     "no-empty": false,
@@ -17,7 +19,7 @@
     "member-access": false,
     "prefer-const": false,
     "trailing-comma": false,
-    "forin": false,
+    "forin": true,
     "typedef-whitespace": [
       true,
       {
