@@ -20,6 +20,11 @@
     "declaration": false,
     "strictNullChecks": false,
     "allowJs": true,
+    "types": [
+      "express",
+      "mocha",
+      "reflect-metadata"
+    ],
     "lib": [
       "es7"
     ],
