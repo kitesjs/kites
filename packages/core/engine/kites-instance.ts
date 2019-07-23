@@ -11,6 +11,7 @@ import createDebugLogger, { DebugTransport } from '../logger';
 import { EventCollectionEmitter } from './event-collection';
 
 import { ExtensionDefinition, KitesExtension } from '../extensions/extensions';
+import { Container } from '../injector';
 import pkg from '../package.json';
 
 /**
@@ -70,6 +71,7 @@ export class KitesInstance extends EventEmitter implements IKites {
   private fnAfterConfigLoaded: KitesReadyCallback;
   private isReady: Promise<KitesInstance>;
   private initialized: boolean;
+  private container: Container;
 
   constructor(options?: IKitesOptions) {
     super();
