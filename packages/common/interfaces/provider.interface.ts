@@ -3,7 +3,7 @@ import { Scope } from './scope-options.interface';
 import { Type } from './type.interface';
 
 export class InjectionToken {
-  constructor(public injectionIdentifier: string) { }
+  constructor(public injectionIdentifier: Symbol | string) { }
 }
 
 export type Factory<T> = () => T;
