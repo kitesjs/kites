@@ -8,6 +8,9 @@ class SimpleService {
   }
 }
 
+/**
+ * Exports Extension
+ */
 export = function RestExtension(kites: KitesInstance, definition: ExtensionOptions) {
   const SIMPLE_SERVICE = new InjectionToken('simpleservice');
   kites.container.addProvider({
