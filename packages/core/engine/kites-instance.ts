@@ -49,10 +49,12 @@ export interface IKites {
   initializeListeners: EventCollectionEmitter;
   isInitialized: boolean;
   logger: Logger;
+  container: Container;
   afterConfigLoaded(fn: KitesReadyCallback): IKites;
   ready(callback: KitesReadyCallback): IKites;
   discover(option?: string | boolean): IKites;
   use(extension: KitesExtension | ExtensionDefinition): IKites;
+  useMany(extension: Array<KitesExtension | ExtensionDefinition>): IKites;
   init(): Promise<IKites>;
 }
 
@@ -68,10 +70,11 @@ export class KitesInstance extends EventEmitter implements IKites {
   initializeListeners: EventCollectionEmitter;
   extensionsManager: ExtensionsManager;
   logger: Logger;
+
   private fnAfterConfigLoaded: KitesReadyCallback;
   private isReady: Promise<KitesInstance>;
   private initialized: boolean;
-  private container: Container;
+  private iocContainer: Container;
 
   constructor(options?: IKitesOptions) {
     super();
@@ -85,6 +88,7 @@ export class KitesInstance extends EventEmitter implements IKites {
     this.initializeListeners = new EventCollectionEmitter();
     this.extensionsManager = new ExtensionsManager(this);
     this.initialized = false;
+    this.iocContainer = new Container();
 
     // properties
     this.logger = createDebugLogger(this.name);
@@ -93,6 +97,10 @@ export class KitesInstance extends EventEmitter implements IKites {
       this.on('initialized', resolve);
     });
 
+  }
+
+  get container() {
+    return this.iocContainer;
   }
 
   get isInitialized() {
@@ -194,6 +202,11 @@ export class KitesInstance extends EventEmitter implements IKites {
    */
   use(extension: KitesExtension | ExtensionDefinition) {
     this.extensionsManager.use(extension);
+    return this;
+  }
+
+  useMany(extensions: Array<KitesExtension | ExtensionDefinition>) {
+    this.extensionsManager.useMany(extensions);
     return this;
   }
 

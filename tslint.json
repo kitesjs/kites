@@ -9,6 +9,7 @@
   "rules": {
     "arrow-return-shorthand": true,
     "callable-types": true,
+    "no-namespace": false,
     "no-console": false,
     "no-var-keyword": false,
     "no-empty": false,

@@ -1,0 +1,73 @@
+{
+  "name": "@kites/express",
+  "version": "1.2.0",
+  "description": "Handling HTTP Request for Kites",
+  "scripts": {
+    "build": "tsc && npm run lint && npm run copy",
+    "clean": "rimraf ./dist",
+    "copy": "copyfiles package.json kites.config.js LICENSE README.md dist",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "tsc": "tsc",
+    "test": "mocha -r ts-node/register src/**/*.spec.ts --exit",
+    "publish:beta": "npm publish dist/ --tag beta",
+    "release:beta": "npm run build && release-it --preRelease=beta --verbose",
+    "release:final": "npm run build && release-it --verbose"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vunb/kites-express.git"
+  },
+  "keywords": [
+    "kites",
+    "express",
+    "web-framework"
+  ],
+  "author": "vunb",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vunb/kites-express/issues"
+  },
+  "homepage": "https://github.com/vunb/kites-express#readme",
+  "devDependencies": {
+    "@kites/engine": "^1.2.0",
+    "@types/body-parser": "^1.17.0",
+    "@types/chai": "4.1.6",
+    "@types/cookie-parser": "^1.4.1",
+    "@types/cors": "^2.8.4",
+    "@types/express": "^4.16.1",
+    "@types/lodash": "^4.14.123",
+    "@types/mkdirp": "0.5.2",
+    "@types/mocha": "5.2.5",
+    "@types/node": "10.11.7",
+    "@types/supertest": "^2.0.7",
+    "chai": "^4.2.0",
+    "consolidate": "^0.15.1",
+    "copyfiles": "^2.1.0",
+    "hbs": "^4.0.4",
+    "mocha": "5.2.0",
+    "pug": "^2.0.3",
+    "release-it": "^10.4.4",
+    "rimraf": "2.6.2",
+    "supertest": "^4.0.2",
+    "ts-node": "^8.1.0",
+    "tslint": "^5.11.0",
+    "typescript": "^3.4.5",
+    "typescript-eslint-parser": "^20.0.0"
+  },
+  "peerDependencies": {
+    "@kites/engine": ">=1.2.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
+    "ejs": "^2.6.1",
+    "express": "^4.16.2",
+    "lodash": "^4.17.11"
+  },
+  "files": [
+    "src",
+    "typings",
+    "README.md"
+  ]
+}

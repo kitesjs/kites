@@ -1,7 +1,31 @@
-import { ExtensionOptions, IKites } from '@kites/core';
+import { Injectable, InjectionToken } from '@kites/common';
+import { ExtensionOptions, IKites, KitesInstance } from '@kites/core';
 
-export = function RestExtension(kites: IKites, definition: ExtensionOptions) {
+@Injectable()
+class SimpleService {
+  public test(): string {
+    return 'Hello Service!!!';
+  }
+}
+
+export = function RestExtension(kites: KitesInstance, definition: ExtensionOptions) {
+  const SIMPLE_SERVICE = new InjectionToken('simpleservice');
+  kites.container.addProvider({
+    provide: SIMPLE_SERVICE,
+    useClass: SimpleService
+  });
+
   kites.initializeListeners.add('init:rest', () => {
-    console.log('Name: ', definition.name);
+    const service = kites.container.inject<SimpleService>(SIMPLE_SERVICE);
+    console.log('Name: ', definition.name, service.test());
+  });
+
+  /**
+   * config event listeners
+   */
+  kites.on('express:config', (app) => {
+    console.log('test!!!!!!');
+    var apiPrefix = definition.options.apiPrefix || '/';
+    kites.logger.debug(`configure kites-rest: prefix=${apiPrefix}`);
   });
 };

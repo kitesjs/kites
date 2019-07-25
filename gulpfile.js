@@ -8,7 +8,8 @@ const deleteEmpty = require('delete-empty');
 
 const packages = {
   common: ts.createProject('packages/common/tsconfig.json'),
-  core: ts.createProject('packages/core/tsconfig.json')
+  core: ts.createProject('packages/core/tsconfig.json'),
+  express: ts.createProject('packages/express/tsconfig.json'),
 };
 const modules = Object.keys(packages);
 const source = 'packages';
