@@ -8,3 +8,4 @@ export { IKites, KitesInstance, IKitesOptions } from './engine/kites-instance';
 export { KitesExtension, ExtensionDefinition, ExtensionOptions } from './extensions/extensions';
 
 export * from './engine/kites-factory';
+export * from './injector';

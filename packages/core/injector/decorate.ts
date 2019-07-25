@@ -20,7 +20,7 @@ function _param(
 // decorate(targetName("foo", "bar"), FooBar);
 // decorate(named("foo"), FooBar, 0);
 // decorate(tagged("bar"), FooBar, 1);
-function decorate(
+function Decorate(
   decorator: ClassDecorator | ParameterDecorator | MethodDecorator,
   target: any,
   parameterIndex?: number | string
@@ -40,4 +40,4 @@ function decorate(
   }
 }
 
-export { decorate };
+export { Decorate };
