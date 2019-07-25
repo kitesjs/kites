@@ -24,7 +24,7 @@ export type KitesReadyCallback = (kites: IKites) => void;
  */
 export interface IKitesOptions {
   [key: string]: any;
-  imports?: KitesExtension[];
+  imports?: Array<KitesExtension | ExtensionDefinition>;
   discover?: boolean | string; // string for path discovery
   loadConfig?: boolean;
   rootDirectory?: string;

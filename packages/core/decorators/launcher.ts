@@ -1,5 +1,5 @@
 import { AppConfig, ApplicationOptions } from '@kites/common';
-import { engine } from '../engine/kites-factory';
+import { engine, KitesFactory } from '../engine/kites-factory';
 import { IKitesOptions } from '../engine/kites-instance';
 
 export const appInfo: ApplicationOptions = {} as any;
@@ -10,7 +10,7 @@ export function Launcher(options: IKitesOptions): ClassDecorator {
   (async () => {
     let shutdownResolve;
 
-    const app = await engine(options).init();
+    const app = await KitesFactory.create(options);
     // app.logger.info('Server started!');
 
     console.log('Server started!');

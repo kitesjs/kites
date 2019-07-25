@@ -26,7 +26,11 @@ gulp.task('default', function () {
 
 gulp.task('copy-misc', function () {
   return gulp
-    .src(['README.md', 'LICENSE', '.npmignore'])
+    .src([
+      'README.md',
+      'LICENSE',
+      '.npmignore'
+    ])
     .pipe(gulp.dest(`${source}/common`))
     .pipe(gulp.dest(`${source}/core`))
 });
@@ -78,6 +82,18 @@ modules.forEach(module => {
   });
 });
 
+modules.forEach(module => {
+  gulp.task(module + ':dev:copy', () => {
+    return gulp
+    .src([
+      `packages/${module}/package.json`,
+    ])
+    .pipe(gulp.dest(`${dist}/${module}`))
+  });
+});
+
 gulp.task('common:dev', gulp.series(modules.map(module => module + ':dev')));
+gulp.task('common:dev:copy', gulp.series(modules.map(module => module + ':dev:copy')));
+
 gulp.task('build', gulp.series(modules));
-gulp.task('build:dev', gulp.series('common:dev'));
+gulp.task('build:dev', gulp.series('common:dev', 'common:dev:copy'));

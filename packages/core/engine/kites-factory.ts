@@ -28,3 +28,9 @@ export function engine(options?: IKitesOptions | boolean) {
   });
   return kites;
 }
+
+export class KitesFactory {
+  static create(options?: IKitesOptions | boolean): KitesInstance {
+    return engine(options);
+  }
+}
