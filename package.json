@@ -9,7 +9,7 @@
     "lint": "tslint -p tsconfig.json -c tslint.json \"packages/**/*.ts\" -e \"*.spec.ts\"",
     "format": "prettier **/**/*.ts --ignore-path ./.prettierignore --write && git status",
     "tsc": "tsc",
-    "test": "mocha -r ts-node/register extensions/**/*.spec.ts packages/**/*.spec.ts --reporter spec --retries 3 --require node_modules/reflect-metadata/Reflect.js --exit",
+    "test": "mocha -r ts-node/register packages/**/*.spec.ts --reporter spec --retries 3 --require node_modules/reflect-metadata/Reflect.js --exit",
     "clean": "gulp clean:bundle",
     "build": "npm run clean && gulp build --dist dist",
     "prebuild:dev": "rimraf node_modules/@kites",

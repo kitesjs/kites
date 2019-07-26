@@ -20,6 +20,7 @@
     "member-access": false,
     "prefer-const": false,
     "trailing-comma": false,
+    "variable-name": false,
     "forin": true,
     "typedef-whitespace": [
       true,

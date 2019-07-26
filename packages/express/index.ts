@@ -9,7 +9,7 @@ import { ExtensionOptions, IKites, KitesExtension, KitesInstance } from '@kites/
 /// <reference types="express"/>
 import * as e from 'express';
 import * as _ from 'lodash';
-import { KitesExpress } from './extension';
+import { ExpressExtension } from './express.extension';
 
 // Add RequestValidation Interface on to Express's Request Interface.
 declare global {
@@ -56,7 +56,7 @@ declare namespace KitesExpressExtension {
 
 export { Express, Router, Request, Response, NextFunction, Application } from 'express';
 
-export default function ExpressExtension(kites: KitesInstance, definition: KitesExtension) {
+export default function Express(kites: KitesInstance, definition: KitesExtension) {
   kites.options.appPath = kites.options.appPath || '/';
 
   if (kites.options.appPath.substr(-1) !== '/') {
@@ -68,7 +68,7 @@ export default function ExpressExtension(kites: KitesInstance, definition: Kites
     kites.options.express.httpPort || kites.options.httpPort;
   kites.express = definition;
 
-  var extension = new KitesExpress(kites, kites.options.express);
+  var extension = new ExpressExtension(kites, kites.options.express);
   kites.initializeListeners.add(definition.name, extension.init.bind(extension));
 }
 

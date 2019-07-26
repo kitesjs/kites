@@ -26,5 +26,5 @@ export interface KitesExtension {
   options?: ExtensionOptions;
   directory?: string; // TODO: remove
   dependencies?: Array<string | Function | ExtensionDefinition>;
-  init?: (app: IKites, options: ExtensionOptions) => any;
+  init?: (app?: IKites, options?: ExtensionOptions) => any;
 }

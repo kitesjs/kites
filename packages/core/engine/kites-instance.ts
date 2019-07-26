@@ -54,7 +54,7 @@ export interface IKites {
   ready(callback: KitesReadyCallback): IKites;
   discover(option?: string | boolean): IKites;
   use(extension: KitesExtension | ExtensionDefinition): IKites;
-  useMany(extension: Array<KitesExtension | ExtensionDefinition>): IKites;
+  // useMany(extension: Array<KitesExtension | ExtensionDefinition>): IKites;
   init(): Promise<IKites>;
 }
 
@@ -205,10 +205,10 @@ export class KitesInstance extends EventEmitter implements IKites {
     return this;
   }
 
-  useMany(extensions: Array<KitesExtension | ExtensionDefinition>) {
-    this.extensionsManager.useMany(extensions);
-    return this;
-  }
+  // useMany(extensions: Array<KitesExtension | ExtensionDefinition>) {
+  //   this.extensionsManager.useMany(extensions);
+  //   return this;
+  // }
 
   /**
    * Enable auto discover extensions

@@ -18,7 +18,7 @@ interface KitesExtensionOptions extends ExtensionOptions {
 /**
  * Kites Express Extension
  */
-export class KitesExpress implements KitesExtension {
+export class ExpressExtension implements KitesExtension {
 
   name: string;
   options: KitesExtensionOptions;

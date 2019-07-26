@@ -7,7 +7,7 @@ function GetControllersFromContainer(
   container: Container,
   forceControllers: boolean
 ) {
-  // if (container.inject(TYPE.Controller));
+  return container.inject(TYPE.Controller);
 }
 
 function GetControllersFromMetadata() {
@@ -27,7 +27,7 @@ function GetControllerMetadata(constructor: any) {
 }
 
 function GetControllerMethodMetadata(constructor: any) {
-  const methodMetadata: ControllerMethodMetadata = Reflect.getMetadata(
+  const methodMetadata: ControllerMethodMetadata[] = Reflect.getMetadata(
     METADATA_KEY.ControllerMethod,
     constructor
   );

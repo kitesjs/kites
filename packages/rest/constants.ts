@@ -1,7 +1,9 @@
+import { InjectionToken } from '@kites/common';
+
 const TYPE = {
-  AuthProvider: Symbol.for('AuthProvider'),
-  Controller: Symbol.for('Controller'),
-  HttpContext: Symbol.for('HttpContext')
+  AuthProvider: new InjectionToken('AuthProvider'),
+  Controller: new InjectionToken('Controller'),
+  HttpContext: new InjectionToken('HttpContext')
 };
 
 const METADATA_KEY = {

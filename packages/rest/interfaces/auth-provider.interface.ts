@@ -5,10 +5,10 @@ export interface AuthProvider {
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Principal>;
+  ): Promise<UserPrincipal>;
 }
 
-export interface Principal {
+export interface UserPrincipal {
   details: any;
   isAuthenticated: Promise<boolean>;
   // Allows content-based auth

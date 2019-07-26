@@ -1,6 +1,8 @@
 import { PARAMETER_TYPE } from '../constants';
 import { Middleware } from './middleware.interface';
 
+interface IController extends Object {}
+
 interface ControllerMetadata {
   path: string;
   middleware: Middleware[];
@@ -26,6 +28,7 @@ interface ControllerParameterMetadata {
 type HandlerDecorator = (target: any, key: string, value: any) => void;
 
 export {
+  IController,
   ControllerMetadata,
   ParameterMetadata,
   ControllerMethodMetadata,
