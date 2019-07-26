@@ -41,6 +41,17 @@ class Test2Controller {
 function registerControllers(container: Container): Router {
   const router = Router();
 
+  // register system service(s)
+  container
+    .addProvider({
+      provide: SimpleService,
+      useClass: SimpleService
+    })
+    .addProvider({
+      provide: TYPE.HttpContext,
+      useValue: {}
+    });
+
   let constructors = GetControllersFromMetadata();
   constructors.forEach((constructor) => {
     container.addProvider({
@@ -96,17 +107,6 @@ class RestExtension implements KitesExtension {
   }
 
   init(kites: IKites, options: ExtensionOptions) {
-    console.log('Fire!!!');
-
-    kites.container
-      .addProvider({
-        provide: SimpleService,
-        useClass: SimpleService
-      })
-      .addProvider({
-        provide: TYPE.HttpContext,
-        useValue: {}
-      });
 
     const service = kites.container.inject(SimpleService);
     console.log('Name: ', options.name, service.test());

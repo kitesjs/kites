@@ -10,6 +10,7 @@ const packages = {
   common: ts.createProject('packages/common/tsconfig.json'),
   core: ts.createProject('packages/core/tsconfig.json'),
   express: ts.createProject('packages/express/tsconfig.json'),
+  rest: ts.createProject('packages/rest/tsconfig.json'),
 };
 const modules = Object.keys(packages);
 const source = 'packages';

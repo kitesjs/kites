@@ -14,7 +14,7 @@ export {
   RestExtension
 };
 
-export default function Rest(kites: IKites, definition: ExtensionOptions) {
+export default function Rest(kites: IKites, definition: KitesExtension) {
   kites.options.apiPrefix = kites.options.apiPrefix || '/';
 
   if (kites.options.apiPrefix.substr(-1) !== '/') {
@@ -26,5 +26,4 @@ export default function Rest(kites: IKites, definition: ExtensionOptions) {
 
   var extension = new RestExtension(kites, definition.options);
   kites.initializeListeners.add(definition.name, extension.init.bind(extension, kites, definition.options));
-  console.log('OKKKKEEE!!');
 }
