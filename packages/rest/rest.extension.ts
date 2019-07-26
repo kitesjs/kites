@@ -1,7 +1,7 @@
 
 import { Injectable } from '@kites/common';
 import { Container, ExtensionOptions, IKites, KitesExtension, KitesInstance } from '@kites/core';
-import { Router } from 'express';
+import { Express, Router } from 'express';
 import { TYPE } from './constants';
 import { Controller, Get } from './decorators';
 import { IController, ParameterMetadata } from './interfaces';
@@ -38,53 +38,6 @@ class Test2Controller {
   }
 }
 
-function registerControllers(container: Container): Router {
-  const router = Router();
-
-  // register system service(s)
-  container
-    .addProvider({
-      provide: SimpleService,
-      useClass: SimpleService
-    })
-    .addProvider({
-      provide: TYPE.HttpContext,
-      useValue: {}
-    });
-
-  let constructors = GetControllersFromMetadata();
-  constructors.forEach((constructor) => {
-    container.addProvider({
-      provide: constructor,
-      useClass: constructor
-    });
-  });
-
-  let controllers: IController[] = [];
-  constructors.forEach((constructor) => {
-    const controller: IController = container.inject(constructor);
-    const controllerMetadata = GetControllerMetadata(controller.constructor);
-    const methodMetadata = GetControllerMethodMetadata(controller.constructor);
-    const parameterMetadata = GetControllerParameterMetadata(controller.constructor);
-
-    console.log('Controller Metadata: ', controller, controllerMetadata, methodMetadata, parameterMetadata);
-    if (controllerMetadata && methodMetadata) {
-
-      methodMetadata.forEach(metadata => {
-        let paramList: ParameterMetadata[] = [];
-        if (parameterMetadata) {
-          paramList = parameterMetadata[metadata.key] || [];
-        }
-        // const handler =              ;
-      });
-    }
-  });
-
-  console.log('Controllers: ', constructors);
-
-  return router;
-}
-
 /**
  * Main Extension
  */
@@ -94,30 +47,77 @@ class RestExtension implements KitesExtension {
   constructor(private kites: IKites, options: ExtensionOptions) {
     this.name = 'Rest';
 
+    // register system service(s)
+    kites.container
+      .addProvider({
+        provide: SimpleService,
+        useClass: SimpleService
+      })
+      .addProvider({
+        provide: TYPE.HttpContext,
+        useValue: {}
+      });
+
     /**
      * config event listeners
      */
-    kites.on('express:config', (app) => {
-      console.log('test!!!!!!');
+    kites.on('express:config', (app: Express) => {
       var apiPrefix = options.apiPrefix || '/';
-      kites.logger.debug(`configure kites-rest: prefix=${apiPrefix}`);
+      kites.logger.debug(`Configure Rest Api: prefix=${apiPrefix}`);
+
+      const router = this.registerControllers(kites.container);
+      app.use(this.kites.options.apiPrefix, router);
     });
 
-    registerControllers(kites.container);
   }
 
   init(kites: IKites, options: ExtensionOptions) {
 
     const service = kites.container.inject(SimpleService);
-    console.log('Name: ', options.name, service.test());
+    console.log('Name: ', this.name, service.test());
 
     const testController = kites.container.inject(TestController);
     console.log('Controller: ', testController.test());
-
   }
+
+  registerControllers(container: Container): Router {
+    const router = Router();
+
+    let constructors = GetControllersFromMetadata();
+    constructors.forEach((constructor) => {
+      container.addProvider({
+        provide: constructor,
+        useClass: constructor
+      });
+    });
+
+    let controllers: IController[] = [];
+    constructors.forEach((constructor) => {
+      const controller: IController = container.inject(constructor);
+      const controllerMetadata = GetControllerMetadata(controller.constructor);
+      const methodMetadata = GetControllerMethodMetadata(controller.constructor);
+      const parameterMetadata = GetControllerParameterMetadata(controller.constructor);
+
+      console.log('Controller Metadata: ', controller, controllerMetadata, methodMetadata, parameterMetadata);
+      if (controllerMetadata && methodMetadata) {
+
+        methodMetadata.forEach(metadata => {
+          let paramList: ParameterMetadata[] = [];
+          if (parameterMetadata) {
+            paramList = parameterMetadata[metadata.key] || [];
+          }
+          // const handler =              ;
+        });
+      }
+    });
+
+    console.log('Controllers: ', constructors);
+
+    return router;
+  }
+
 }
 
 export {
   RestExtension,
-  registerControllers,
 };

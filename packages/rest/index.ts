@@ -15,7 +15,7 @@ export {
 };
 
 export default function Rest(kites: IKites, definition: KitesExtension) {
-  kites.options.apiPrefix = kites.options.apiPrefix || '/';
+  kites.options.apiPrefix = kites.options.apiPrefix || '/api';
 
   if (kites.options.apiPrefix.substr(-1) !== '/') {
     kites.options.apiPrefix += '/';
