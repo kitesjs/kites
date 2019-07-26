@@ -17,9 +17,9 @@ export {
 export default function Rest(kites: IKites, definition: KitesExtension) {
   kites.options.apiPrefix = kites.options.apiPrefix || '/api';
 
-  if (kites.options.apiPrefix.substr(-1) !== '/') {
-    kites.options.apiPrefix += '/';
-  }
+  // if (kites.options.apiPrefix.substr(-1) !== '/') {
+  //   kites.options.apiPrefix += '/';
+  // }
 
   definition.name = definition.name || 'Rest';
   kites.options.rest = definition.options || {};
