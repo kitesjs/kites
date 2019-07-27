@@ -95,14 +95,7 @@ class RestExtension implements KitesExtension {
     const router = express.Router();
 
     let constructors = GetControllersFromMetadata();
-    constructors.forEach((constructor) => {
-      container.addProvider({
-        provide: constructor,
-        useClass: constructor
-      });
-    });
 
-    let controllers: IController[] = [];
     constructors.forEach((constructor) => {
       const controller: IController = container.inject(constructor);
       const controllerMetadata = GetControllerMetadata(controller.constructor);

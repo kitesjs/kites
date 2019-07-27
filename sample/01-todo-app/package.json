@@ -1,0 +1,28 @@
+{
+  "name": "01-todo-app",
+  "version": "1.0.0",
+  "description": "Kites Application Starter",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node app.ts",
+    "start:prod": "node dist/app.js",
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/vunb/kites.git"
+  },
+  "keywords": [
+    "kitesjs"
+  ],
+  "author": "vunb",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vunb/kites/issues"
+  },
+  "homepage": "https://github.com/vunb/kites#readme",
+  "devDependencies": {
+    "ts-node": "^8.3.0"
+  }
+}

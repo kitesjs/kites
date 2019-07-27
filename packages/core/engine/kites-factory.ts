@@ -21,10 +21,16 @@ export function engine(options?: IKitesOptions | boolean) {
 
   // init a new kites
   const kites = new KitesInstance(opts);
-  kites.initializeListeners.add('scan', () => {
-    kites.logger.info('Scanning ....');
-    const scanner = new DependenciesScanner(kites);
-    scanner.scan();
+  kites.initializeListeners.add('register:providers', () => {
+    kites.logger.info('Register providers ...');
+    if (opts.providers !== undefined) {
+      opts.providers.forEach(provider => {
+        kites.container.addProvider({
+          provide: provider,
+          useClass: provider
+        });
+      });
+    }
   });
   return kites;
 }

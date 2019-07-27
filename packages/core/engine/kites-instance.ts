@@ -10,6 +10,7 @@ import { ExtensionsManager } from '../extensions/extensions-manager';
 import createDebugLogger, { DebugTransport } from '../logger';
 import { EventCollectionEmitter } from './event-collection';
 
+import { Type } from '@kites/common';
 import { ExtensionDefinition, KitesExtension } from '../extensions/extensions';
 import { Container } from '../injector';
 import pkg from '../package.json';
@@ -24,7 +25,7 @@ export type KitesReadyCallback = (kites: IKites) => void;
  */
 export interface IKitesOptions {
   [key: string]: any;
-  imports?: Array<KitesExtension | ExtensionDefinition>;
+  providers?: Array<Type<any>>;
   discover?: boolean | string; // string for path discovery
   loadConfig?: boolean;
   rootDirectory?: string;
