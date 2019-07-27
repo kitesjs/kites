@@ -1,8 +1,9 @@
-import { KitesInstance } from '../engine/kites';
+import { Type } from '../../common/interfaces/type.interface';
+import { KitesInstance } from '../engine/kites-instance';
 import { IKites } from '../index';
 
 /**
- * Kites extension definition (callback)
+ * Kites extension definition
  */
 export type ExtensionDefinition = (kites: IKites | KitesInstance, definition: ExtensionOptions) => void;
 
@@ -16,7 +17,7 @@ export interface ExtensionOptions {
 }
 
 /**
- * Kites extension definition
+ * Kites extension definition TODO:  extends Type<any>
  */
 export interface KitesExtension {
   [key: string]: any;
@@ -25,5 +26,5 @@ export interface KitesExtension {
   options?: ExtensionOptions;
   directory?: string; // TODO: remove
   dependencies?: Array<string | Function | ExtensionDefinition>;
-  init?: (app: IKites, options: ExtensionOptions) => any;
+  init?: (app?: IKites, options?: ExtensionOptions) => any;
 }

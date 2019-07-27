@@ -7,6 +7,9 @@
     "no-unused-expression": true
   },
   "rules": {
+    "arrow-return-shorthand": true,
+    "callable-types": true,
+    "no-namespace": false,
     "no-console": false,
     "no-var-keyword": false,
     "no-empty": false,
@@ -17,7 +20,8 @@
     "member-access": false,
     "prefer-const": false,
     "trailing-comma": false,
-    "forin": false,
+    "variable-name": false,
+    "forin": true,
     "typedef-whitespace": [
       true,
       {
@@ -37,6 +41,7 @@
       "check-type"
     ],
     "arrow-parens": false,
+    "object-literal-sort-keys": false,
     "only-arrow-functions": false,
     "max-line-length": [
       true,

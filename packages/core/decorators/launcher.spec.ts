@@ -1,6 +1,6 @@
 import { Launcher } from './launcher';
 
 @Launcher({
-  extensions: []
+  imports: []
 })
 class App { }

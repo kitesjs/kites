@@ -11,7 +11,7 @@ export function Route(metadata: RouteMetadata = defaultMetadata): MethodDecorato
   const path = metadata.path || '/';
   const requestMethod = metadata.method || RequestMethod.GET;
 
-  console.log('Route: ', path, requestMethod);
+  // console.log('Route: ', path, requestMethod);
 
   return (target, key, descriptor: PropertyDescriptor) => {
     Reflect.defineMetadata(PATH_METADATA, path, descriptor.value);

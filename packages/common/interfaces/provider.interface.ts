@@ -1,33 +1,52 @@
-import { Abstract } from './abstract.interface';
+// import { Abstract } from './abstract.interface';
 import { Scope } from './scope-options.interface';
 import { Type } from './type.interface';
 
-export type Provider<T = any> =
-  | Type<any>
-  | ClassProvider<T>
-  | ValueProvider<T>
-  | FactoryProvider<T>
-  | ExistingProvider<T>;
+export class InjectionToken {
+  constructor(public injectionIdentifier: Symbol | string) { }
+}
 
-export interface ClassProvider<T = any> {
-  provide: string | symbol | Type<any> | Abstract<any> | Function;
+export type Factory<T> = () => T;
+
+export type Token<T> = Type<T> | InjectionToken;
+
+export interface BaseProvider<T> {
+  provide: Token<T>;
+}
+
+export interface ClassProvider<T> extends BaseProvider<T> {
   useClass: Type<T>;
   scope?: Scope;
 }
 
-export interface ValueProvider<T = any> {
-  provide: string | symbol | Type<any> | Abstract<any> | Function;
+export interface ValueProvider<T> extends BaseProvider<T> {
   useValue: T;
 }
 
-export interface FactoryProvider<T = any> {
-  provide: string | symbol | Type<any> | Abstract<any> | Function;
-  useFactory: (...args: any[]) => T;
-  inject?: Array<Type<any> | string | symbol | Abstract<any> | Function>;
+export interface FactoryProvider<T> extends BaseProvider<T> {
+  useFactory: Factory<T>;
   scope?: Scope;
 }
 
-export interface ExistingProvider<T = any> {
-  provide: string | symbol | Type<any> | Abstract<any> | Function;
-  useExisting: any;
+export type Provider<T> =
+  | ClassProvider<T>
+  | ValueProvider<T>
+  | FactoryProvider<T>;
+
+export function isClassProvider<T>(
+  provider: BaseProvider<T>
+): provider is ClassProvider<T> {
+  return (provider as any).useClass !== undefined;
+}
+
+export function isValueProvider<T>(
+  provider: BaseProvider<T>
+): provider is ValueProvider<T> {
+  return (provider as any).useValue !== undefined;
+}
+
+export function isFactoryProvider<T>(
+  provider: BaseProvider<T>
+): provider is FactoryProvider<T> {
+  return (provider as any).useFactory !== undefined;
 }

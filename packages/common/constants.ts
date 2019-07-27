@@ -1,9 +1,9 @@
 export const METADATA = {
-    CONTROLLERS: 'controllers',
-    EXPORTS: 'exports',
-    IMPORTS: 'imports',
-    PROVIDERS: 'providers',
-  };
+  CONTROLLERS: 'controllers',
+  EXPORTS: 'exports',
+  IMPORTS: 'imports',
+  PROVIDERS: 'providers',
+};
 
 export const SHARED_MODULE_METADATA = '__module:shared__';
 export const GLOBAL_MODULE_METADATA = '__module:global__';
@@ -28,3 +28,6 @@ export const HTTP_CODE_METADATA = '__httpCode__';
 export const MODULE_PATH = '__module_path__';
 export const HEADERS_METADATA = '__headers__';
 export const REDIRECT_METADATA = '__redirect__';
+
+export const INJECT_METADATA_KEY = Symbol('INJECT_KEY');
+export const INJECTABLE_METADATA_KEY = Symbol('INJECTABLE_KEY');

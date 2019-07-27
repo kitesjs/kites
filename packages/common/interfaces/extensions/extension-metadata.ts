@@ -8,13 +8,13 @@ export interface ExtensionMetadata {
     Type<any> | DynamicExtension | Promise<DynamicExtension>
   >;
   controllers?: Array<Type<any>>;
-  providers?: Provider[];
+  providers?: Array<Provider<any>>;
   exports?: Array<
     | DynamicExtension
     | Promise<DynamicExtension>
     | string
     | symbol
-    | Provider
+    | Provider<any>
     | Abstract<any>
     | Function
   >;

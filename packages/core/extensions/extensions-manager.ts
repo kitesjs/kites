@@ -85,8 +85,17 @@ export class ExtensionsManager extends EventEmitter {
           this.kites.logger.debug(`Extension ${extension.name} was disabled`);
         }
       })
-      .catch((err: Error) => {
-        this.kites.logger.error('Error when loading extension ' + extension.name + os.EOL + err.stack);
+      .catch((e: Error) => {
+        let errorMsg;
+
+        if (!extension.name) {
+          errorMsg = `Error when loading anonymous extension${extension.directory != null ? ` at ${extension.directory}` : ''}${os.EOL}${e.stack}`;
+        } else {
+          errorMsg = `Error when loading extension ${extension.name}${os.EOL}${e.stack}`;
+        }
+
+        this.kites.logger.error(errorMsg);
+        throw new Error(errorMsg);
       });
   }
 
