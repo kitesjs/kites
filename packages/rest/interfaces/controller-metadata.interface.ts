@@ -1,7 +1,7 @@
 import { PARAMETER_TYPE } from '../constants';
 import { Middleware } from './middleware.interface';
 
-interface IController extends Object {}
+interface IController extends Object { }
 
 interface ControllerMetadata {
   path: string;
