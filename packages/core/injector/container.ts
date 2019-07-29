@@ -27,7 +27,7 @@ export class Container {
 
   inject<T>(type: Token<T>): T {
     let provider = this.providers.get(type);
-    if (provider === undefined && !(type instanceof InjectionToken)) {
+    if (provider === undefined && !(type instanceof InjectionToken) && typeof type !== 'string') {
       provider = { provide: type, useClass: type };
       this.assertInjectableIfClassProvider(provider);
     }
@@ -102,9 +102,13 @@ export class Container {
   }
 
   private getTokenName<T>(token: Token<T>) {
-    return token instanceof InjectionToken
-      ? token.injectionIdentifier
-      : token.name;
+    if (typeof token === 'string') {
+      return token;
+    } else {
+      return token instanceof InjectionToken
+        ? token.injectionIdentifier
+        : token.name;
+    }
   }
 
 }

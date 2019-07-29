@@ -8,15 +8,15 @@ export class InjectionToken {
 
 export type Factory<T> = () => T;
 
-export type Token<T> = Type<T> | InjectionToken;
+export type Token<T> = Type<T> | InjectionToken | string;
 
 export interface BaseProvider<T> {
   provide: Token<T>;
+  scope?: Scope;
 }
 
 export interface ClassProvider<T> extends BaseProvider<T> {
   useClass: Type<T>;
-  scope?: Scope;
 }
 
 export interface ValueProvider<T> extends BaseProvider<T> {
@@ -25,7 +25,6 @@ export interface ValueProvider<T> extends BaseProvider<T> {
 
 export interface FactoryProvider<T> extends BaseProvider<T> {
   useFactory: Factory<T>;
-  scope?: Scope;
 }
 
 export type Provider<T> =
