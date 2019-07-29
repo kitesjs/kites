@@ -56,11 +56,11 @@ The application below simply prints out a greeting: **Hello World!**
 `TypeScript` version:
 
 ```ts
-import kites from 'kites';
+import {engine} from '@kites/core';
 
 async function bootstrap() {
-    const app = await kites().init();
-    app.logger.info('Hello World!');
+  const app = await engine().init();
+  app.logger.info('Hello World!');
 }
 
 bootstrap();
@@ -69,19 +69,20 @@ bootstrap();
 `JavaScript` version:
 
 ```js
-const kites = require('kites');
+const kites = require('@kites/core');
 
-kites().init().then((core) => {
-    core.logger.info('Hello World!');
+kites.engine().init().then((core) => {
+  core.logger.info('Hello World!');
 });
 ```
 
 Featues
 =======
 
-* Rich decorators system
-* Support front-end development
+* Extension as a feature
+* Micro frontends development
 * Storage mutiple providers
+* Rich decorators system
 
 Documentation
 =============
@@ -115,12 +116,12 @@ Kites has an option to allow the application auto discover extensions in the dir
 This is fundamental principle for allowing extensions as plugins to be automatically plugged into the system. The application completed with minimalist lines of code, but very powerful!
 
 ```ts
-import kites from 'kites';
+import {engine} from '@kites/core';
 
 async function bootstrap() {
-    // let kites autodiscover the extensions
-    const app = await kites(true).init();
-    app.logger.info('A new kites started!');
+  // let kites autodiscover the extensions
+  const app = await engine(true).init();
+  app.logger.info('A new kites started!');
 }
 
 bootstrap();
@@ -129,34 +130,22 @@ bootstrap();
 Kites extensions auto discovery might slows down the startup and can be explicitly override by using `use` function. The following code has a slightly complicated configuration for each extension which we want to use.
 
 ```ts
+import {engine} from '@kites/core';
 import express from '@kites/express';
-import kites from 'kites';
 
 async function bootstrap() {
-    const app = await kites()
-        .use(express())
-        .on('express:config', app => {
-            app.get('/hi', (req, res) => res.send('hello!'));
-        })
-        .init();
+  const app = await kites()
+    .use(express)
+    .on('express:config', app => {
+        app.get('/hi', (req, res) => res.send('hello!'));
+    })
+    .init();
 
-    app.logger.info(`A new kites started! Let's browse http://localhost:3000/hi`);
+  app.logger.info(`Let's browse http://localhost:3000/hi`);
 }
 
 // let kites fly!
 bootstrap();
-```
-
-Logging
-=======
-
-kites exposes `logger` property which can be used to adapt the logging as you like. You can for example just add [winston](https://github.com/winstonjs/winston) console transport and filter in only important log messages into console.
-
-```ts
-import kites from 'kites';
-import { transports } from 'winston';
-
-kites().logger.add(transports.Console, { level: 'info' });
 ```
 
 # License
