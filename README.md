@@ -80,8 +80,9 @@ Features
 =======
 
 * Extension as a feature
-* Micro frontends development
 * Storage mutiple providers
+* Micro frontends development
+* Autodiscover extensions
 * Rich decorators system
 * Event-driven programming
 
