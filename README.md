@@ -76,13 +76,14 @@ kites.engine().init().then((core) => {
 });
 ```
 
-Featues
+Features
 =======
 
 * Extension as a feature
 * Micro frontends development
 * Storage mutiple providers
 * Rich decorators system
+* Event-driven programming
 
 Documentation
 =============
