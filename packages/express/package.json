@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/vunb/kites-express#readme",
   "devDependencies": {
-    "@kites/engine": "^1.2.0",
+    "@kites/core": "1.2.0",
     "@types/body-parser": "^1.17.0",
     "@types/chai": "4.1.6",
     "@types/cookie-parser": "^1.4.1",
@@ -55,9 +55,10 @@
     "typescript-eslint-parser": "^20.0.0"
   },
   "peerDependencies": {
-    "@kites/engine": ">=1.2.0"
+    "@kites/core": ">=1.2.0"
   },
   "dependencies": {
+    "@kites/core": "^1.2.0",
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",

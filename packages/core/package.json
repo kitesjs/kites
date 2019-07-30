@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/vunb/kites#readme",
   "dependencies": {
-    "@kites/common": "^1.1.0-beta.2",
+    "@kites/common": "^1.2.0",
     "app-root-path": "^2.0.1",
     "debug": "^3.1.0",
     "lodash": "^4.17.4",

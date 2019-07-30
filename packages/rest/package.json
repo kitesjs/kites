@@ -10,5 +10,10 @@
     "kites"
   ],
   "author": "vunb",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@kites/common": "^1.2.0",
+    "@kites/core": "^1.2.0",
+    "@kites/express": "^1.2.0"
+  }
 }
