@@ -139,7 +139,7 @@ async function bootstrap() {
   const app = await kites()
     .use(express)
     .on('express:config', app => {
-        app.get('/hi', (req, res) => res.send('hello!'));
+      app.get('/hi', (req, res) => res.send('hello!'));
     })
     .init();
 
