@@ -22,6 +22,11 @@
     "url": "https://github.com/vunb/kites/issues"
   },
   "homepage": "https://github.com/vunb/kites#readme",
+  "dependencies": {
+    "@kites/core": "1.2.0",
+    "@kites/express": "1.2.0",
+    "@kites/rest": "1.2.0"
+  },
   "devDependencies": {
     "ts-node": "^8.3.0"
   }

@@ -35,6 +35,8 @@ gulp.task('copy-misc', function () {
     ])
     .pipe(gulp.dest(`${source}/common`))
     .pipe(gulp.dest(`${source}/core`))
+    .pipe(gulp.dest(`${source}/express`))
+    .pipe(gulp.dest(`${source}/rest`))
 });
 
 gulp.task('clean:output', function () {
@@ -87,10 +89,10 @@ modules.forEach(module => {
 modules.forEach(module => {
   gulp.task(module + ':dev:copy', () => {
     return gulp
-    .src([
-      `packages/${module}/package.json`,
-    ])
-    .pipe(gulp.dest(`${dist}/${module}`))
+      .src([
+        `packages/${module}/package.json`,
+      ])
+      .pipe(gulp.dest(`${dist}/${module}`))
   });
 });
 
