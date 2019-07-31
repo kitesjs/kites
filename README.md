@@ -19,6 +19,16 @@ Take a look at this:
 class App {}
 ```
 
+Features
+=======
+
+* Extension as a feature
+* Storage mutiple providers
+* Micro frontends development
+* Autodiscover extensions
+* Rich decorators system
+* Event-driven programming
+
 Installation
 ============
 
@@ -75,16 +85,6 @@ kites.engine().init().then((core) => {
   core.logger.info('Hello World!');
 });
 ```
-
-Features
-=======
-
-* Extension as a feature
-* Storage mutiple providers
-* Micro frontends development
-* Autodiscover extensions
-* Rich decorators system
-* Event-driven programming
 
 Documentation
 =============
