@@ -3,8 +3,5 @@
   "version": "1.1.1-beta.1",
   "packages": [
     "packages/*"
-  ],
-  "publishConfig": {
-    "access": "public"
-  }
+  ]
 }

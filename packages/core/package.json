@@ -7,6 +7,9 @@
     "type": "git",
     "url": "git+https://github.com/vunb/kites.git"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "kites",
     "templates",
@@ -31,10 +34,5 @@
     "@kites/common": "^1.0.0",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.0.0"
-  },
-  "files": [
-    "src",
-    "LICENSE",
-    "README.md"
-  ]
+  }
 }

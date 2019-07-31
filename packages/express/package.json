@@ -2,32 +2,23 @@
   "name": "@kites/express",
   "version": "1.1.1-beta.1",
   "description": "Handling HTTP Request for Kites",
-  "scripts": {
-    "build": "tsc && npm run lint && npm run copy",
-    "clean": "rimraf ./dist",
-    "copy": "copyfiles package.json kites.config.js LICENSE README.md dist",
-    "lint": "tslint -c tslint.json 'src/**/*.ts'",
-    "tsc": "tsc",
-    "test": "mocha -r ts-node/register src/**/*.spec.ts --exit",
-    "publish:beta": "npm publish dist/ --tag beta",
-    "release:beta": "npm run build && release-it --preRelease=beta --verbose",
-    "release:final": "npm run build && release-it --verbose"
-  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vunb/kites-express.git"
+    "url": "git+https://github.com/kitesjs/kites.git"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "keywords": [
     "kites",
-    "express",
-    "web-framework"
+    "express"
   ],
   "author": "vunb",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/vunb/kites-express/issues"
+    "url": "https://github.com/kitesjs/kites/issues"
   },
-  "homepage": "https://github.com/vunb/kites-express#readme",
+  "homepage": "https://github.com/kitesjs/kites#readme",
   "peerDependencies": {
     "@kites/common": "^1.0.0",
     "@kites/core": "^1.0.0",
@@ -41,10 +32,5 @@
     "ejs": "^2.6.1",
     "express": "^4.16.2",
     "lodash": "^4.17.11"
-  },
-  "files": [
-    "src",
-    "typings",
-    "README.md"
-  ]
+  }
 }
