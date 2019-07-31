@@ -18,7 +18,7 @@
     "publish": "npm run prerelease && npm run build && npx lerna publish --force-publish --access public --exact -m \"chore(@kites) publish %s release\"",
     "publish:rc": "npm run prerelease && npm run build && npx lerna publish --npm-tag=rc --access public -m \"chore(@kites) publish %s release\"",
     "publish:next": "npm run prerelease && npm run build && npx lerna publish --npm-tag=next --access public --skip-git -m \"chore(@kites) publish %s release\"",
-    "publish:beta": "npm run prerelease && npm run build && npx lerna publish --npm-tag=beta --access public -m \"chore(@kites) publish %s release\""
+    "publish:beta": "npm run prerelease && npm run build && npx lerna publish --npm-tag=beta --access public --loglevel silly -m \"chore(@kites) publish %s release\""
   },
   "repository": {
     "type": "git",
@@ -65,7 +65,7 @@
     "gulp-sourcemaps": "2.6.5",
     "gulp-typescript": "5.0.1",
     "gulp-watch": "5.0.1",
-    "lerna": "2.11.0",
+    "lerna": "3.16.4",
     "lodash.template": "^4.5.0",
     "mem": ">=4.0.0",
     "mocha": "5.2.0",
