@@ -14,6 +14,8 @@
   "peerDependencies": {
     "@kites/common": "^1.0.0",
     "@kites/core": "^1.0.0",
-    "@kites/express": "^1.0.0"
+    "@kites/express": "^1.0.0",
+    "reflect-metadata": "^0.1.12",
+    "rxjs": "^6.0.0"
   }
 }
