@@ -20,13 +20,15 @@
   },
   "homepage": "https://github.com/vunb/kites#readme",
   "dependencies": {
-    "@kites/common": "^1.2.0",
     "app-root-path": "^2.0.1",
     "debug": "^3.1.0",
     "lodash": "^4.17.4",
     "mkdirp": "^0.5.1",
     "nconf": "^0.10.0",
-    "winston": "3.2.1",
+    "winston": "3.2.1"
+  },
+  "peerDependencies": {
+    "@kites/common": "^1.0.0",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.0.0"
   },

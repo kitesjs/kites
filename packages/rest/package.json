@@ -1,6 +1,6 @@
 {
   "name": "@kites/rest",
-  "version": "1.1.0-beta.2",
+  "version": "1.2.0",
   "description": "REST Services for Kites",
   "main": "index.js",
   "scripts": {
@@ -11,9 +11,9 @@
   ],
   "author": "vunb",
   "license": "MIT",
-  "dependencies": {
-    "@kites/common": "^1.2.0",
-    "@kites/core": "^1.2.0",
-    "@kites/express": "^1.2.0"
+  "peerDependencies": {
+    "@kites/common": "^1.0.0",
+    "@kites/core": "^1.0.0",
+    "@kites/express": "^1.0.0"
   }
 }

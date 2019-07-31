@@ -79,10 +79,6 @@
     "typescript-eslint-parser": "20.0.0"
   },
   "dependencies": {
-    "@kites/common": "1.2.0",
-    "@kites/core": "1.2.0",
-    "@kites/express": "1.2.0",
-    "@kites/rest": "1.2.0",
     "app-root-path": "2.0.1",
     "axios": "0.19.0",
     "debug": "3.1.0",
