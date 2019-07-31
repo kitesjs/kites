@@ -15,10 +15,10 @@
     "prebuild:dev": "rimraf node_modules/@kites",
     "build:dev": "gulp build:dev --dist node_modules/@kites",
     "prerelease": "gulp copy-misc && gulp build --dist node_modules/@kites",
-    "publish": "npm run prerelease && npm run build && npx lerna publish --force-publish --access public --exact -m \"chore(@kites) publish %s release\"",
-    "publish:rc": "npm run prerelease && npm run build && npx lerna publish --npm-tag=rc --access public -m \"chore(@kites) publish %s release\"",
-    "publish:next": "npm run prerelease && npm run build && npx lerna publish --npm-tag=next --access public --skip-git -m \"chore(@kites) publish %s release\"",
-    "publish:beta": "npm run prerelease && npm run build && npx lerna publish --npm-tag=beta --access public --loglevel silly -m \"chore(@kites) publish %s release\""
+    "publish": "npm run prerelease && npm run build && npx lerna publish --force-publish --exact -m \"chore(@kites) publish %s release\"",
+    "publish:rc": "npm run prerelease && npm run build && npx lerna publish --dist-tag=rc -m \"chore(@kites) publish %s release\"",
+    "publish:next": "npm run prerelease && npm run build && npx lerna publish --dist-tag=next --skip-git -m \"chore(@kites) publish %s release\"",
+    "publish:beta": "npm run prerelease && npm run build && npx lerna publish --dist-tag=beta --loglevel verbose -m \"chore(@kites) publish %s release\""
   },
   "repository": {
     "type": "git",

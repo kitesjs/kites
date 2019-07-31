@@ -1,7 +1,10 @@
 {
+  "lerna": "3.16.4",
+  "version": "1.1.1-beta.0",
   "packages": [
     "packages/*"
   ],
-  "lerna": "3.16.4",
-  "version": "1.1.1-beta.0"
+  "publishConfig": {
+    "access": "public"
+  }
 }
