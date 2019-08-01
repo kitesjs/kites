@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vunb/kites.git"
+    "url": "git+https://github.com/kitesjs/kites.git"
   },
   "keywords": [
     "kites",
@@ -30,10 +30,10 @@
     "extensions",
     "plugins"
   ],
-  "author": "Vunb",
+  "author": "vunb",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/vunb/kites/issues"
+    "url": "https://github.com/kitesjs/kites/issues"
   },
   "homepage": "https://kites.nodejs.vn",
   "files": [

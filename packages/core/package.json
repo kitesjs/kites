@@ -5,7 +5,7 @@
   "description": "Core Engine of Kites",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vunb/kites.git"
+    "url": "git+https://github.com/kitesjs/kites.git"
   },
   "publishConfig": {
     "access": "public"
@@ -19,9 +19,9 @@
   "author": "vunb",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/vunb/kites/issues"
+    "url": "https://github.com/kitesjs/kites/issues"
   },
-  "homepage": "https://github.com/vunb/kites#readme",
+  "homepage": "https://github.com/kitesjs/kites#readme",
   "dependencies": {
     "app-root-path": "^2.0.1",
     "debug": "^3.1.0",
