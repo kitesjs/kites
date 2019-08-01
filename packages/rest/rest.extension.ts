@@ -6,7 +6,7 @@ import { Container, ExtensionOptions, IKites, KitesExtension } from '@kites/core
 import { OutgoingHttpHeaders } from 'http';
 import { PARAMETER_TYPE, TYPE } from './constants';
 import { Controller, Get } from './decorators';
-import { IController, ParameterMetadata } from './interfaces';
+import { IController, Middleware, ParameterMetadata } from './interfaces';
 import { HttpResponseMessage } from './results/http-response-message';
 import { GetControllerMetadata, GetControllerMethodMetadata, GetControllerParameterMetadata, GetControllersFromContainer, GetControllersFromMetadata } from './utils';
 
@@ -105,17 +105,19 @@ class RestExtension implements KitesExtension {
       this.kites.logger.debug('Register controller: ' + controller.constructor.name);
       if (controllerMetadata && methodMetadata) {
 
+        let controllerMiddleware = this.resolveMiddleware(...controllerMetadata.middleware);
+
         methodMetadata.forEach(metadata => {
           let paramList: ParameterMetadata[] = [];
           if (parameterMetadata) {
             paramList = parameterMetadata[metadata.key] || [];
           }
           const handler = this.handlerFactory(controllerMetadata.target, metadata.key, paramList);
-
+          const routeMiddleware = this.resolveMiddleware(...metadata.middleware);
           router[metadata.method](
             `${controllerMetadata.path}${metadata.path}`,
-            // ...controllerMiddleware,
-            // ...routeMiddleware,
+            ...controllerMiddleware,
+            ...routeMiddleware,
             handler
           );
         });
@@ -123,6 +125,14 @@ class RestExtension implements KitesExtension {
     });
 
     return router;
+  }
+
+  private resolveMiddleware(...middleware: Middleware[])
+    : express.RequestHandler[] {
+    return middleware.map((item) => {
+      // TODO: Implement BaseMiddleware
+      return item as express.RequestHandler;
+    });
   }
 
   private copyHeadersTo(headers: OutgoingHttpHeaders, target: express.Response) {
