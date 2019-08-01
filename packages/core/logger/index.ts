@@ -15,6 +15,7 @@ function createLogger(name: string, options?: any): Logger {
         format.printf(({ level, message, label, timestamp }) => `${timestamp} [${label}] ${level}: ${message}`)
       ),
       transports: [
+        // add default Console transport
         new transports.Console(),
       ],
     });

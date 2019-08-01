@@ -255,12 +255,13 @@ export class KitesInstance extends EventEmitter implements IKites {
    * Kites initialize
    */
   async init() {
-    this._initOptions();
-    this.logger.info(`Initializing ${this.name}@${this.version} in mode "${this.options.env}"${this.options.loadConfig ? ', using configuration file ' + this.options.configFile : ''}`);
-
+    // Keep silent if the option configured
     if (this.options.logger && this.options.logger.silent === true) {
       this._silentLogs(this.logger);
     }
+
+    this._initOptions();
+    this.logger.info(`Initializing ${this.name}@${this.version} in mode "${this.options.env}"${this.options.loadConfig ? ', using configuration file ' + this.options.configFile : ''}`);
 
     await this.extensionsManager.init();
     await this.initializeListeners.fire();
@@ -282,11 +283,9 @@ export class KitesInstance extends EventEmitter implements IKites {
   }
 
   private _silentLogs(logger: Logger) {
-    if (logger.transports) {
-      _.keys(logger.transports).forEach((name) => {
-        logger.transports[name].silent = true;
-      });
-    }
+    logger.transports.forEach(x => {
+      x.silent = true;
+    });
   }
 
   private _loadConfig() {
