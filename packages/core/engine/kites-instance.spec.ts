@@ -5,8 +5,8 @@ import * as path from 'path';
 import { IKites, KitesInstance } from './kites-instance';
 
 import * as stdMocks from 'std-mocks';
+import { transports } from 'winston';
 import { KitesExtension } from '../extensions/extensions';
-import { DebugTransport } from '../logger';
 import { engine } from './kites-factory';
 
 function safeUnlink(fn: string) {
@@ -109,7 +109,7 @@ describe('kites logs', () => {
 
     stdMocks.restore();
     let stdoutContent = stdMocks.flush();
-    expect(stdoutContent.stdout.length).eq(0, 'stdout is empty');
+    expect(stdoutContent.stdout.length).eq(0, 'stdout must be empty');
 
     let allTransportAreSilent = Object.keys(app.logger.transports).every((name) => app.logger.transports[name].silent === true);
     expect(allTransportAreSilent).eq(true, 'all transports are silent');
@@ -119,7 +119,7 @@ describe('kites logs', () => {
     return engine()
       .init()
       .then((app) => {
-        expect(app.logger.transports.some(x => x instanceof DebugTransport)).eq(true, 'instanceOf Debug transport');
+        expect(app.logger.transports.some(x => x instanceof transports.Console)).eq(true, 'instanceOf Debug transport');
       });
   });
 
