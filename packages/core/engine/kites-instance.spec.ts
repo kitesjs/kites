@@ -1,11 +1,13 @@
 import * as appRoot from 'app-root-path';
-import { assert, expect } from 'chai';
+import { assert, expect, should } from 'chai';
 import * as fs from 'fs';
 import * as path from 'path';
 import { IKites, KitesInstance } from './kites-instance';
 
 import * as stdMocks from 'std-mocks';
+import { transports } from 'winston';
 import { KitesExtension } from '../extensions/extensions';
+import { DebugTransport } from '../logger';
 import { engine } from './kites-factory';
 
 function safeUnlink(fn: string) {
@@ -108,15 +110,23 @@ describe('kites logs', () => {
 
     stdMocks.restore();
     let stdoutContent = stdMocks.flush();
-    expect(stdoutContent.stdout.length).eq(0, 'stdout is empty');
+    expect(stdoutContent.stdout.length).eq(0, 'stdout must be empty');
 
-    let allTransportAreSilent = Object.keys(app.logger.transports).every((name) => app.logger.transports[name].silent === true);
+    let allTransportAreSilent = app.logger.transports.every((x) => x.silent === true);
     expect(allTransportAreSilent).eq(true, 'all transports are silent');
+  });
+
+  it('should have Debug transport enabled by default', () => {
+    return engine()
+      .init()
+      .then((app) => {
+        expect(app.logger.transports.some(x => x instanceof transports.Console)).eq(true, 'default transport');
+      });
   });
 
   it('should fail to configure custom transport that does not have enough options', async () => {
 
-    await engine({
+    return await engine({
       logger: {
         console: {
           transport: 'console'
@@ -127,6 +137,30 @@ describe('kites logs', () => {
       .catch((err) => {
         expect(err).is.instanceOf(Error);
         assert.match(err.message, /option "level" is not specified or has an incorrect value/);
+      });
+  });
+
+  it('should not load disabled transports', async () => {
+
+    return await engine({
+      logger: {
+        console: {
+          level: 'debug',
+          transport: 'console'
+        },
+        file: {
+          enabled: false,
+          level: 'debug',
+          transport: 'file',
+          filename: './test.log'
+        }
+      }
+    })
+      .init()
+      .then((app) => {
+        expect(app.logger.transports.length).eq(1);
+        expect(app.logger.transports.some(x => x instanceof transports.Console)).eq(true);
+        expect(app.logger.transports.some(x => x instanceof transports.File)).eq(false);
       });
   });
 

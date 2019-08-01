@@ -1,17 +1,27 @@
 import * as path from 'path';
-import * as winston from 'winston';
+import { format, Logger, loggers } from 'winston';
 import { DebugTransport } from './debug-transport';
 
-export { DebugTransport } from './debug-transport';
+function createLogger(name: string, options?: any): Logger {
+  if (!loggers.has(name)) {
+    // add default Debug transport?
+    const defaultTransports = Object.keys(options || {}).length > 0 ? [] : [
+      new DebugTransport(options, name),
+    ];
 
-export default function createDebugLogger(name: string, options?: any): winston.Logger {
-  if (!winston.loggers.has(name)) {
-    const debugTransport = new DebugTransport();
-    winston.loggers.add(name, {
-      transports: [debugTransport],
+    loggers.add(name, {
+      exitOnError: false,
+      level: 'info',
+      format: format.combine(
+        format.label({ label: name }),
+        format.colorize(),
+        format.timestamp(),
+        format.printf(({ level, message, label, timestamp }) => `${timestamp} [${label}] ${level}: ${message}`)
+      ),
+      transports: defaultTransports,
     });
 
-    winston.loggers.get(name).on('error', (err: any) => {
+    loggers.get(name).on('error', (err: any) => {
       if (err.code === 'ENOENT') {
         let msg = err;
         if (path.dirname(err.path) === '.') {
@@ -28,9 +38,17 @@ export default function createDebugLogger(name: string, options?: any): winston.
     });
   } else {
     // remove all transports and add default Debug transport
-    winston.loggers.get(name).clear();
-    winston.loggers.get(name).add(new DebugTransport(options));
+    loggers.get(name).clear();
+
+    if (Object.keys(options || {}).length === 0) {
+      loggers.get(name).add(new DebugTransport(options, name));
+    }
   }
 
-  return winston.loggers.get(name);
+  return loggers.get(name);
 }
+
+export {
+  createLogger,
+  DebugTransport
+};

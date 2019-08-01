@@ -3,11 +3,11 @@ import * as fs from 'fs';
 import * as _ from 'lodash';
 // import * as nconf from 'nconf';
 import * as path from 'path';
-import { Logger } from 'winston';
+import { Logger, transports } from 'winston';
 
 import { EventEmitter } from 'events';
 import { ExtensionsManager } from '../extensions/extensions-manager';
-import createDebugLogger, { DebugTransport } from '../logger';
+import { createLogger } from '../logger';
 import { EventCollectionEmitter } from './event-collection';
 
 import { Type } from '@kites/common';
@@ -92,7 +92,7 @@ export class KitesInstance extends EventEmitter implements IKites {
     this.iocContainer = new Container();
 
     // properties
-    this.logger = createDebugLogger(this.name);
+    this.logger = createLogger(this.name, this.options.logger);
     this.fnAfterConfigLoaded = () => this;
     this.isReady = new Promise((resolve) => {
       this.on('initialized', resolve);
@@ -255,12 +255,13 @@ export class KitesInstance extends EventEmitter implements IKites {
    * Kites initialize
    */
   async init() {
-    this._initOptions();
-    this.logger.info(`Initializing ${this.name}@${this.version} in mode "${this.options.env}"${this.options.loadConfig ? ', using configuration file ' + this.options.configFile : ''}`);
-
+    // Keep silent if the option configured
     if (this.options.logger && this.options.logger.silent === true) {
       this._silentLogs(this.logger);
     }
+
+    this._initOptions();
+    this.logger.info(`Initializing ${this.name}@${this.version} in mode "${this.options.env}"${this.options.loadConfig ? ', using configuration file ' + this.options.configFile : ''}`);
 
     await this.extensionsManager.init();
     await this.initializeListeners.fire();
@@ -278,15 +279,13 @@ export class KitesInstance extends EventEmitter implements IKites {
       this.fnAfterConfigLoaded(this);
     }
 
-    // return this._configureWinstonTransports(this.options.logger);
+    return this._configureWinstonTransports(this.options.logger);
   }
 
   private _silentLogs(logger: Logger) {
-    if (logger.transports) {
-      _.keys(logger.transports).forEach((name) => {
-        logger.transports[name].silent = true;
-      });
-    }
+    logger.transports.forEach(x => {
+      x.silent = true;
+    });
   }
 
   private _loadConfig() {
@@ -327,6 +326,81 @@ export class KitesInstance extends EventEmitter implements IKites {
     }
 
     this.options = nconf.get();
+  }
+
+  private _configureWinstonTransports(options: any) {
+    options = options || {};
+
+    var knownTransports: any = {
+      console: transports.Console,
+      file: transports.File,
+      http: transports.Http,
+      stream: transports.Stream,
+    };
+
+    var knownOptions = ['transport', 'module', 'enabled'];
+
+    // tslint:disable-next-line:forin
+    for (let trName in options) {
+      var tranOpts = options[trName];
+      if (!tranOpts || typeof tranOpts !== 'object' || _.isArray(tranOpts)) {
+        continue;
+      }
+
+      if (!tranOpts.transport || typeof tranOpts.transport !== 'string') {
+        throw new Error(`invalid option for transport object ${trName}, option "transport" is not specified or has an incorrect value, must be a string with a valid value. check your "logger" config`);
+      }
+
+      if (!tranOpts.level || typeof tranOpts.level !== 'string') {
+        throw new Error(`invalid option for transport object ${trName}, option "level" is not specified or has an incorrect value, must be a string with a valid value. check your "logger" config`);
+      }
+
+      if (tranOpts.enabled === false) {
+        continue;
+      }
+
+      // add transport
+      if (knownTransports[tranOpts.transport]) {
+        if (this.logger.transports.some((x: any) => x.name === trName)) {
+          continue;
+        }
+        const transport = knownTransports[tranOpts.transport] as any;
+        const opts = _.extend(_.omit(tranOpts, knownOptions), { name: trName });
+        this.logger.add(new transport(opts));
+      } else {
+        if (typeof tranOpts.module !== 'string') {
+          throw new Error(`invalid option for transport object "${trName}", option "module" has an incorrect value, must be a string with a module name. check your "logger" config`);
+        }
+
+        try {
+          let transportModule = require(tranOpts.module);
+          let winstonTransport: any = transports;
+          if (typeof winstonTransport[tranOpts.transport] === 'function') {
+            transportModule = winstonTransport[tranOpts.transport];
+          } else if (typeof transportModule[tranOpts.transport] === 'function') {
+            transportModule = transportModule[tranOpts.transport];
+          }
+
+          if (typeof transportModule !== 'function') {
+            throw new Error(`invalid option for transport object "${trName}", option module "${tranOpts.module}" does not export a valid transport. check your "logger" config`);
+          }
+
+          const opts = _.extend(_.omit(tranOpts, knownOptions), { name: trName });
+
+          this.logger.add(new transportModule(opts));
+
+        } catch (err) {
+          if (err.code === 'MODULE_NOT_FOUND') {
+            throw new Error(
+              `invalid option for transport object "${trName}", module "${tranOpts.module}" in "module" option could not be found. are you sure that you have installed it?. check your "logger" config`);
+          }
+
+          throw err;
+        }
+      }
+
+    }
+
   }
 
 }
