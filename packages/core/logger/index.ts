@@ -2,11 +2,9 @@ import * as path from 'path';
 import * as winston from 'winston';
 import { DebugTransport } from './debug-transport';
 
-export { DebugTransport } from './debug-transport';
-
-export default function createDebugLogger(name: string, options?: any): winston.Logger {
+function createLogger(name: string, options?: any): winston.Logger {
   if (!winston.loggers.has(name)) {
-    const debugTransport = new DebugTransport();
+    const debugTransport = new DebugTransport(options, name);
     winston.loggers.add(name, {
       transports: [debugTransport],
     });
@@ -29,8 +27,13 @@ export default function createDebugLogger(name: string, options?: any): winston.
   } else {
     // remove all transports and add default Debug transport
     winston.loggers.get(name).clear();
-    winston.loggers.get(name).add(new DebugTransport(options));
+    winston.loggers.get(name).add(new DebugTransport(options, name));
   }
 
   return winston.loggers.get(name);
 }
+
+export {
+  createLogger,
+  DebugTransport
+};

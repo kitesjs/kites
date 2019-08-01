@@ -5,9 +5,9 @@ export class DebugTransport extends Transport {
 
   private debugger: debug.IDebugger;
 
-  constructor(options?: Transport.TransportStreamOptions) {
+  constructor(options?: Transport.TransportStreamOptions, name?: string) {
     super(options);
-    this.debugger = debug('kites');
+    this.debugger = debug(name || 'kites');
   }
 
   public log(info, callback: Function) {

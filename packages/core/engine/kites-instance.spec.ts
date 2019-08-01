@@ -1,11 +1,12 @@
 import * as appRoot from 'app-root-path';
-import { assert, expect } from 'chai';
+import { assert, expect, should } from 'chai';
 import * as fs from 'fs';
 import * as path from 'path';
 import { IKites, KitesInstance } from './kites-instance';
 
 import * as stdMocks from 'std-mocks';
 import { KitesExtension } from '../extensions/extensions';
+import { DebugTransport } from '../logger';
 import { engine } from './kites-factory';
 
 function safeUnlink(fn: string) {
@@ -114,9 +115,17 @@ describe('kites logs', () => {
     expect(allTransportAreSilent).eq(true, 'all transports are silent');
   });
 
+  it('should have Debug transport enabled by default', () => {
+    return engine()
+      .init()
+      .then((app) => {
+        expect(app.logger.transports.some(x => x instanceof DebugTransport)).eq(true, 'instanceOf Debug transport');
+      });
+  });
+
   it('should fail to configure custom transport that does not have enough options', async () => {
 
-    await engine({
+    return await engine({
       logger: {
         console: {
           transport: 'console'

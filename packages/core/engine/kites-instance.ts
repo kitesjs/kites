@@ -7,7 +7,7 @@ import { Logger } from 'winston';
 
 import { EventEmitter } from 'events';
 import { ExtensionsManager } from '../extensions/extensions-manager';
-import createDebugLogger, { DebugTransport } from '../logger';
+import { createLogger } from '../logger';
 import { EventCollectionEmitter } from './event-collection';
 
 import { Type } from '@kites/common';
@@ -92,7 +92,7 @@ export class KitesInstance extends EventEmitter implements IKites {
     this.iocContainer = new Container();
 
     // properties
-    this.logger = createDebugLogger(this.name);
+    this.logger = createLogger(this.name);
     this.fnAfterConfigLoaded = () => this;
     this.isReady = new Promise((resolve) => {
       this.on('initialized', resolve);
