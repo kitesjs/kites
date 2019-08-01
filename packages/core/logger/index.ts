@@ -1,9 +1,13 @@
 import * as path from 'path';
-import { format, Logger, loggers, transports } from 'winston';
+import { format, Logger, loggers } from 'winston';
 import { DebugTransport } from './debug-transport';
 
 function createLogger(name: string, options?: any): Logger {
   if (!loggers.has(name)) {
+    // add default Debug transport?
+    const defaultTransports = Object.keys(options || {}).length > 0 ? [] : [
+      new DebugTransport(options, name),
+    ];
 
     loggers.add(name, {
       exitOnError: false,
@@ -14,10 +18,7 @@ function createLogger(name: string, options?: any): Logger {
         format.timestamp(),
         format.printf(({ level, message, label, timestamp }) => `${timestamp} [${label}] ${level}: ${message}`)
       ),
-      transports: [
-        // add default Console transport
-        new transports.Console(),
-      ],
+      transports: defaultTransports,
     });
 
     loggers.get(name).on('error', (err: any) => {
@@ -36,9 +37,12 @@ function createLogger(name: string, options?: any): Logger {
       }
     });
   } else {
-    // remove all transports and add default Console transport
+    // remove all transports and add default Debug transport
     loggers.get(name).clear();
-    loggers.get(name).add(new transports.Console());
+
+    if (Object.keys(options || {}).length === 0) {
+      loggers.get(name).add(new DebugTransport(options, name));
+    }
   }
 
   return loggers.get(name);

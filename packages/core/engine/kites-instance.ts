@@ -4,7 +4,6 @@ import * as _ from 'lodash';
 // import * as nconf from 'nconf';
 import * as path from 'path';
 import { Logger, transports } from 'winston';
-import Transport from 'winston-transport';
 
 import { EventEmitter } from 'events';
 import { ExtensionsManager } from '../extensions/extensions-manager';
@@ -93,7 +92,7 @@ export class KitesInstance extends EventEmitter implements IKites {
     this.iocContainer = new Container();
 
     // properties
-    this.logger = createLogger(this.name);
+    this.logger = createLogger(this.name, this.options.logger);
     this.fnAfterConfigLoaded = () => this;
     this.isReady = new Promise((resolve) => {
       this.on('initialized', resolve);
@@ -362,6 +361,9 @@ export class KitesInstance extends EventEmitter implements IKites {
 
       // add transport
       if (knownTransports[tranOpts.transport]) {
+        if (this.logger.transports.some((x: any) => x.name === trName)) {
+          continue;
+        }
         const transport = knownTransports[tranOpts.transport] as any;
         const opts = _.extend(_.omit(tranOpts, knownOptions), { name: trName });
         this.logger.add(new transport(opts));
