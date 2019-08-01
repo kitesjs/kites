@@ -15,7 +15,7 @@ function _param(
   };
 }
 
-// Allows VanillaJS developers to use decorators:
+// Allows developers to use decorators:
 // decorate(injectable("Foo", "Bar"), FooBar);
 // decorate(targetName("foo", "bar"), FooBar);
 // decorate(named("foo"), FooBar, 0);

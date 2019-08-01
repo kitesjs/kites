@@ -102,7 +102,7 @@ class RestExtension implements KitesExtension {
       const methodMetadata = GetControllerMethodMetadata(controller.constructor);
       const parameterMetadata = GetControllerParameterMetadata(controller.constructor);
 
-      console.log('Controller Metadata: ', controller, controllerMetadata, methodMetadata, parameterMetadata);
+      this.kites.logger.debug('Register controller: ' + controller.constructor.name);
       if (controllerMetadata && methodMetadata) {
 
         methodMetadata.forEach(metadata => {
@@ -121,8 +121,6 @@ class RestExtension implements KitesExtension {
         });
       }
     });
-
-    console.log('Controllers: ', constructors);
 
     return router;
   }

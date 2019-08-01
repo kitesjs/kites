@@ -2,8 +2,7 @@ import { METADATA_KEY } from '../constants';
 import { ControllerMetadata } from '../interfaces/controller-metadata.interface';
 import { Middleware } from '../interfaces/middleware.interface';
 
-import { Injectable } from '@kites/common';
-import { Decorate } from '@kites/core';
+import { Decorate, Injectable } from '@kites/common';
 
 function Controller(path: string, ...middleware: Middleware[]) {
   return function (target: any) {

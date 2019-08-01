@@ -109,7 +109,8 @@ export class KitesInstance extends EventEmitter implements IKites {
   }
 
   get defaults() {
-    let parent = module.parent || module;
+    const parent = module.parent || module;
+    const defaultLevel = process.env.NODE_ENV === 'production' ? 'info' : 'debug';
     return {
       appDirectory: appRoot.toString(),
       // TODO: separate kites discover as an api
@@ -120,7 +121,7 @@ export class KitesInstance extends EventEmitter implements IKites {
       env: process.env.NODE_ENV || 'development',
       logger: {
         console: {
-          level: 'debug',
+          level: defaultLevel,
           transport: 'console'
         }
       },
