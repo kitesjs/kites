@@ -1,53 +1,12 @@
 
 import * as express from 'express';
 
-import { Injectable } from '@kites/common';
 import { Container, ExtensionOptions, IKites, KitesExtension } from '@kites/core';
 import { OutgoingHttpHeaders } from 'http';
 import { PARAMETER_TYPE, TYPE } from './constants';
-import { Controller, Get } from './decorators';
-import { IController, ParameterMetadata } from './interfaces';
+import { IController, Middleware, ParameterMetadata } from './interfaces';
 import { HttpResponseMessage } from './results/http-response-message';
 import { GetControllerMetadata, GetControllerMethodMetadata, GetControllerParameterMetadata, GetControllersFromContainer, GetControllersFromMetadata } from './utils';
-
-@Injectable()
-class SimpleService {
-  public test(): string {
-    return 'Hello Service!!!';
-  }
-}
-
-@Controller('/api1')
-class TestController {
-
-  constructor(public svSimple: SimpleService) {
-
-  }
-
-  @Get('/') test() {
-    return this.svSimple.test();
-  }
-}
-
-@Controller('/api2')
-class Test2Controller {
-
-  constructor(public svSimple: SimpleService) {
-
-  }
-
-  @Get('/') test() {
-    return this.svSimple.test();
-  }
-
-  @Get('/path2') test2() {
-    return this.svSimple.test();
-  }
-
-  @Get('/path2') test3() {
-    return this.svSimple.test();
-  }
-}
 
 /**
  * Main Extension
@@ -58,12 +17,8 @@ class RestExtension implements KitesExtension {
   constructor(private kites: IKites, options: ExtensionOptions) {
     this.name = 'Rest';
 
-    // register system service(s)
+    // TODO: Support HttpContext
     kites.container
-      .addProvider({
-        provide: SimpleService,
-        useClass: SimpleService
-      })
       .addProvider({
         provide: TYPE.HttpContext,
         useValue: {}
@@ -82,13 +37,12 @@ class RestExtension implements KitesExtension {
 
   }
 
+  /**
+   * Load more works at this entry!
+   */
   init(kites: IKites, options: ExtensionOptions) {
 
-    const service = kites.container.inject(SimpleService);
-    console.log('Name: ', this.name, service.test());
-
-    const testController = kites.container.inject(TestController);
-    console.log('Controller: ', testController.test());
+    kites.logger.debug('Initializing extension rest ...');
   }
 
   private registerControllers(container: Container): express.Router {
@@ -102,8 +56,10 @@ class RestExtension implements KitesExtension {
       const methodMetadata = GetControllerMethodMetadata(controller.constructor);
       const parameterMetadata = GetControllerParameterMetadata(controller.constructor);
 
-      console.log('Controller Metadata: ', controller, controllerMetadata, methodMetadata, parameterMetadata);
+      this.kites.logger.debug('Register controller: ' + controller.constructor.name);
       if (controllerMetadata && methodMetadata) {
+
+        let controllerMiddleware = this.resolveMiddleware(...controllerMetadata.middleware);
 
         methodMetadata.forEach(metadata => {
           let paramList: ParameterMetadata[] = [];
@@ -111,20 +67,26 @@ class RestExtension implements KitesExtension {
             paramList = parameterMetadata[metadata.key] || [];
           }
           const handler = this.handlerFactory(controllerMetadata.target, metadata.key, paramList);
-
+          const routeMiddleware = this.resolveMiddleware(...metadata.middleware);
           router[metadata.method](
             `${controllerMetadata.path}${metadata.path}`,
-            // ...controllerMiddleware,
-            // ...routeMiddleware,
+            ...controllerMiddleware,
+            ...routeMiddleware,
             handler
           );
         });
       }
     });
 
-    console.log('Controllers: ', constructors);
-
     return router;
+  }
+
+  private resolveMiddleware(...middleware: Middleware[])
+    : express.RequestHandler[] {
+    return middleware.map((item) => {
+      // TODO: Implement BaseMiddleware
+      return item as express.RequestHandler;
+    });
   }
 
   private copyHeadersTo(headers: OutgoingHttpHeaders, target: express.Response) {
