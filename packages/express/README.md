@@ -23,11 +23,12 @@ Features
 =======
 
 * Extension as a feature
-* Storage mutiple providers
-* Micro frontends development
 * Autodiscover extensions
+* Micro frontends development
+* Storage mutiple providers
 * Rich decorators system
 * Event-driven programming
+* Reactive programming
 
 Installation
 ============
