@@ -23,11 +23,15 @@
   },
   "homepage": "https://github.com/vunb/kites#readme",
   "dependencies": {
-    "@kites/core": "1.2.0",
-    "@kites/express": "1.2.0",
-    "@kites/rest": "1.2.0"
+    "@kites/common": "^1.1.1",
+    "@kites/core": "^1.1.1",
+    "@kites/express": "^1.1.1",
+    "@kites/rest": "^1.1.1",
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
-    "ts-node": "^8.3.0"
+    "@types/node": "^12.6.9",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.3"
   }
 }

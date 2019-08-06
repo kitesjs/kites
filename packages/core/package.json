@@ -28,7 +28,8 @@
     "lodash": "^4.17.4",
     "mkdirp": "^0.5.1",
     "nconf": "^0.10.0",
-    "winston": "3.2.1"
+    "winston": "3.2.1",
+    "reflect-metadata": "^0.1.12"
   },
   "peerDependencies": {
     "@kites/common": "^1.0.0",

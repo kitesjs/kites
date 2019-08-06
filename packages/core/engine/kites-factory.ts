@@ -1,6 +1,8 @@
+import { InjectionToken } from '@kites/common';
 import * as path from 'path';
-import { DependenciesScanner } from '../injector/scanner';
 import { IKitesOptions, KitesInstance } from './kites-instance';
+
+export const KITES_INSTANCE = new InjectionToken('KITES_INSTANCE');
 
 /**
  * Return a new kites instance
@@ -21,6 +23,11 @@ export function engine(options?: IKitesOptions | boolean) {
 
   // init a new kites
   const kites = new KitesInstance(opts);
+  kites.container.addProvider({
+    provide: KITES_INSTANCE,
+    useValue: kites
+  });
+
   kites.initializeListeners.add('register:providers', () => {
     kites.logger.info('Register providers ...');
     if (opts.providers !== undefined) {
