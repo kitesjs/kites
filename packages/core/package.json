@@ -1,7 +1,7 @@
 {
   "name": "@kites/core",
   "displayName": "kites",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Core Engine of Kites",
   "repository": {
     "type": "git",
@@ -28,8 +28,8 @@
     "lodash": "^4.17.4",
     "mkdirp": "^0.5.1",
     "nconf": "^0.10.0",
-    "winston": "3.2.1",
-    "reflect-metadata": "^0.1.12"
+    "reflect-metadata": "^0.1.12",
+    "winston": "3.2.1"
   },
   "peerDependencies": {
     "@kites/common": "^1.0.0",
