@@ -1,12 +1,21 @@
+import { Inject } from '@kites/common';
+import { KITES_INSTANCE, KitesInstance } from '@kites/core';
 import { Controller, Get, Put, RequestParam } from '@kites/rest';
 import { TodoService } from './todo.service';
 
 @Controller('/todo')
 export class TodoController {
 
-  constructor(public svTodo: TodoService) { }
+  constructor(
+    public svTodo: TodoService,
+    @Inject(KITES_INSTANCE) private kites: KitesInstance,
+  ) {
+    kites.logger.info('Hello todo controller!!!');
+    kites.logger.info(svTodo.getAll());
+  }
 
   @Get('/') list() {
+    this.kites.logger.info('get all todo!!');
     return this.svTodo.getAll();
   }
 

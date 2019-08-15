@@ -66,7 +66,7 @@ class RestExtension implements KitesExtension {
           if (parameterMetadata) {
             paramList = parameterMetadata[metadata.key] || [];
           }
-          const handler = this.handlerFactory(controllerMetadata.target, metadata.key, paramList);
+          const handler = this.handlerFactory(controller, metadata.key, paramList);
           const routeMiddleware = this.resolveMiddleware(...metadata.middleware);
           router[metadata.method](
             `${controllerMetadata.path}${metadata.path}`,
@@ -117,7 +117,7 @@ class RestExtension implements KitesExtension {
   }
 
   private handlerFactory(
-    controller: any,
+    ctrl: any,
     key: string,
     parameterMetadata: ParameterMetadata[]
   ): express.RequestHandler {
@@ -126,7 +126,7 @@ class RestExtension implements KitesExtension {
         let args = this.extractParameters(req, res, next, parameterMetadata);
 
         // invoke controller's action
-        const ctrl = await this.kites.container.inject<any>(controller);
+        // const ctrl = await this.kites.container.inject<any>(controller);
         const value = ctrl[key](...args);
 
         if (value instanceof HttpResponseMessage) {
