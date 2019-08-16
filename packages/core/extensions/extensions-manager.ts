@@ -52,7 +52,10 @@ export class ExtensionsManager extends EventEmitter {
   useOne(extension: KitesExtension) {
     // extends options
     // Review _.assign(), _.defaults(), or _.merge?
-    const options = _.assign<ExtensionOptions, ExtensionOptions | undefined, ExtensionOptions | undefined>({}, extension.options, this.kites.options[extension.name]);
+    const options = _.assign<
+      ExtensionOptions,
+      ExtensionOptions | undefined,
+      ExtensionOptions | undefined>({}, extension.options, this.kites.options[extension.name && extension.name.toLowerCase()]);
     extension.options = options;
 
     if (options.enabled === false) {

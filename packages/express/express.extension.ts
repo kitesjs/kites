@@ -184,7 +184,7 @@ export class ExpressExtension implements KitesExtension {
 
     // config static file
     if (typeof this.options.static === 'string') {
-      kites.logger.debug('Express serve static files at', this.options.static);
+      kites.logger.debug('Express serve static files at: ' + this.options.static);
       app.use(express.static(this.options.static));
     }
 
