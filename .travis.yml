@@ -20,7 +20,7 @@ jobs:
       name: "Unit Test Node v12"
       script: npm test
       node_js: 12
-      after_success: npm run coverage
+      # after_success: npm run coverage
 
     - state: "Test"
       name: "Unit Test Node v10"

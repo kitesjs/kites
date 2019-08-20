@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/vunb/kites.git"
+    "url": "git+ssh://git@github.com/kitesjs/kites.git"
   },
   "keywords": [
     "kitesjs"
@@ -19,14 +19,14 @@
   "author": "vunb",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/vunb/kites/issues"
+    "url": "https://github.com/kitesjs/kites/issues"
   },
-  "homepage": "https://github.com/vunb/kites#readme",
+  "homepage": "https://github.com/kitesjs/kites#readme",
   "dependencies": {
-    "@kites/common": "^1.1.1",
-    "@kites/core": "^1.1.1",
-    "@kites/express": "^1.1.1",
-    "@kites/rest": "^1.1.1",
+    "@kites/common": "^1.1.5",
+    "@kites/core": "^1.1.5",
+    "@kites/express": "^1.1.5",
+    "@kites/rest": "^1.1.5",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {

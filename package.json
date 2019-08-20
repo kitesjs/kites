@@ -7,7 +7,6 @@
   "scripts": {
     "copy": "copyfiles README.md LICENSE dist",
     "lint": "tslint -p tsconfig.json -c tslint.json \"packages/**/*.ts\" -e \"*.spec.ts\"",
-    "abc": "npm run lint && npm run test",
     "format": "prettier **/**/*.ts --ignore-path ./.prettierignore --write && git status",
     "tsc": "tsc",
     "start": "npm run start:dev",
