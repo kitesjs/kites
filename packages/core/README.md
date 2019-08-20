@@ -4,7 +4,7 @@ Template-based Web Application Framework
 
 [![Join the chat at https://gitter.im/nodevn/kites](https://badges.gitter.im/nodevn/kites.svg)](https://gitter.im/nodevn/kites)
 [![npm version](https://img.shields.io/npm/v/@kites/core.svg?style=flat)](https://www.npmjs.com/package/@kites/core)
-[![npm downloads](https://img.shields.io/npm/dm/kites.svg)](https://www.npmjs.com/package/kites)
+[![npm downloads](https://img.shields.io/npm/dm/@kites/core.svg)](https://www.npmjs.com/package/@kites/core)
 [![Travis](https://travis-ci.org/kitesjs/kites.svg?branch=stable)](https://travis-ci.org/kitesjs/kites)
 
 **Kites** is a framework providing `dynamic applications` assembling and `Template-based` extracting. Namely it contains a lot of templates and extensions to help building a new application quickly.
@@ -59,8 +59,8 @@ npm run dev
 
 To change environment use cmd `set NODE_ENV=development` or use options your IDE provides. If you don't specify node environment kites assumes `development` as default.
 
-Simplest Application
-====================
+Example
+=======
 
 The application below simply prints out a greeting: **Hello World!**
 
