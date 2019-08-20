@@ -3,13 +3,8 @@ language: node_js
 git:
   depth: 5
 
-node_js:
-  - '8'
-  - '10'
-  - '12'
-
 before_install:
-# show product version
+  # show product version
   - npm i -g npm@latest
   - nvm --version
   - node --version
@@ -19,6 +14,25 @@ install:
   - npm ci
   - npm run build:dev
 
-script:
-  - npm run lint
-  - npm test
+jobs:
+  include:
+    - state: "Test"
+      name: "Unit Test Node v12"
+      script: npm test
+      node_js: 12
+      after_success: npm run coverage
+
+    - state: "Test"
+      name: "Unit Test Node v10"
+      script: npm test
+      node_js: 10
+
+    - state: "Test"
+      name: "Unit Test Node v8"
+      script: npm test
+      node_js: 8
+
+    - stage: "Test"
+      name: "Lint"
+      script: npm run lint
+      node_js: 12
