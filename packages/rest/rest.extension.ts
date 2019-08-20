@@ -127,7 +127,7 @@ class RestExtension implements KitesExtension {
 
         // invoke controller's action
         // const ctrl = await this.kites.container.inject<any>(controller);
-        const value = ctrl[key](...args);
+        const value = await ctrl[key](...args);
 
         if (value instanceof HttpResponseMessage) {
           await this.handleHttpResponseMessage(value, res);
