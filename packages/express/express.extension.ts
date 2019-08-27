@@ -32,6 +32,7 @@ export class ExpressExtension implements KitesExtension {
   }
 
   logStart() {
+    this.kites.emit('done:express:config');
     if (this.kites.express.server) {
       const port = this.kites.express.server.address().port;
       this.kites.logger.info(
@@ -144,6 +145,10 @@ export class ExpressExtension implements KitesExtension {
 
   configureExpressApp(app: Express, kites: KitesInstance) {
     kites.express.app = app;
+    if (kites.emit('before:express:config', app)) {
+      kites.logger.info('Express use custom config!');
+      return;
+    }
 
     app.options('*', cors({
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'MERGE'],
@@ -176,7 +181,7 @@ export class ExpressExtension implements KitesExtension {
     app.use(mixinRes(kites));
     app.use(mixinResView(kites));
 
-    kites.emit('before:express:config', app);
+    // default routes
     app.use('/_kites', defaultRouter());
 
     kites.logger.debug('Express starting configure ...');
