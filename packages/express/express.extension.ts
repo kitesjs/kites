@@ -32,7 +32,7 @@ export class ExpressExtension implements KitesExtension {
   }
 
   logStart() {
-    this.kites.emit('done:express:config');
+    this.kites.emit('after:express:config');
     if (this.kites.express.server) {
       const port = this.kites.express.server.address().port;
       this.kites.logger.info(
