@@ -44,12 +44,50 @@ export class ExtensionsManager extends EventEmitter {
     }
   }
 
-  useMany(extensions: KitesExtension[]) {
+  /**
+   * Initialize extensions manager
+   */
+  async init() {
+    this.availableExtensions = [];
+    // auto discover extensions
+    if (this.kites.options.discover || (this.kites.options.discover !== false && this.usedExtensions.length === 0)) {
+      let extensions = await discover({
+        cacheAvailableExtensions: this.kites.options.cacheAvailableExtensions,
+        extensionsLocationCache: this.kites.options.extensionsLocationCache,
+        logger: this.kites.logger,
+        mode: this.kites.options.mode,
+        rootDirectory: this.kites.options.rootDirectory,
+        tempDirectory: this.kites.options.tempDirectory,
+      });
+      this.kites.logger.debug('Discovered ' + extensions.length + ' extensions');
+      this.availableExtensions = this.availableExtensions.concat(extensions);
+    }
+    // filter extensions will be loaded?
+    this.availableExtensions = this.availableExtensions.concat(this.usedExtensions);
+    if (this.kites.options.extensions) {
+      let allowedExtensions = this.kites.options.extensions as string[];
+      this.availableExtensions = this.availableExtensions.filter(e => allowedExtensions.indexOf(e.name) > -1);
+    }
+
+    this.availableExtensions.sort(sorter);
+    return this.useMany(this.availableExtensions);
+
+  }
+
+  /**
+   * Execute init extensions
+   * @param extensions
+   */
+  private useMany(extensions: KitesExtension[]) {
     var promises = extensions.map((e) => this.useOne(e));
     return Promise.all(promises);
   }
 
-  useOne(extension: KitesExtension) {
+  /**
+   * Execute init one extension
+   * @param extension
+   */
+  private useOne(extension: KitesExtension) {
     // extends options
     // Review _.assign(), _.defaults(), or _.merge?
     const options = _.assign<
@@ -102,33 +140,4 @@ export class ExtensionsManager extends EventEmitter {
       });
   }
 
-  /**
-   * Initialize extensions manager
-   */
-  async init() {
-    this.availableExtensions = [];
-    // auto discover extensions
-    if (this.kites.options.discover || (this.kites.options.discover !== false && this.usedExtensions.length === 0)) {
-      let extensions = await discover({
-        cacheAvailableExtensions: this.kites.options.cacheAvailableExtensions,
-        extensionsLocationCache: this.kites.options.extensionsLocationCache,
-        logger: this.kites.logger,
-        mode: this.kites.options.mode,
-        rootDirectory: this.kites.options.rootDirectory,
-        tempDirectory: this.kites.options.tempDirectory,
-      });
-      this.kites.logger.debug('Discovered ' + extensions.length + ' extensions');
-      this.availableExtensions = this.availableExtensions.concat(extensions);
-    }
-    // filter extensions will be loaded?
-    this.availableExtensions = this.availableExtensions.concat(this.usedExtensions);
-    if (this.kites.options.extensions) {
-      let allowedExtensions = this.kites.options.extensions as string[];
-      this.availableExtensions = this.availableExtensions.filter(e => allowedExtensions.indexOf(e.name) > -1);
-    }
-
-    this.availableExtensions.sort(sorter);
-    return this.useMany(this.availableExtensions);
-
-  }
 }
