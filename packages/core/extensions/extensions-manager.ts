@@ -92,7 +92,7 @@ export class ExtensionsManager extends EventEmitter {
         let errorMsg;
 
         if (!extension.name) {
-          errorMsg = `Error when loading anonymous extension${extension.directory != null ? ` at ${extension.directory}` : ''}${os.EOL}${e.stack}`;
+          errorMsg = `Error when loading anonymous extension ${extension.directory != null ? ` at ${extension.directory}` : ''}${os.EOL}${e.stack}`;
         } else {
           errorMsg = `Error when loading extension ${extension.name}${os.EOL}${e.stack}`;
         }
@@ -109,12 +109,13 @@ export class ExtensionsManager extends EventEmitter {
     this.availableExtensions = [];
     // auto discover extensions
     if (this.kites.options.discover || (this.kites.options.discover !== false && this.usedExtensions.length === 0)) {
+      let discoverPaths = (this.kites.options.discoverPaths || [{path: this.kites.options.rootDirectory}]);
       let extensions = await discover({
         cacheAvailableExtensions: this.kites.options.cacheAvailableExtensions,
         extensionsLocationCache: this.kites.options.extensionsLocationCache,
         logger: this.kites.logger,
         mode: this.kites.options.mode,
-        rootDirectory: this.kites.options.rootDirectory,
+        rootDirectory: discoverPaths,
         tempDirectory: this.kites.options.tempDirectory,
       });
       this.kites.logger.debug('Discovered ' + extensions.length + ' extensions');

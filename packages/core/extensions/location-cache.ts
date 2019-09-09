@@ -14,14 +14,13 @@ const readFile = promisify(_fs.readFile);
 const writeFile = promisify(_fs.writeFile);
 
 const KITES_CONFIG_FILE = 'kites.config.js';
-// var pathToLocationCache:string;
 
 export async function get(config: IDiscoverOptions) {
   let tempDirectory = config.tempDirectory || os.tmpdir();
   let pathToLocationCache = path.join(tempDirectory, 'extensions', 'locations.json');
 
-  if (config.mode === 'kites-development' || config.extensionsLocationCache === false) {
-    config.logger.info('Skipping extensions location cache when NODE_ENV=kites-development or when option extensionsLocationCache === false, crawling now');
+  if (config.mode === 'development' || config.extensionsLocationCache === false) {
+    config.logger.info('Skipping extensions location cache when NODE_ENV=development or when option extensionsLocationCache === false, crawling now!');
     return walkSync(config.rootDirectory, KITES_CONFIG_FILE);
   }
 
