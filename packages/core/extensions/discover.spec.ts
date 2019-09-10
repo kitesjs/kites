@@ -5,12 +5,13 @@ import { discover } from './discover';
 
 describe('Discover extensions', () => {
   it('should load an extension', async () => {
-    const rootDirectory = join(__dirname, '../test');
+    const location = join(__dirname, '../test');
+    const logger = createLogger('discover');
     let extensions: any = await discover({
-      logger: createLogger('discover'),
-      rootDirectory: [rootDirectory]
+      logger,
+      rootDirectory: [location]
     });
-    console.log('rootDirectory: ', rootDirectory);
+    logger.info('Discovery location: ' +  location);
     expect(extensions.length).eq(1);
   });
 });
