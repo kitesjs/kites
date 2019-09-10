@@ -28,11 +28,11 @@ function removeKitesConfigFiles() {
 
 describe('kites engine', () => {
 
-  it('should fire ready callback', async () => {
+  it(`should fire 'ready' event`, async () => {
 
-    await engine().ready((core) => {
-      core.logger.info('Kites is ready!');
-      expect(core).instanceOf(KitesInstance);
+    await engine().on('ready', (app) => {
+      app.logger.info('Kites is ready!');
+      expect(app).instanceOf(KitesInstance);
     }).init();
 
   });

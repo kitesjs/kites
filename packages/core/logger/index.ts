@@ -13,6 +13,7 @@ function createLogger(name: string, options?: any): Logger {
       exitOnError: false,
       level: 'info',
       format: format.combine(
+        format.splat(), // formats level.message based on Node's util.format().
         format.label({ label: name }),
         format.colorize(),
         format.timestamp(),

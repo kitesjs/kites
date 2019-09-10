@@ -44,12 +44,50 @@ class ExtensionsManager extends EventEmitter {
     }
   }
 
-  useMany(extensions: KitesExtension[]) {
+  /**
+   * Initialize extensions manager
+   */
+  async init() {
+    this.availableExtensions = [];
+    // auto discover extensions
+    if (this.kites.options.discover || (this.kites.options.discover !== false && this.usedExtensions.length === 0)) {
+      let extensions = await discover({
+        cacheAvailableExtensions: this.kites.options.cacheAvailableExtensions,
+        extensionsLocationCache: this.kites.options.extensionsLocationCache,
+        logger: this.kites.logger,
+        mode: this.kites.options.mode,
+        rootDirectory: this.kites.options.rootDirectory,
+        tempDirectory: this.kites.options.tempDirectory,
+      });
+      this.kites.logger.debug('Discovered ' + extensions.length + ' extensions');
+      this.availableExtensions = this.availableExtensions.concat(extensions);
+    }
+    // filter extensions will be loaded?
+    this.availableExtensions = this.availableExtensions.concat(this.usedExtensions);
+    if (this.kites.options.extensions) {
+      let allowedExtensions = this.kites.options.extensions as string[];
+      this.availableExtensions = this.availableExtensions.filter(e => allowedExtensions.indexOf(e.name) > -1);
+    }
+
+    this.availableExtensions.sort(sorter);
+    return this.useMany(this.availableExtensions);
+
+  }
+
+  /**
+   * Execute init extensions
+   * @param extensions
+   */
+  private useMany(extensions: KitesExtension[]) {
     var promises = extensions.map((e) => this.useOne(e));
     return Promise.all(promises);
   }
 
-  useOne(extension: KitesExtension) {
+  /**
+   * Execute init one extension
+   * @param extension
+   */
+  private useOne(extension: KitesExtension) {
     // extends options
     // Review _.assign(), _.defaults(), or _.merge?
     const options = _.assign<
@@ -102,52 +140,6 @@ class ExtensionsManager extends EventEmitter {
       });
   }
 
-  /**
-   * Initialize extensions manager
-   */
-  async init() {
-    this.availableExtensions = [];
-
-    let autodiscover = false;
-    if (this.kites.options.discover === 'undefined') {
-      this.kites.options.discover = [false, 0];
-    } else if (typeof this.kites.options.discover === 'boolean') {
-      this.kites.options.discover = [this.kites.options.discover, 2, this.kites.options.appDirectory];
-    } else if (typeof this.kites.options.discover === 'string') {
-      this.kites.options.discover = [true, 2, this.kites.options.discover];
-    }
-
-    // autodiscover extensions
-    autodiscover = this.kites.options.discover.shift() as boolean;
-
-    if (autodiscover) {
-      let depth = this.kites.options.discover.shift() as number;
-      let directories = this.kites.options.discover as string[];
-      let extensions = await discover({
-        cacheAvailableExtensions: this.kites.options.cacheAvailableExtensions,
-        extensionsLocationCache: this.kites.options.extensionsLocationCache,
-        logger: this.kites.logger,
-        env: this.kites.options.env,
-        depth: depth,
-        rootDirectory: directories,
-        tempDirectory: this.kites.options.tempDirectory,
-      });
-      this.kites.logger.debug('Autodiscover ' + extensions.length + ' extensions!');
-      this.availableExtensions = this.availableExtensions.concat(extensions);
-    } else {
-      this.kites.logger.debug('Autodiscover is not enabled!');
-    }
-    // filter extensions will be loaded?
-    this.availableExtensions = this.availableExtensions.concat(this.usedExtensions);
-    if (this.kites.options.extensions) {
-      let allowedExtensions = this.kites.options.extensions as string[];
-      this.availableExtensions = this.availableExtensions.filter(e => allowedExtensions.indexOf(e.name) > -1);
-    }
-
-    this.availableExtensions.sort(sorter);
-    return this.useMany(this.availableExtensions);
-
-  }
 }
 
 export {

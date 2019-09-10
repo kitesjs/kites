@@ -10,7 +10,7 @@ export class TodoController {
     public svTodo: TodoService,
     @Inject(KITES_INSTANCE) private kites: KitesInstance,
   ) {
-    kites.logger.info('Hello todo controller!!!');
+    kites.logger.info('Hello %s controller!!! (%s)', 'todo', 3);
     kites.logger.info(svTodo.getAll());
   }
 

@@ -32,6 +32,7 @@ export class ExpressExtension implements KitesExtension {
   }
 
   logStart() {
+    this.kites.emit('after:express:config');
     if (this.kites.express.server) {
       const port = this.kites.express.server.address().port;
       this.kites.logger.info(
@@ -75,8 +76,7 @@ export class ExpressExtension implements KitesExtension {
   }
 
   configureViewEngine(app: Express, opts: any) {
-    var configView = this.kites.emit('express:config:view', app, opts);
-    if (configView) {
+    if (this.kites.emit('express:config:view', app, opts)) {
       this.kites.logger.debug('Express view engine has customized by user!');
       return;
     }
@@ -145,11 +145,6 @@ export class ExpressExtension implements KitesExtension {
   configureExpressApp(app: Express, kites: KitesInstance) {
     kites.express.app = app;
 
-    app.options('*', cors({
-      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'MERGE'],
-      origin: true
-    }));
-
     // show powered by
     if (!this.options.poweredBy) {
       app.disable('x-powered-by');
@@ -160,6 +155,11 @@ export class ExpressExtension implements KitesExtension {
       });
     }
 
+    // default config
+    app.options('*', cors({
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'MERGE'],
+      origin: true
+    }));
     app.use(bodyParser.urlencoded({
       extended: false,
       limit: this.options.inputRequestLimit || '10mb'
@@ -170,19 +170,22 @@ export class ExpressExtension implements KitesExtension {
     app.use(cookieParser());
     app.use(cors());
 
-    kites.logger.debug('Express expanding ...');
-
+    // extend express mixin
     app.use(mixinReq(kites));
     app.use(mixinRes(kites));
     app.use(mixinResView(kites));
 
+    kites.logger.debug('Express expanding ...');
     kites.emit('before:express:config', app);
+
+    // default routes
     app.use('/_kites', defaultRouter());
 
     kites.logger.debug('Express starting configure ...');
     kites.emit('express:config', app);
 
-    // config static file
+    // config static assets
+    kites.emit('express:config:static', app);
     if (typeof this.options.static === 'string') {
       kites.logger.debug('Express serve static files at: ' + this.options.static);
       app.use(express.static(this.options.static));
