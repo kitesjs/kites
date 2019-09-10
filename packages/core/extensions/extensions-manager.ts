@@ -132,7 +132,7 @@ class ExtensionsManager extends EventEmitter {
         rootDirectory: directories,
         tempDirectory: this.kites.options.tempDirectory,
       });
-      this.kites.logger.debug('Discovered ' + extensions.length + ' extensions');
+      this.kites.logger.debug('Autodiscover ' + extensions.length + ' extensions!');
       this.availableExtensions = this.availableExtensions.concat(extensions);
     } else {
       this.kites.logger.debug('Autodiscover is not enabled!');
