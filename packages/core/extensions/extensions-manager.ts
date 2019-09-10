@@ -114,7 +114,7 @@ class ExtensionsManager extends EventEmitter {
         cacheAvailableExtensions: this.kites.options.cacheAvailableExtensions,
         extensionsLocationCache: this.kites.options.extensionsLocationCache,
         logger: this.kites.logger,
-        mode: this.kites.options.mode,
+        env: this.kites.options.env,
         rootDirectory: discoverPaths,
         tempDirectory: this.kites.options.tempDirectory,
       });

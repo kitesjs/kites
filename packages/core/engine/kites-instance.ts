@@ -33,7 +33,6 @@ export interface IKitesOptions {
   parentModuleDirectory?: string;
   env?: string;
   logger?: any;
-  mode?: string;
   cacheAvailableExtensions?: any;
   tempDirectory?: string;
   extensionsLocationCache?: boolean;

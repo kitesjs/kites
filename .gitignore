@@ -70,6 +70,7 @@ package-lock.json
 prod.config.json
 dev.config.json
 test*.js
+test*.ts
 
 # bundle
 packages/**/*.d.ts

@@ -19,7 +19,7 @@ export async function get(config: IDiscoverOptions) {
   let tempDirectory = config.tempDirectory || os.tmpdir();
   let pathToLocationCache = path.join(tempDirectory, 'extensions', 'locations.json');
 
-  if (config.mode === 'development' || config.extensionsLocationCache === false) {
+  if (config.env === 'development' || config.extensionsLocationCache === false) {
     config.logger.info('Skipping extensions location cache when NODE_ENV=development or when option extensionsLocationCache === false, crawling now!');
     return walkSync(config.rootDirectory, KITES_CONFIG_FILE);
   }
