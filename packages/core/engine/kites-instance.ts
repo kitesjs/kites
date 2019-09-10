@@ -292,8 +292,7 @@ export class KitesInstance extends EventEmitter implements IKites {
       })
       .env({
         separator: '_'
-      })
-      .defaults(this.options);
+      });
 
     if (!this.options.configFile) {
 
@@ -321,7 +320,8 @@ export class KitesInstance extends EventEmitter implements IKites {
       }
     }
 
-    console.log('Discover: ' + nconf.get('discover'));
+    // 'if nothing else': 'use this value'
+    nconf.defaults(this.options);
     this.options = nconf.get();
   }
 

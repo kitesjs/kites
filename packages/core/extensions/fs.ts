@@ -88,7 +88,7 @@ export function walkSyncLevel(dirname: string[], filename: string, depth: number
   // console.log('Start searching: ', dirname);
 
   function readFiles(candidate: string, level: number): string[] {
-    console.log('Find in: ', candidate);
+    // console.log('Find in: ', candidate);
 
     let results: string[] = [];
     let list: string[];
