@@ -3,11 +3,11 @@ import * as _ from 'lodash';
 import * as os from 'os';
 import * as path from 'path';
 import { IKites } from '..';
-import { discover } from './discover';
+import { discover, DiscoverOptions } from './discover';
 import { ExtensionDefinition, ExtensionOptions, KitesExtension } from './extensions';
 import sorter from './sorter';
 
-export class ExtensionsManager extends EventEmitter {
+class ExtensionsManager extends EventEmitter {
   protected kites: IKites;
   protected availableExtensions: KitesExtension[];
   protected usedExtensions: KitesExtension[];
@@ -133,3 +133,8 @@ export class ExtensionsManager extends EventEmitter {
 
   }
 }
+
+export {
+  ExtensionsManager,
+  DiscoverOptions
+};

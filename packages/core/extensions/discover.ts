@@ -3,6 +3,17 @@ import * as path from 'path';
 import { Logger } from 'winston';
 import * as cache from './location-cache';
 
+/**
+ * Discover options can be:
+ * + string: /path/to/discover
+ * + boolean: true/false
+ * + array: [true, 2, '/path/to/discover', '/path2']
+ */
+export type DiscoverOptions = string | boolean | [boolean, number, ...string[]];
+
+/**
+ * Options to discover
+ */
 export interface IDiscoverOptions {
   readonly logger: Logger;
   readonly rootDirectory: any;

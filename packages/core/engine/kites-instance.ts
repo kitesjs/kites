@@ -6,7 +6,7 @@ import * as path from 'path';
 import { Logger, transports } from 'winston';
 
 import { EventEmitter } from 'events';
-import { ExtensionsManager } from '../extensions/extensions-manager';
+import { DiscoverOptions, ExtensionsManager } from '../extensions/extensions-manager';
 import { createLogger } from '../logger';
 import { EventCollectionEmitter } from './event-collection';
 
@@ -26,7 +26,7 @@ export type KitesReadyCallback = (kites: IKites) => void;
 export interface IKitesOptions {
   [key: string]: any;
   providers?: Array<Type<any>>;
-  discover?: boolean | any[]; // string for path discovery
+  discover?: DiscoverOptions; // options for discovery
   loadConfig?: boolean;
   rootDirectory?: string;
   appDirectory?: string;
@@ -37,12 +37,6 @@ export interface IKitesOptions {
   cacheAvailableExtensions?: any;
   tempDirectory?: string;
   extensionsLocationCache?: boolean;
-}
-
-export interface DiscoverOptions {
-  [key: string]: any;
-  path: string;
-  level?: number;
 }
 
 /**
@@ -59,7 +53,7 @@ export interface IKites {
   container: Container;
   afterConfigLoaded(fn: KitesReadyCallback): IKites;
   ready(callback: KitesReadyCallback): IKites;
-  discover(option: boolean | string | DiscoverOptions[]): IKites;
+  discover(option: DiscoverOptions): IKites;
   use(extension: KitesExtension | ExtensionDefinition): IKites;
   // useMany(extension: Array<KitesExtension | ExtensionDefinition>): IKites;
   init(): Promise<IKites>;
@@ -123,6 +117,7 @@ export class KitesInstance extends EventEmitter implements IKites {
       // EXAMPLE 1: kites.discover(true)
       // EXAMPLE 2: kites.discover(false)
       // EXAMPLE 3: kites.discover('/path/to/discover')
+      // EXAMPLE 4: kites.discover([true, 2, '/path/to/discover', '/path2'])
       discover: false,
       env: process.env.NODE_ENV || 'development',
       logger: {
@@ -221,20 +216,8 @@ export class KitesInstance extends EventEmitter implements IKites {
   /**
    * Enable auto discover extensions
    */
-  discover(option: boolean | string | DiscoverOptions[]) {
-    if (typeof option === 'string') {
-      this.options.discover = true;
-      this.options.rootDirectory = option;
-    } else if (typeof option === 'boolean') {
-      this.options.discover = option;
-      this.options.discoverPaths = [{
-        path: this.appDirectory,
-        level: 2,
-      }];
-    } else {
-      this.options.discover = true;
-      this.options.discoverPaths = option;
-    }
+  discover(option: DiscoverOptions) {
+    this.options.discover = option;
     return this;
   }
 
