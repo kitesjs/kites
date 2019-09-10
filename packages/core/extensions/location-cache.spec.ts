@@ -14,7 +14,7 @@ describe('Location cache', () => {
     const rootDirectory = join(__dirname, '../test');
     let extensions: any = await cache.get({
       logger: createLogger('location-cache'),
-      rootDirectory: rootDirectory
+      rootDirectory: [rootDirectory]
     });
     console.log('Found: ', extensions, rootDirectory);
     expect(extensions.length).eq(1);

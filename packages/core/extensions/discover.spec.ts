@@ -8,7 +8,7 @@ describe('Discover extensions', () => {
     const rootDirectory = join(__dirname, '../test');
     let extensions: any = await discover({
       logger: createLogger('discover'),
-      rootDirectory: rootDirectory
+      rootDirectory: [rootDirectory]
     });
     console.log('rootDirectory: ', rootDirectory);
     expect(extensions.length).eq(1);

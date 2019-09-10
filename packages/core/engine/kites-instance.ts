@@ -254,7 +254,7 @@ export class KitesInstance extends EventEmitter implements IKites {
       this._silentLogs(this.logger);
     }
 
-    this._initOptions();
+    await this._initOptions();
     this.logger.info(`Initializing ${this.name}@${this.version} in mode "${this.options.env}"${this.options.loadConfig ? ', using configuration file ' + this.options.configFile : ''}`);
 
     await this.extensionsManager.init();
@@ -267,10 +267,10 @@ export class KitesInstance extends EventEmitter implements IKites {
     return this;
   }
 
-  private _initOptions() {
+  private async _initOptions() {
     if (this.options.loadConfig) {
-      this._loadConfig();
-      this.fnAfterConfigLoaded(this);
+      await this._loadConfig();
+      await this.fnAfterConfigLoaded(this);
     }
 
     return this._configureWinstonTransports(this.options.logger);
@@ -282,8 +282,10 @@ export class KitesInstance extends EventEmitter implements IKites {
     });
   }
 
-  private _loadConfig() {
-    var nconf = require('nconf');
+  private async _loadConfig() {
+    const config = await import('nconf');
+    const nconf = new config.Provider();
+
     let nfn = nconf.argv()
       .env({
         separator: ':'
@@ -319,6 +321,7 @@ export class KitesInstance extends EventEmitter implements IKites {
       }
     }
 
+    console.log('Discover: ' + nconf.get('discover'));
     this.options = nconf.get();
   }
 

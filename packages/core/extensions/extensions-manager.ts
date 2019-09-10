@@ -107,19 +107,35 @@ class ExtensionsManager extends EventEmitter {
    */
   async init() {
     this.availableExtensions = [];
-    // auto discover extensions
-    if (this.kites.options.discover || (this.kites.options.discover !== false && this.usedExtensions.length === 0)) {
-      let discoverPaths = (this.kites.options.discoverPaths || [{path: this.kites.options.rootDirectory}]);
+
+    let autodiscover = false;
+    if (this.kites.options.discover === 'undefined') {
+      this.kites.options.discover = [false, 0];
+    } else if (typeof this.kites.options.discover === 'boolean') {
+      this.kites.options.discover = [this.kites.options.discover, 2, this.kites.options.appDirectory];
+    } else if (typeof this.kites.options.discover === 'string') {
+      this.kites.options.discover = [true, 2, this.kites.options.discover];
+    }
+
+    // autodiscover extensions
+    autodiscover = this.kites.options.discover.shift() as boolean;
+
+    if (autodiscover) {
+      let depth = this.kites.options.discover.shift() as number;
+      let directories = this.kites.options.discover as string[];
       let extensions = await discover({
         cacheAvailableExtensions: this.kites.options.cacheAvailableExtensions,
         extensionsLocationCache: this.kites.options.extensionsLocationCache,
         logger: this.kites.logger,
         env: this.kites.options.env,
-        rootDirectory: discoverPaths,
+        depth: depth,
+        rootDirectory: directories,
         tempDirectory: this.kites.options.tempDirectory,
       });
       this.kites.logger.debug('Discovered ' + extensions.length + ' extensions');
       this.availableExtensions = this.availableExtensions.concat(extensions);
+    } else {
+      this.kites.logger.debug('Autodiscover is not enabled!');
     }
     // filter extensions will be loaded?
     this.availableExtensions = this.availableExtensions.concat(this.usedExtensions);

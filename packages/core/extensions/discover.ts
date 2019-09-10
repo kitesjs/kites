@@ -16,7 +16,8 @@ export type DiscoverOptions = string | boolean | [boolean, number, ...string[]];
  */
 export interface IDiscoverOptions {
   readonly logger: Logger;
-  readonly rootDirectory: any;
+  readonly depth?: number;
+  readonly rootDirectory: string[];
   readonly env?: any;
   readonly cacheAvailableExtensions?: any;
   readonly tempDirectory?: any;

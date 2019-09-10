@@ -84,7 +84,7 @@ export function walkSync(rootPath: string, fileName: string, exclude?: string | 
  * @param depth max level to discover
  * @param exclude pattern to exclude searching
  */
-export function walkSyncLevel(dirname: string[], filename: string, depth: number, exclude?: string) {
+export function walkSyncLevel(dirname: string[], filename: string, depth: number = 2, exclude?: string) {
   // console.log('Start searching: ', dirname);
 
   function readFiles(candidate: string, level: number): string[] {
@@ -101,8 +101,8 @@ export function walkSyncLevel(dirname: string[], filename: string, depth: number
     }
 
     for (const item of list) {
-      if (item.indexOf(exclude as string) < 0) {
-        let fullname = path.join(candidate, item);
+      let fullname = path.join(candidate, item);
+      if (fullname.indexOf(exclude as string) < 0) {
         if (fs.statSync(fullname).isDirectory()) {
           if (level < depth) {
             const next = readFiles(fullname, level + 1);
