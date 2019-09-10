@@ -52,10 +52,8 @@ export interface IKites {
   logger: Logger;
   container: Container;
   afterConfigLoaded(fn: KitesReadyCallback): IKites;
-  ready(callback: KitesReadyCallback): IKites;
   discover(option?: string | boolean): IKites;
-  use(extension: KitesExtension | ExtensionDefinition): IKites;
-  // useMany(extension: Array<KitesExtension | ExtensionDefinition>): IKites;
+  use(extension: KitesExtension | ExtensionDefinition | ExtensionDefinition[]): IKites;
   init(): Promise<IKites>;
 }
 
@@ -73,7 +71,6 @@ export class KitesInstance extends EventEmitter implements IKites {
   logger: Logger;
 
   private fnAfterConfigLoaded: KitesReadyCallback;
-  private isReady: Promise<KitesInstance>;
   private initialized: boolean;
   private iocContainer: Container;
 
@@ -94,9 +91,6 @@ export class KitesInstance extends EventEmitter implements IKites {
     // properties
     this.logger = createLogger(this.name, this.options.logger);
     this.fnAfterConfigLoaded = () => this;
-    this.isReady = new Promise((resolve) => {
-      this.on('initialized', resolve);
-    });
 
   }
 
@@ -190,15 +184,6 @@ export class KitesInstance extends EventEmitter implements IKites {
   }
 
   /**
-   * Kites fire on ready
-   * @param callback
-   */
-  ready(callback: KitesReadyCallback) {
-    this.isReady.then((kites) => callback(kites));
-    return this;
-  }
-
-  /**
    * Use a function as a kites extension
    * @param extension
    */
@@ -206,11 +191,6 @@ export class KitesInstance extends EventEmitter implements IKites {
     this.extensionsManager.use(extension);
     return this;
   }
-
-  // useMany(extensions: Array<KitesExtension | ExtensionDefinition>) {
-  //   this.extensionsManager.useMany(extensions);
-  //   return this;
-  // }
 
   /**
    * Enable auto discover extensions
@@ -268,7 +248,7 @@ export class KitesInstance extends EventEmitter implements IKites {
     await this.initializeListeners.fire();
 
     this.logger.info('kites initialized!');
-    this.emit('initialized', this);
+    this.emit('ready', this);
 
     this.initialized = true;
     return this;
