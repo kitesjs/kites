@@ -51,12 +51,14 @@ class ExtensionsManager extends EventEmitter {
     this.availableExtensions = [];
 
     let autodiscover = false;
-    if (this.kites.options.discover === 'undefined') {
+    if (typeof this.kites.options.discover === 'undefined') {
       this.kites.options.discover = [false, 0];
     } else if (typeof this.kites.options.discover === 'boolean') {
       this.kites.options.discover = [this.kites.options.discover, 2, this.kites.options.appDirectory];
     } else if (typeof this.kites.options.discover === 'string') {
       this.kites.options.discover = [true, 2, this.kites.options.discover];
+    } else if (this.kites.options.discover.length < 2) {
+      throw new Error('Discover options as array requires at least 2 elements! Example: [true, 2]');
     }
 
     // autodiscover extensions
