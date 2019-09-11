@@ -5,8 +5,8 @@ import * as cache from './location-cache';
 
 /**
  * Discover options can be:
- * + string: /path/to/discover
  * + boolean: true/false
+ * + string: '/path/to/discover'
  * + array: [true, 2, '/path/to/discover', '/path2']
  */
 export type DiscoverOptions = string | boolean | [boolean, number, ...string[]];
