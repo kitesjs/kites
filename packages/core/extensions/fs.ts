@@ -76,3 +76,51 @@ export function walkSync(rootPath: string, fileName: string, exclude?: string | 
 
   return results;
 }
+
+/**
+ * Discovery file list with depth level
+ * @param dirname Folder to scan extensions
+ * @param filename Pattern for searching
+ * @param depth max level to discover
+ * @param exclude pattern to exclude searching
+ */
+export function walkSyncLevel(dirname: string[], filename: string, depth: number = 2, exclude?: string) {
+  // console.log('Start searching: ', dirname);
+
+  function readFiles(candidate: string, level: number): string[] {
+    // console.log('Find in: ', candidate);
+
+    let results: string[] = [];
+    let list: string[];
+    try {
+      list = fs.readdirSync(candidate);
+    } catch (err) {
+      // no permissions to read folder for example
+      // just skip it
+      list = [];
+    }
+
+    for (const item of list) {
+      let fullname = path.join(candidate, item);
+      if (fullname.indexOf(exclude as string) < 0) {
+        if (fs.statSync(fullname).isDirectory()) {
+          if (level < depth) {
+            const next = readFiles(fullname, level + 1);
+            results = results.concat(next);
+          }
+        } else if (item === filename) {
+          results.push(fullname);
+        }
+      }
+    }
+
+    return results;
+  }
+
+  let vResults = [];
+  for (const item of dirname) {
+    vResults = vResults.concat(readFiles(item, 0));
+  }
+
+  return vResults;
+}

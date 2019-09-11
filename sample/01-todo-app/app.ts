@@ -8,6 +8,8 @@ import './todo/todo.controller';
 async function bootstrap() {
   const app = await KitesFactory
     .create({
+      loadConfig: true,
+      discover: false,  // this value will be overrided by kites.config.json
       providers: [
         TodoService
       ]

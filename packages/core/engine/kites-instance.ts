@@ -6,7 +6,7 @@ import * as path from 'path';
 import { Logger, transports } from 'winston';
 
 import { EventEmitter } from 'events';
-import { ExtensionsManager } from '../extensions/extensions-manager';
+import { DiscoverOptions, ExtensionsManager } from '../extensions/extensions-manager';
 import { createLogger } from '../logger';
 import { EventCollectionEmitter } from './event-collection';
 
@@ -26,14 +26,13 @@ export type KitesReadyCallback = (kites: IKites) => void;
 export interface IKitesOptions {
   [key: string]: any;
   providers?: Array<Type<any>>;
-  discover?: boolean | string; // string for path discovery
+  discover?: DiscoverOptions; // options for discovery
   loadConfig?: boolean;
   rootDirectory?: string;
   appDirectory?: string;
   parentModuleDirectory?: string;
   env?: string;
   logger?: any;
-  mode?: string;
   cacheAvailableExtensions?: any;
   tempDirectory?: string;
   extensionsLocationCache?: boolean;
@@ -52,7 +51,7 @@ export interface IKites {
   logger: Logger;
   container: Container;
   afterConfigLoaded(fn: KitesReadyCallback): IKites;
-  discover(option?: string | boolean): IKites;
+  discover(option: DiscoverOptions): IKites;
   use(extension: KitesExtension | ExtensionDefinition | ExtensionDefinition[]): IKites;
   init(): Promise<IKites>;
 }
@@ -111,6 +110,7 @@ export class KitesInstance extends EventEmitter implements IKites {
       // EXAMPLE 1: kites.discover(true)
       // EXAMPLE 2: kites.discover(false)
       // EXAMPLE 3: kites.discover('/path/to/discover')
+      // EXAMPLE 4: kites.discover([true, 2, '/path/to/discover', '/path2'])
       discover: false,
       env: process.env.NODE_ENV || 'development',
       logger: {
@@ -195,15 +195,8 @@ export class KitesInstance extends EventEmitter implements IKites {
   /**
    * Enable auto discover extensions
    */
-  discover(option: string | boolean) {
-    if (typeof option === 'string') {
-      this.options.discover = true;
-      this.options.rootDirectory = option;
-    } else if (typeof option === 'boolean') {
-      this.options.discover = option;
-    } else {
-      this.options.discover = true;
-    }
+  discover(option: DiscoverOptions) {
+    this.options.discover = option;
     return this;
   }
 
@@ -241,7 +234,7 @@ export class KitesInstance extends EventEmitter implements IKites {
       this._silentLogs(this.logger);
     }
 
-    this._initOptions();
+    await this._initOptions();
     this.logger.info(`Initializing ${this.name}@${this.version} in mode "${this.options.env}"${this.options.loadConfig ? ', using configuration file ' + this.options.configFile : ''}`);
 
     await this.extensionsManager.init();
@@ -254,10 +247,10 @@ export class KitesInstance extends EventEmitter implements IKites {
     return this;
   }
 
-  private _initOptions() {
+  private async _initOptions() {
     if (this.options.loadConfig) {
-      this._loadConfig();
-      this.fnAfterConfigLoaded(this);
+      await this._loadConfig();
+      await this.fnAfterConfigLoaded(this);
     }
 
     return this._configureWinstonTransports(this.options.logger);
@@ -269,16 +262,17 @@ export class KitesInstance extends EventEmitter implements IKites {
     });
   }
 
-  private _loadConfig() {
-    var nconf = require('nconf');
+  private async _loadConfig() {
+    const config = await import('nconf');
+    const nconf = new config.Provider();
+
     let nfn = nconf.argv()
       .env({
         separator: ':'
       })
       .env({
         separator: '_'
-      })
-      .defaults(this.options);
+      });
 
     if (!this.options.configFile) {
 
@@ -306,6 +300,8 @@ export class KitesInstance extends EventEmitter implements IKites {
       }
     }
 
+    // 'if nothing else': 'use this value'
+    nconf.defaults(this.options);
     this.options = nconf.get();
   }
 

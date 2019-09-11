@@ -77,6 +77,8 @@ describe('kites engine', () => {
     const app = await engine({
       discover: true,
       extensionsLocationCache: false,
+      // discover extensions from appDirectory (by default)
+      appDirectory: rootDirectory,
       rootDirectory: rootDirectory
     }).init();
 

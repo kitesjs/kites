@@ -3,11 +3,11 @@ import * as _ from 'lodash';
 import * as os from 'os';
 import * as path from 'path';
 import { IKites } from '..';
-import { discover } from './discover';
+import { discover, DiscoverOptions } from './discover';
 import { ExtensionDefinition, ExtensionOptions, KitesExtension } from './extensions';
 import sorter from './sorter';
 
-export class ExtensionsManager extends EventEmitter {
+class ExtensionsManager extends EventEmitter {
   protected kites: IKites;
   protected availableExtensions: KitesExtension[];
   protected usedExtensions: KitesExtension[];
@@ -49,18 +49,37 @@ export class ExtensionsManager extends EventEmitter {
    */
   async init() {
     this.availableExtensions = [];
-    // auto discover extensions
-    if (this.kites.options.discover || (this.kites.options.discover !== false && this.usedExtensions.length === 0)) {
+
+    let autodiscover = false;
+    if (typeof this.kites.options.discover === 'undefined') {
+      this.kites.options.discover = [false, 0];
+    } else if (typeof this.kites.options.discover === 'boolean') {
+      this.kites.options.discover = [this.kites.options.discover, 2, this.kites.options.appDirectory];
+    } else if (typeof this.kites.options.discover === 'string') {
+      this.kites.options.discover = [true, 2, this.kites.options.discover];
+    } else if (this.kites.options.discover.length < 2) {
+      throw new Error('Discover options as array requires at least 2 elements! Example: [true, 2]');
+    }
+
+    // autodiscover extensions
+    autodiscover = this.kites.options.discover.shift() as boolean;
+
+    if (autodiscover) {
+      let depth = this.kites.options.discover.shift() as number;
+      let directories = this.kites.options.discover as string[];
       let extensions = await discover({
         cacheAvailableExtensions: this.kites.options.cacheAvailableExtensions,
         extensionsLocationCache: this.kites.options.extensionsLocationCache,
         logger: this.kites.logger,
-        mode: this.kites.options.mode,
-        rootDirectory: this.kites.options.rootDirectory,
+        env: this.kites.options.env,
+        depth: depth,
+        rootDirectory: directories,
         tempDirectory: this.kites.options.tempDirectory,
       });
-      this.kites.logger.debug('Discovered ' + extensions.length + ' extensions');
+      this.kites.logger.debug('Autodiscover ' + extensions.length + ' extensions!');
       this.availableExtensions = this.availableExtensions.concat(extensions);
+    } else {
+      this.kites.logger.debug('Autodiscover is not enabled!');
     }
     // filter extensions will be loaded?
     this.availableExtensions = this.availableExtensions.concat(this.usedExtensions);
@@ -71,7 +90,6 @@ export class ExtensionsManager extends EventEmitter {
 
     this.availableExtensions.sort(sorter);
     return this.useMany(this.availableExtensions);
-
   }
 
   /**
@@ -130,7 +148,7 @@ export class ExtensionsManager extends EventEmitter {
         let errorMsg;
 
         if (!extension.name) {
-          errorMsg = `Error when loading anonymous extension${extension.directory != null ? ` at ${extension.directory}` : ''}${os.EOL}${e.stack}`;
+          errorMsg = `Error when loading anonymous extension ${extension.directory != null ? ` at ${extension.directory}` : ''}${os.EOL}${e.stack}`;
         } else {
           errorMsg = `Error when loading extension ${extension.name}${os.EOL}${e.stack}`;
         }
@@ -141,3 +159,8 @@ export class ExtensionsManager extends EventEmitter {
   }
 
 }
+
+export {
+  ExtensionsManager,
+  DiscoverOptions
+};
