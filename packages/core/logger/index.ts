@@ -49,7 +49,33 @@ function createLogger(name: string, options?: any): Logger {
   return loggers.get(name);
 }
 
+function createDebugLogger(name: string, options?: any) {
+  if (!loggers.has(name)) {
+    loggers.add(name, {
+      exitOnError: false,
+      level: 'info',
+      format: format.combine(
+        format.splat(), // formats level.message based on Node's util.format().
+        format.label({ label: name }),
+        format.colorize(),
+        format.timestamp(),
+        format.printf(({ level, message, label, timestamp }) => `${timestamp} [${label}] ${level}: ${message}`)
+      ),
+      transports: [new DebugTransport(options, name)],
+    });
+  } else {
+    // remove all transports and add default Debug transport
+    loggers.get(name).clear();
+
+    if (Object.keys(options || {}).length === 0) {
+      loggers.get(name).add(new DebugTransport(options, name));
+    }
+  }
+  return loggers.get(name);
+}
+
 export {
   createLogger,
+  createDebugLogger,
   DebugTransport
 };

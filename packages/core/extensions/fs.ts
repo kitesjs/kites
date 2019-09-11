@@ -1,5 +1,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { createDebugLogger } from '../logger';
+
+const logger = createDebugLogger('kites:discover:fs', { level: 'debug' });
 
 /**
  * Delete file and folder
@@ -85,10 +88,10 @@ export function walkSync(rootPath: string, fileName: string, exclude?: string | 
  * @param exclude pattern to exclude searching
  */
 export function walkSyncLevel(dirname: string[], filename: string, depth: number = 2, exclude?: string) {
-  // console.log('Start searching: ', dirname);
+  logger.info('Start searching: ' + dirname);
 
   function readFiles(candidate: string, level: number): string[] {
-    // console.log('Find in: ', candidate);
+    logger.debug('Find in: ' + candidate);
 
     let results: string[] = [];
     let list: string[];

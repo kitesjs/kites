@@ -8,12 +8,12 @@ export class DebugTransport extends Transport {
 
   constructor(options?: Transport.TransportStreamOptions, name?: string) {
     super(options);
-    this.debugger = debug('kites');
+    this.debugger = debug(name || 'kites');
     this.name = name || 'debug';
   }
 
   public log(info, callback: Function) {
-    this.debugger(info);
+    this.debugger(`${info.level} ${info.message}`);
     callback(null, true);
   }
 }
