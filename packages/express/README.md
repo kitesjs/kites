@@ -9,16 +9,6 @@ Template-based Web Application Framework
 
 **Kites** is a framework providing `dynamic applications` assembling and `Template-based` extracting. Namely it contains a lot of templates and extensions to help building a new application quickly.
 
-Take a look at this:
-
-```ts
-@Launcher({
-  imports?: [], // ... kites extensions manually imported here
-  discover?: Array<string> | string | boolean; // autodiscover extensions in app's child directories or given path
-})
-class App {}
-```
-
 Features
 =======
 
