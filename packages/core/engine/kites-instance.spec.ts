@@ -83,6 +83,9 @@ describe('kites engine', () => {
     }).init();
 
     expect(app.aKitesExtensionInitialized).eq(true, 'found a kites extension which has initialized!');
+    expect(app.options.sample).eql({
+      always: 'be here'
+    }, 'read extension options!');
   });
 
   it('should accept plain function as an extension', async () => {

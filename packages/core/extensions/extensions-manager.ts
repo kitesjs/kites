@@ -108,11 +108,14 @@ class ExtensionsManager extends EventEmitter {
   private useOne(extension: KitesExtension) {
     // extends options
     // Review _.assign(), _.defaults(), or _.merge?
+    const xname = extension.name && extension.name.toLowerCase();
     const options = _.assign<
       ExtensionOptions,
       ExtensionOptions | undefined,
-      ExtensionOptions | undefined>({}, extension.options, this.kites.options[extension.name && extension.name.toLowerCase()]);
+      ExtensionOptions | undefined>({}, extension.options, this.kites.options[xname]);
+
     extension.options = options;
+    this.kites.options[xname] = options;
 
     if (options.enabled === false) {
       this.kites.logger.debug(`Extension ${extension.name} is disabled, skipping`);
