@@ -2,7 +2,13 @@ import * as path from 'path';
 import { format, Logger, loggers } from 'winston';
 import { DebugTransport } from './debug-transport';
 
-function createLogger(name: string, options?: any): Logger {
+/**
+ * Get or create a logger with empty transport
+ * @param name
+ * @param options
+ */
+export function getLogger(name: string, options?: any): Logger {
+  // TODO: Refactor options for logger (not for transport)
   if (!loggers.has(name)) {
     // add default Debug transport?
     const defaultTransports = Object.keys(options || {}).length > 0 ? [] : [
@@ -49,7 +55,27 @@ function createLogger(name: string, options?: any): Logger {
   return loggers.get(name);
 }
 
+/**
+ * Get or create logger with default `debug` transport
+ */
+export function getDebugLogger(name: string, options?: any) {
+  if (!loggers.has(name)) {
+    loggers.add(name, {
+      exitOnError: false,
+      level: 'info',
+      format: format.combine(
+        format.splat(), // formats level.message based on Node's util.format().
+        format.label({ label: name }),
+        format.colorize(),
+        format.timestamp(),
+        format.printf(({ level, message, label, timestamp }) => `${timestamp} [${label}] ${level}: ${message}`)
+      ),
+      transports: [new DebugTransport(options, name)],
+    });
+  }
+  return loggers.get(name);
+}
+
 export {
-  createLogger,
   DebugTransport
 };
