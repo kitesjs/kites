@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { join } from 'path';
 
-import { createDebugLogger } from '../logger';
+import { getDebugLogger } from '../logger';
 import * as cache from './location-cache';
 
 describe('Location cache', () => {
@@ -12,7 +12,7 @@ describe('Location cache', () => {
 
   it('should get one and save it!', async () => {
     const rootDirectory = join(__dirname, '../test');
-    const logger = createDebugLogger('location-cache');
+    const logger = getDebugLogger('location-cache');
     let extensions: any = await cache.get({
       logger,
       rootDirectory: [rootDirectory]

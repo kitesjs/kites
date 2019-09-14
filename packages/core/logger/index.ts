@@ -3,11 +3,11 @@ import { format, Logger, loggers } from 'winston';
 import { DebugTransport } from './debug-transport';
 
 /**
- * Create a logger with empty transport
+ * Get or create a logger with empty transport
  * @param name
  * @param options
  */
-function createLogger(name: string, options?: any): Logger {
+export function getLogger(name: string, options?: any): Logger {
   // TODO: Refactor options for logger (not for transport)
   if (!loggers.has(name)) {
     // add default Debug transport?
@@ -56,9 +56,9 @@ function createLogger(name: string, options?: any): Logger {
 }
 
 /**
- * Create logger with default `debug` transport
+ * Get or create logger with default `debug` transport
  */
-function createDebugLogger(name: string, options?: any) {
+export function getDebugLogger(name: string, options?: any) {
   if (!loggers.has(name)) {
     loggers.add(name, {
       exitOnError: false,
@@ -77,7 +77,5 @@ function createDebugLogger(name: string, options?: any) {
 }
 
 export {
-  createLogger,
-  createDebugLogger,
   DebugTransport
 };

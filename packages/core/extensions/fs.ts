@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { createDebugLogger } from '../logger';
+import { getDebugLogger } from '../logger';
 
-const logger = createDebugLogger('kites:discover:fs', { level: 'debug' });
+const logger = getDebugLogger('kites:discover:fs', { level: 'debug' });
 
 /**
  * Delete file and folder

@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import { join } from 'path';
-import { createDebugLogger } from '../logger';
+import { getDebugLogger } from '../logger';
 import { discover } from './discover';
 
 describe('Discover extensions', () => {
   it('should load an extension', async () => {
     const location = join(__dirname, '../test');
-    const logger = createDebugLogger('kites:discover');
+    const logger = getDebugLogger('kites:discover');
     let extensions: any = await discover({
       logger,
       rootDirectory: [location]
