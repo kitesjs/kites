@@ -1,3 +1,3 @@
 module.exports = function (kites, definition) {
-    kites.aKitesExtensionInitialized = true
+  kites.aKitesExtensionInitialized = true;
 }
