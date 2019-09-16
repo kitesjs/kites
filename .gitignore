@@ -65,6 +65,7 @@ build-runtime
 # junks
 logs
 dist
+uploads
 license.json
 package-lock.json
 prod.config.json
