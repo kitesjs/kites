@@ -1,0 +1,21 @@
+{
+  "discover": true,
+  "extensionsLocationCache": true,
+  "logger": {
+    "console": {
+      "transport": "console",
+      "level": "debug"
+    }
+  },
+  "express": {
+    "static": false,
+    "httpPort": 3000,
+    "poweredBy": "Kites.js",
+    "views": {
+      "ext": "ejs",
+      "engine": "ejs",
+      "renderer": "renderFile",
+      "path": "views"
+    }
+  }
+}

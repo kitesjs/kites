@@ -27,6 +27,8 @@
     "@kites/core": "^1.1.7",
     "@kites/express": "^1.1.7",
     "@kites/rest": "^1.1.7",
+    "mkdirp": "^0.5.1",
+    "multer": "^1.4.2",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
