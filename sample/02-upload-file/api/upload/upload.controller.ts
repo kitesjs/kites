@@ -13,7 +13,7 @@ export class UploadController {
     kites.logger.info('Hello %s controller!!! (%s)', 'upload', 3);
   }
 
-  @Post('/', upload.single('datafile'))
+  @Post('/', upload.single('upload_file'))
   uploadFile(
     @Request() req,
   ) {
@@ -23,12 +23,14 @@ export class UploadController {
     return {msg, filename};
   }
 
-  @Post('/:id')
-  readFile(@RequestParam('id') id) {
-    this.kites.logger.info('Upload file success!');
+  @Post('/:user', uploadMemory.single('upload_file'))
+  readFile(@RequestParam('user') user, @Request() req) {
+    this.kites.logger.info('Read upload file successfully!');
 
     const msg = 'upload ok!';
-    return {msg, id};
+    const greet = 'hello ' + user;
+    const text = req.file.buffer.toString('utf-8');
+    return {msg, greet, text};
   }
 
 }

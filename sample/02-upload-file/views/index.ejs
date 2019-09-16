@@ -1,1 +1,13 @@
-<h1>Homepage Layout</h1>
+<h1>Upload file (single)</h1>
+
+<form action="/api/upload" method="post" enctype="multipart/form-data">
+  <input type="file" name="upload_file" />
+  <input type="submit" value="Upload">
+</form>
+
+<h1>Upload text file (single in-memory)</h1>
+
+<form action="/api/upload/vunb" method="post" enctype="multipart/form-data">
+  <input type="file" name="upload_file" />
+  <input type="submit" value="Upload">
+</form>
