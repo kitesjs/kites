@@ -59,6 +59,8 @@ class ExtensionsManager extends EventEmitter {
       this.kites.options.discover = [true, 2, this.kites.options.discover];
     } else if (this.kites.options.discover.length < 2) {
       throw new Error('Discover options as array requires at least 2 elements! Example: [true, 2]');
+    } else if (this.kites.options.discover.length < 3) {
+      this.kites.options.discover.push(this.kites.options.appDirectory);
     }
 
     // autodiscover extensions
