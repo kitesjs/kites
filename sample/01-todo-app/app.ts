@@ -13,7 +13,7 @@ async function bootstrap() {
       ]
     })
     .use(Express())
-    .use(Rest)
+    .use(Rest())
     .init();
 
   // Let's browse http://localhost:3000/api/todo
