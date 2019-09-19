@@ -39,14 +39,17 @@ export async function discover(config: IDiscoverOptions) {
     config.logger.info(`Loading extensions from cache: count(${availableExtensionsCache.length})`);
     return Promise.resolve(availableExtensionsCache);
   } else {
+    let availableExtensions = [];
     let results = await cache.get(config);
+
     config.logger.info(`Found: ${results.length} extensions!`);
-    let availableExtensions = results.map((configFile) => {
-      let extension = require(configFile);
-      return _.extend({
-        directory: path.dirname(configFile)
-      }, extension);
-    });
+    for (const configFile of results) {
+      let extension = await import(configFile);
+      availableExtensions.push({
+        directory: path.dirname(configFile),
+        ...extension,
+      });
+    }
 
     availableExtensionsCache = availableExtensions;
     await cache.save(availableExtensions, config);
