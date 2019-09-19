@@ -17,7 +17,7 @@ export type DiscoverOptions = string | boolean | [boolean, number, ...string[]];
 export interface IDiscoverOptions {
   readonly logger: Logger;
   readonly depth?: number;
-  readonly rootDirectory: string[];
+  readonly directories: string[];
   readonly env?: any;
   readonly cacheAvailableExtensions?: any;
   readonly tempDirectory?: any;
@@ -33,7 +33,7 @@ var availableExtensionsCache: any;
  */
 export async function discover(config: IDiscoverOptions) {
 
-  config.logger.info('Searching for available extensions in ' + config.rootDirectory);
+  config.logger.info('Searching for available extensions in ' + config.directories);
 
   if (config.cacheAvailableExtensions && availableExtensionsCache != null) {
     config.logger.info(`Loading extensions from cache: count(${availableExtensionsCache.length})`);
@@ -45,6 +45,7 @@ export async function discover(config: IDiscoverOptions) {
     config.logger.info(`Found: ${results.length} extensions!`);
     for (const configFile of results) {
       let extension = await import(configFile);
+      config.logger.debug('Import: ' + extension.name);
       availableExtensions.push({
         directory: path.dirname(configFile),
         ...extension,

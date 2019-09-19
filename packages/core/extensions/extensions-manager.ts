@@ -75,7 +75,7 @@ class ExtensionsManager extends EventEmitter {
         logger: this.kites.logger,
         env: this.kites.options.env,
         depth: depth,
-        rootDirectory: directories,
+        directories: directories,
         tempDirectory: this.kites.options.tempDirectory,
       });
       this.kites.logger.debug('Autodiscover ' + extensions.length + ' extensions!');
@@ -132,7 +132,7 @@ class ExtensionsManager extends EventEmitter {
       }
 
       if (!extension.name) {
-        this.kites.logger.info(`Register anonymous extension${extension.directory != null ? ` at ${extension.directory}` : ''}`);
+        this.kites.logger.info(`Register extension: anonymous${extension.directory != null ? ` at ${extension.directory}` : ''}`);
       } else {
         this.kites.logger.info(`Register extension: ${extension.name}`);
       }

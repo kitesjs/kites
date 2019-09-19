@@ -15,7 +15,7 @@ describe('Location cache', () => {
     const logger = getDebugLogger('location-cache');
     let extensions: any = await cache.get({
       logger,
-      rootDirectory: [rootDirectory]
+      directories: [rootDirectory]
     });
     logger.info('Found: ', extensions, rootDirectory);
     expect(extensions.length).eq(1);
