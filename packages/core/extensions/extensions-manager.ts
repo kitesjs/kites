@@ -136,16 +136,9 @@ class ExtensionsManager extends EventEmitter {
         (extension.main as Function).call(this, this.kites, extension);
       } else if (typeof extension.main === 'string' && extension.directory) {
         const main = await import(path.join(extension.directory, extension.main));
-        if (typeof main.default === 'function') {
-          // ES6 Module
-          // execute main function without await!
-          main.default.call(this, this.kites, extension);
-        } else if (typeof main === 'function') {
-          // execute main function without await!
-          main.call(this, this.kites, extension);
-        } else {
-          throw new Error('Invalid kites extension: ' + extension.name + ' -> ' + JSON.stringify(extension));
-        }
+        // ES6 Module support
+        // execute main function without await!
+        (main && main.default).call(this, this.kites, extension);
       } else {
         throw new Error('Invalid kites extension: ' + extension.name + ' -> ' + JSON.stringify(extension));
       }
