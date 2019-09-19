@@ -1,6 +1,6 @@
 module.exports = {
   name: 'sample',
-  main: 'main.js',
+  main: 'main',
   dependencies: [],
   hasPublicPart: false,
   options: {

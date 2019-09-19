@@ -38,18 +38,14 @@ describe('kites engine', () => {
   });
 
   it('should use a legal extension', async () => {
-    class Aa implements KitesExtension {
-      get name() {
-        return 'abc';
-      }
 
-      init(core: IKites) {
-        core.logger.info('Kites extension initializing ...');
-        expect(core.isInitialized).eq(false, 'The application should not be ready!');
+    const app = await engine().use({
+      name: 'test',
+      main: function (kites: KitesInstance, definition: KitesExtension) {
+        kites.logger.info('Kites extension initializing ...');
+        expect(kites.isInitialized).eq(false, 'The application should not be ready!');
       }
-    }
-
-    const app = await engine().use(new Aa()).init();
+    }).init();
     expect(app.isInitialized).eq(true, 'The application should be ready!');
     expect(app).instanceOf(KitesInstance);
   });

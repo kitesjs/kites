@@ -240,10 +240,10 @@ export class KitesInstance extends EventEmitter implements IKites {
     await this.extensionsManager.init();
     await this.initializeListeners.fire();
 
-    this.logger.info('kites initialized!');
-    this.emit('ready', this);
-
     this.initialized = true;
+    this.logger.info('kites initialized!');
+
+    this.emit('ready', this);
     return this;
   }
 
