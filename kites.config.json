@@ -1,8 +1,5 @@
 {
-  "discover": [
-    true,
-    3
-  ],
+  "discover": true,
   "extensionsLocationCache": true,
   "logger": {
     "console": {

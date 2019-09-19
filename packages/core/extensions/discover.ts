@@ -45,7 +45,6 @@ export async function discover(config: IDiscoverOptions) {
     config.logger.info(`Found: ${results.length} extensions!`);
     for (const configFile of results) {
       let extension = await import(configFile);
-      config.logger.debug('Import: ' + extension.name);
       availableExtensions.push({
         directory: path.dirname(configFile),
         ...extension,
