@@ -131,6 +131,12 @@ class ExtensionsManager extends EventEmitter {
         return;
       }
 
+      if (!extension.name) {
+        this.kites.logger.info(`Register anonymous extension${extension.directory != null ? ` at ${extension.directory}` : ''}`);
+      } else {
+        this.kites.logger.info(`Register extension: ${extension.name}`);
+      }
+
       if (typeof extension.main === 'function') {
         // execute main function without await!
         (extension.main as Function).call(this, this.kites, extension);
