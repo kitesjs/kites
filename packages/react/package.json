@@ -1,7 +1,7 @@
 {
-  "name": "@kites/studio",
+  "name": "@kites/react",
   "version": "1.1.7",
-  "description": "Studio - View engine for Kites",
+  "description": "React - Frontend view engine for Kites",
   "main": "index.js",
   "repository": {
     "type": "git",

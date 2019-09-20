@@ -11,7 +11,7 @@ const packages = {
   core: ts.createProject('packages/core/tsconfig.json'),
   express: ts.createProject('packages/express/tsconfig.json'),
   rest: ts.createProject('packages/rest/tsconfig.json'),
-  studio: ts.createProject('packages/studio/tsconfig.json'),
+  react: ts.createProject('packages/react/tsconfig.json'),
 };
 const modules = Object.keys(packages);
 const source = 'packages';
@@ -38,7 +38,7 @@ gulp.task('copy-misc', function () {
     .pipe(gulp.dest(`${source}/core`))
     .pipe(gulp.dest(`${source}/express`))
     .pipe(gulp.dest(`${source}/rest`))
-    .pipe(gulp.dest(`${source}/studio`))
+    .pipe(gulp.dest(`${source}/react`))
 });
 
 gulp.task('clean:output', function () {

@@ -1,5 +1,5 @@
 export = {
-  name: 'studio',
+  name: 'react',
   main: 'lib/main',
   dependencies: ['express'],
   options: {
