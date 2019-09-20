@@ -9,7 +9,7 @@ describe('Discover extensions', () => {
     const logger = getDebugLogger('kites:discover');
     let extensions: any = await discover({
       logger,
-      rootDirectory: [location]
+      directories: [location]
     });
     logger.info('Discovery location: ' + location);
     expect(extensions.length).eq(1);

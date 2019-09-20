@@ -21,7 +21,7 @@ export async function get(config: IDiscoverOptions) {
 
   if (config.env === 'development' || config.extensionsLocationCache === false) {
     config.logger.info('Skipping extensions location cache when NODE_ENV=development or when option extensionsLocationCache === false, crawling now!');
-    return walkSyncLevel(config.rootDirectory, KITES_CONFIG_FILE, config.depth);
+    return walkSyncLevel(config.directories, KITES_CONFIG_FILE, config.depth);
   }
 
   try {
@@ -35,25 +35,25 @@ export async function get(config: IDiscoverOptions) {
 
     if (!cache) {
       config.logger.info('Extensions location cache doesn\'t contain entry yet, crawling');
-      return walkSyncLevel(config.rootDirectory, KITES_CONFIG_FILE, config.depth);
+      return walkSyncLevel(config.directories, KITES_CONFIG_FILE, config.depth);
     }
 
     let extensionInfo = await stat(location);
     if (extensionInfo.mtime.getTime() > cache.lastSync) {
       config.logger.info('Extensions location cache ' + pathToLocationCache + ' contains older information, crawling');
-      return walkSyncLevel(config.rootDirectory, KITES_CONFIG_FILE, config.depth);
+      return walkSyncLevel(config.directories, KITES_CONFIG_FILE, config.depth);
     }
 
     // return cached
     await Promise.all(cache.locations.map((dir: string) => stat(dir)));
-    config.logger.info('Extensions location cache contains up to date information, skipping crawling in ' + config.rootDirectory);
+    config.logger.info('Extensions location cache contains up to date information, skipping crawling in ' + config.directories);
 
-    let directories = walkSyncLevel(config.rootDirectory, KITES_CONFIG_FILE, config.depth, location);
+    let directories = walkSyncLevel(config.directories, KITES_CONFIG_FILE, config.depth, location);
     let result = directories.concat(cache.locations);
     return result;
   } catch (err) {
     config.logger.info('Extensions location cache not found, crawling directories');
-    return walkSyncLevel(config.rootDirectory, KITES_CONFIG_FILE, config.depth);
+    return walkSyncLevel(config.directories, KITES_CONFIG_FILE, config.depth);
   }
 }
 

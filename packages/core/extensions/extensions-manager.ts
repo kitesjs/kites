@@ -54,11 +54,13 @@ class ExtensionsManager extends EventEmitter {
     if (typeof this.kites.options.discover === 'undefined') {
       this.kites.options.discover = [false, 0];
     } else if (typeof this.kites.options.discover === 'boolean') {
-      this.kites.options.discover = [this.kites.options.discover, 2, this.kites.options.appDirectory];
+      this.kites.options.discover = [this.kites.options.discover, 3, this.kites.options.appDirectory];
     } else if (typeof this.kites.options.discover === 'string') {
-      this.kites.options.discover = [true, 2, this.kites.options.discover];
+      this.kites.options.discover = [true, 3, this.kites.options.discover];
     } else if (this.kites.options.discover.length < 2) {
       throw new Error('Discover options as array requires at least 2 elements! Example: [true, 2]');
+    } else if (this.kites.options.discover.length < 3) {
+      this.kites.options.discover.push(this.kites.options.appDirectory);
     }
 
     // autodiscover extensions
@@ -73,7 +75,7 @@ class ExtensionsManager extends EventEmitter {
         logger: this.kites.logger,
         env: this.kites.options.env,
         depth: depth,
-        rootDirectory: directories,
+        directories: directories,
         tempDirectory: this.kites.options.tempDirectory,
       });
       this.kites.logger.debug('Autodiscover ' + extensions.length + ' extensions!');
@@ -96,69 +98,70 @@ class ExtensionsManager extends EventEmitter {
    * Execute init extensions
    * @param extensions
    */
-  private useMany(extensions: KitesExtension[]) {
-    var promises = extensions.map((e) => this.useOne(e));
-    return Promise.all(promises);
+  private async useMany(extensions: KitesExtension[]) {
+    for (const e of extensions) {
+      await this.useOne(e);
+    }
   }
 
   /**
    * Execute init one extension
    * @param extension
    */
-  private useOne(extension: KitesExtension) {
-    // extends options
-    // Review _.assign(), _.defaults(), or _.merge?
-    const xname = extension.name && extension.name.toLowerCase();
-    const options = _.assign<
-      ExtensionOptions,
-      ExtensionOptions | undefined,
-      ExtensionOptions | undefined>({}, extension.options, this.kites.options[xname]);
+  private async useOne(extension: KitesExtension) {
+    try {
 
-    extension.options = options;
-    this.kites.options[xname] = options;
+      // extends options
+      // Review _.assign(), _.defaults(), or _.merge?
+      const xname = extension.name && extension.name.toLowerCase();
+      const options = _.assign<
+        ExtensionOptions,
+        ExtensionOptions | undefined,
+        ExtensionOptions | undefined>({}, extension.options, this.kites.options[xname]);
 
-    if (options.enabled === false) {
-      this.kites.logger.debug(`Extension ${extension.name} is disabled, skipping`);
-      return Promise.resolve();
-    }
+      extension.options = options;
+      this.kites.options[xname] = options;
 
-    return Promise.resolve()
-      .then(() => {
-        if (typeof extension.main === 'function') {
-          (extension.main as Function).call(this, this.kites, extension);
-          return Promise.resolve();
-        } else if (typeof extension.main === 'string' && extension.directory) {
-          // TODO: REMOVE, reason: Un-Support
-          let extPath = path.join(extension.directory, extension.main);
-          let extModule = require(extPath);
-          extModule.call(this, this.kites, extension);
-          return Promise.resolve();
-        } else if (typeof extension.init === 'function') {
-          (extension.init as Function).call(this, this.kites, extension);
-          return Promise.resolve();
-        } else {
-          return Promise.reject('Invalid kites extension: ' + extension.name);
-        }
-      })
-      .then(() => {
-        if (options.enabled !== false) {
-          this.emit('extension:registered', extension);
-        } else {
-          this.kites.logger.debug(`Extension ${extension.name} was disabled`);
-        }
-      })
-      .catch((e: Error) => {
-        let errorMsg;
-
+      if (options.enabled === false) {
         if (!extension.name) {
-          errorMsg = `Error when loading anonymous extension ${extension.directory != null ? ` at ${extension.directory}` : ''}${os.EOL}${e.stack}`;
+          this.kites.logger.debug(`Anonymous Extension${extension.directory != null ? ` at ${extension.directory}` : ''} is disabled, skipping`);
         } else {
-          errorMsg = `Error when loading extension ${extension.name}${os.EOL}${e.stack}`;
+          this.kites.logger.debug(`Extension ${extension.name} is disabled, skipping`);
         }
+        return;
+      }
 
-        this.kites.logger.error(errorMsg);
-        throw new Error(errorMsg);
-      });
+      if (!extension.name) {
+        this.kites.logger.info(`Register extension: anonymous${extension.directory != null ? ` at ${extension.directory}` : ''}`);
+      } else {
+        this.kites.logger.info(`Register extension: ${extension.name}`);
+      }
+
+      if (typeof extension.main === 'function') {
+        // execute main function without await!
+        (extension.main as Function).call(this, this.kites, extension);
+      } else if (typeof extension.main === 'string' && extension.directory) {
+        const main = await import(path.join(extension.directory, extension.main));
+        // ES6 Module support
+        // execute main function without await!
+        (main && main.default).call(this, this.kites, extension);
+      } else {
+        throw new Error('Invalid kites extension: ' + extension.name + ' -> ' + JSON.stringify(extension));
+      }
+
+      this.emit('extension:registered', extension);
+    } catch (error) {
+      let errorMsg;
+
+      if (!extension.name) {
+        errorMsg = `Error when loading anonymous extension ${extension.directory != null ? ` at ${extension.directory}` : ''}${os.EOL}${error.stack}`;
+      } else {
+        errorMsg = `Error when loading extension ${extension.name}${os.EOL}${error.stack}`;
+      }
+
+      this.kites.logger.error(errorMsg);
+      throw new Error(errorMsg);
+    }
   }
 
 }

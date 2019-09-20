@@ -5,11 +5,12 @@
  */
 
 import { ExtensionOptions, IKites, KitesExtension, KitesInstance } from '@kites/core';
+import config from './kites.config';
+import main from './main';
 
 /// <reference types="express"/>
 import * as e from 'express';
 import * as _ from 'lodash';
-import { ExpressExtension } from './express.extension';
 
 // Add RequestValidation Interface on to Express's Request Interface.
 declare global {
@@ -56,27 +57,10 @@ declare namespace KitesExpressExtension {
 
 export { Express, Router, Request, Response, NextFunction, Application } from 'express';
 
-export default function Express(kites: KitesInstance, definition: KitesExtension) {
-  kites.options.appPath = kites.options.appPath || '/';
-
-  if (kites.options.appPath.substr(-1) !== '/') {
-    kites.options.appPath += '/';
-  }
-
-  kites.options.express = definition.options || {};
-  kites.options.httpPort =
-    kites.options.express.httpPort || kites.options.httpPort;
-  kites.express = definition;
-
-  var extension = new ExpressExtension(kites, kites.options.express);
-  kites.initializeListeners.add(definition.name, extension.init.bind(extension));
+export default function (options?: ExtensionOptions) {
+  const definition: KitesExtension = config;
+  definition.options = options;
+  definition.main = main;
+  definition.directory = __dirname;
+  return definition;
 }
-
-// export default function express(options?: ExtensionOptions) {
-//   // deep clone & extend user options
-//   let definition = _.clone(config);
-//   definition.options = _.extend({}, definition.options, options);
-//   definition.directory = __dirname;
-//   definition.main = createExpress;
-//   return definition;
-// }

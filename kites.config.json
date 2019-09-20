@@ -6,7 +6,6 @@
       "transport": "console",
       "level": "debug"
     }
-
   },
   "extensions": null
 }

@@ -21,10 +21,10 @@ export interface ExtensionOptions {
  */
 export interface KitesExtension {
   [key: string]: any;
-  main?: string | Function | ExtensionDefinition; // TODO: remove
+  main?: string | Function | ExtensionDefinition;
   name: string;
   options?: ExtensionOptions;
-  directory?: string; // TODO: remove
-  dependencies?: Array<string | Function | ExtensionDefinition>;
+  directory?: string;
+  dependencies?: string[];
   init?: (app?: IKites, options?: ExtensionOptions) => any;
 }

@@ -105,6 +105,7 @@ export class KitesInstance extends EventEmitter implements IKites {
     const parent = module.parent || module;
     const defaultLevel = process.env.NODE_ENV === 'production' ? 'info' : 'debug';
     return {
+      loadConfig: false,
       appDirectory: appRoot.toString(),
       // TODO: separate kites discover as an api
       // EXAMPLE 1: kites.discover(true)
@@ -240,10 +241,10 @@ export class KitesInstance extends EventEmitter implements IKites {
     await this.extensionsManager.init();
     await this.initializeListeners.fire();
 
-    this.logger.info('kites initialized!');
-    this.emit('ready', this);
-
     this.initialized = true;
+    this.logger.info('kites initialized!');
+
+    this.emit('ready', this);
     return this;
   }
 

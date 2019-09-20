@@ -11,6 +11,7 @@ export const KITES_INSTANCE = new InjectionToken('KITES_INSTANCE');
 export function engine(options?: IKitesOptions | boolean) {
   if (typeof options === 'boolean') {
     options = {
+      loadConfig: options,
       discover: options
     };
   }
