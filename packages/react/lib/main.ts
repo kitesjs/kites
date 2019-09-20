@@ -1,9 +1,9 @@
 import { ExtensionDefinition, KitesInstance } from '@kites/core';
 
 export default function (kites: KitesInstance, definition: ExtensionDefinition) {
-  kites.initializeListeners.add('studio', {
+  kites.initializeListeners.add('react', {
     after: 'express'
   }, () => {
-    kites.logger.info('Studio config!');
+    kites.logger.info('React bundler configure ..!');
   });
 }
