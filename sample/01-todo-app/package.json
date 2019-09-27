@@ -23,10 +23,10 @@
   },
   "homepage": "https://github.com/kitesjs/kites#readme",
   "dependencies": {
-    "@kites/common": "^1.1.7",
-    "@kites/core": "^1.1.7",
-    "@kites/express": "^1.1.7",
-    "@kites/rest": "^1.1.7",
+    "@kites/common": "^1.1.8",
+    "@kites/core": "^1.1.8",
+    "@kites/express": "^1.1.8",
+    "@kites/rest": "^1.1.8",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
