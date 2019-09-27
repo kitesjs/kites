@@ -1,6 +1,6 @@
 import { KitesFactory, KitesInstance } from '@kites/core';
-import ExpressExt, {Express} from '@kites/express';
-import Rest from '@kites/rest';
+import express, { Express } from '@kites/express';
+import rest from '@kites/rest';
 
 // import to discover controllers
 import './api';
@@ -12,8 +12,8 @@ async function bootstrap() {
       discover: false,  // this value will be overrided by kites.config.json
       providers: []
     })
-    .use(ExpressExt)
-    .use(Rest)
+    .use(express())
+    .use(rest())
     .use((kites: KitesInstance) => {
       kites.on('express:config', (ea: Express) => {
         kites.logger.info('Configure page views ...');
