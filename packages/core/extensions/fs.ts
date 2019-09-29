@@ -97,24 +97,25 @@ export function walkSyncLevel(dirname: string[], filename: string, depth: number
     let list: string[];
     try {
       list = fs.readdirSync(candidate);
+
+      // read details
+      for (const item of list) {
+        let fullname = path.join(candidate, item);
+        if (fullname.indexOf(exclude as string) < 0) {
+          if (fs.statSync(fullname).isDirectory()) {
+            if (level < depth) {
+              const next = readFiles(fullname, level + 1);
+              results = results.concat(next);
+            }
+          } else if (item === filename) {
+            results.push(fullname);
+          }
+        }
+      }
     } catch (err) {
       // no permissions to read folder for example
       // just skip it
       list = [];
-    }
-
-    for (const item of list) {
-      let fullname = path.join(candidate, item);
-      if (fullname.indexOf(exclude as string) < 0) {
-        if (fs.statSync(fullname).isDirectory()) {
-          if (level < depth) {
-            const next = readFiles(fullname, level + 1);
-            results = results.concat(next);
-          }
-        } else if (item === filename) {
-          results.push(fullname);
-        }
-      }
     }
 
     return results;
