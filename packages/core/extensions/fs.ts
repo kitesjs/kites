@@ -115,6 +115,7 @@ export function walkSyncLevel(dirname: string[], filename: string, depth: number
     } catch (err) {
       // no permissions to read folder for example
       // just skip it
+      logger.error('Cannot read file/folder: ' + err);
       list = [];
     }
 
