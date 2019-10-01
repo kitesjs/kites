@@ -1,6 +1,6 @@
 {
   "name": "@kites/rest",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "REST Services for Kites",
   "main": "index.js",
   "repository": {
