@@ -12,13 +12,13 @@ Template-based Web Application Framework
 Features
 =======
 
-* Extension as a feature
-* Autodiscover extensions
-* Micro frontends development
-* Storage mutiple providers
-* Rich decorators system
-* Event-driven programming
-* Reactive programming
+* [x] Extension as a feature
+* [x] Autodiscover extensions
+* [x] Rich decorators system
+* [x] Event-driven programming
+* [x] Reactive programming
+* [ ] Storage mutiple providers
+* [ ] Micro frontends development
 
 Installation
 ============
@@ -36,15 +36,8 @@ cd my-project
 # install dependencies
 npm install
 
-# run app server, navigate browser at http://localhost:3000
+# start development
 npm start
-```
-
-Development environment:
-
-```bash
-# start project in development mode
-npm run dev
 ```
 
 To change environment use cmd `set NODE_ENV=development` or use options your IDE provides. If you don't specify node environment kites assumes `development` as default.
@@ -128,7 +121,7 @@ import express from '@kites/express';
 
 async function bootstrap() {
   const app = await kites()
-    .use(express)
+    .use(express())
     .on('express:config', app => {
       app.get('/hi', (req, res) => res.send('hello!'));
     })
