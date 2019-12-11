@@ -46,6 +46,7 @@ export function getLogger(name: string, options?: any): Logger {
       }
     });
   } else {
+    // remove all transports
     loggers.get(name).clear();
   }
 
