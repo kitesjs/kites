@@ -145,6 +145,7 @@ describe('kites logs', () => {
 
     return await engine({
       logger: {
+        debug: false, // do not add default transport
         console: {
           level: 'debug',
           transport: 'console'

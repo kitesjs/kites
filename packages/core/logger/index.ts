@@ -1,5 +1,6 @@
+import { defaults } from 'lodash';
 import * as path from 'path';
-import { format, Logger, loggers } from 'winston';
+import { format as logFormat, Logger, LoggerOptions, loggers } from 'winston';
 import { DebugTransport } from './debug-transport';
 
 /**
@@ -8,26 +9,27 @@ import { DebugTransport } from './debug-transport';
  * @param options
  */
 export function getLogger(name: string, options?: any): Logger {
-  // TODO: Refactor options for logger (not for transport)
   if (!loggers.has(name)) {
-    // add default Debug transport?
-    const defaultTransports = Object.keys(options || {}).length > 0 ? [] : [
-      new DebugTransport(options, name),
-    ];
+    const {format, transports} = options;
+    const defaultTransports = transports || [];
 
-    loggers.add(name, {
+    const loggerOptions: LoggerOptions = defaults(
+    {
       exitOnError: false,
       level: 'info',
-      format: format.combine(
-        format.splat(), // formats level.message based on Node's util.format().
-        format.label({ label: name }),
-        format.colorize(),
-        format.timestamp(),
-        format.printf(({ level, message, label, timestamp }) => `${timestamp} [${label}] ${level}: ${message}`)
+      format: logFormat.combine(
+        logFormat.splat(), // formats level.message based on Node's util.format().
+        logFormat.label({ label: name }),
+        logFormat.colorize(),
+        logFormat.timestamp(),
+        logFormat.printf(({ level, message, label, timestamp }) => `${timestamp} [${label}] ${level}: ${message}`)
       ),
       transports: defaultTransports,
+    }, {
+      format,
     });
 
+    loggers.add(name, loggerOptions);
     loggers.get(name).on('error', (err: any) => {
       if (err.code === 'ENOENT') {
         let msg = err;
@@ -44,12 +46,14 @@ export function getLogger(name: string, options?: any): Logger {
       }
     });
   } else {
-    // remove all transports and add default Debug transport
+    // remove all transports
     loggers.get(name).clear();
+  }
 
-    if (Object.keys(options || {}).length === 0) {
-      loggers.get(name).add(new DebugTransport(options, name));
-    }
+  const {debug} = options;
+  if (debug !== false) {
+    // add default Debug transport
+    loggers.get(name).add(new DebugTransport(options, name));
   }
 
   return loggers.get(name);
@@ -59,21 +63,7 @@ export function getLogger(name: string, options?: any): Logger {
  * Get or create logger with default `debug` transport
  */
 export function getDebugLogger(name: string, options?: any) {
-  if (!loggers.has(name)) {
-    loggers.add(name, {
-      exitOnError: false,
-      level: 'info',
-      format: format.combine(
-        format.splat(), // formats level.message based on Node's util.format().
-        format.label({ label: name }),
-        format.colorize(),
-        format.timestamp(),
-        format.printf(({ level, message, label, timestamp }) => `${timestamp} [${label}] ${level}: ${message}`)
-      ),
-      transports: [new DebugTransport(options, name)],
-    });
-  }
-  return loggers.get(name);
+  return getLogger(name, {...options, transports: [new DebugTransport(options, name)]});
 }
 
 export {
