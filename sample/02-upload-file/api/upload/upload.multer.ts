@@ -11,9 +11,12 @@ const storage = multer.diskStorage({
     const userDir = '/content/uploads/' + req.param('user', `${now.getFullYear()}/${now.getMonth()}/${now.getDate()}`);
     const uploadDir = req.kites.appDirectory + userDir;
     (req as any).uploadDir = userDir;
-    mkdirp(uploadDir, err => {
-      cb(null, uploadDir);
-    });
+    mkdirp(uploadDir)
+      .then(() => {
+        cb(null, uploadDir);
+      }).catch((err) => {
+        cb(err);
+      });
   },
   filename(req, file, cb) {
     // TODO: Generate unique file name
