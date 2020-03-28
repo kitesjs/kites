@@ -1,5 +1,5 @@
-import { IHttpActionResult } from "../interfaces";
-import { HttpResponseMessage } from "./http-response-message";
+import { IHttpActionResult } from '../interfaces';
+import { HttpResponseMessage } from './http-response-message';
 
 /**
  * Response HTTP 200 OK
