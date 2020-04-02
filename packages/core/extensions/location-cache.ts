@@ -1,5 +1,5 @@
 import _fs from 'fs';
-import _mkdirp from 'mkdirp';
+import mkdirp from 'mkdirp';
 import os from 'os';
 import path from 'path';
 import { promisify } from 'util';
@@ -8,7 +8,7 @@ import { IDiscoverOptions } from './discover';
 import { KitesExtension } from './extensions';
 import { walkSync, walkSyncLevel } from './fs';
 
-const mkdirp = promisify(_mkdirp);
+// const mkdirp = promisify(_mkdirp);
 const stat = promisify(_fs.stat);
 const readFile = promisify(_fs.readFile);
 const writeFile = promisify(_fs.writeFile);
