@@ -6,10 +6,13 @@ export const METADATA = {
 };
 
 export const PATH_METADATA = 'path';
-export const PARAMTYPES_METADATA = 'design:paramtypes';
-
 export const METHOD_METADATA = 'method';
 export const RENDER_METADATA = '__renderTemplate__';
 
+// used to access design time types
+export const DESIGN_PARAM_TYPES = 'design:paramtypes';
+
+// used to store types to be injected
+export const PARAM_TYPES = 'kites:paramtypes';
+
 export const INJECT_METADATA_KEY = Symbol('INJECT_KEY');
-export const INJECTABLE_METADATA_KEY = Symbol('INJECTABLE_KEY');

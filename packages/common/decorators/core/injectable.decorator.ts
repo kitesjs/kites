@@ -1,4 +1,5 @@
-import { INJECTABLE_METADATA_KEY, PARAMTYPES_METADATA } from '../../constants';
+import { DESIGN_PARAM_TYPES, PARAM_TYPES } from '../../constants';
+import { DUPLICATED_INJECTABLE_DECORATOR } from '../../constants/error.messages';
 import { ScopeOptions } from '../../interfaces/scope-options.interface';
 import { Type } from '../../interfaces/type.interface';
 
@@ -12,18 +13,18 @@ export interface InjectableOptions extends ScopeOptions { }
 export function Injectable() {
   return (target: any) => {
 
-    if (Reflect.hasOwnMetadata(INJECTABLE_METADATA_KEY, target)) {
-      throw new Error('Duplicated injectable decorator');
+    if (Reflect.hasOwnMetadata(PARAM_TYPES, target)) {
+      throw new Error(DUPLICATED_INJECTABLE_DECORATOR);
     }
 
-    const types = Reflect.getMetadata(PARAMTYPES_METADATA, target) || [];
+    const types = Reflect.getMetadata(DESIGN_PARAM_TYPES, target) || [];
+    Reflect.defineMetadata(PARAM_TYPES, types, target);
 
-    Reflect.defineMetadata(INJECTABLE_METADATA_KEY, types, target);
     return target;
   };
 }
 
 export function isInjectable<T>(target: Type<T>) {
   // return Reflect.getMetadata(INJECTABLE_METADATA_KEY, target) === true;
-  return Reflect.hasOwnMetadata(INJECTABLE_METADATA_KEY, target);
+  return Reflect.hasOwnMetadata(PARAM_TYPES, target);
 }
