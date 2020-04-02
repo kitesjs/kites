@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 
 import { expect } from 'chai';
-import { INJECT_METADATA_KEY, SELF_DECLARED_DEPS_METADATA } from '../../constants';
+import { INJECT_METADATA_KEY } from '../../constants';
 import { InjectionToken } from '../../interfaces';
 import { Inject } from './inject.decorator';
 

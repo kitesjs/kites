@@ -1,4 +1,4 @@
-import { INJECTABLE_METADATA_KEY, PARAMTYPES_METADATA, SCOPE_OPTIONS_METADATA } from '../../constants';
+import { INJECTABLE_METADATA_KEY, PARAMTYPES_METADATA } from '../../constants';
 import { ScopeOptions } from '../../interfaces/scope-options.interface';
 import { Type } from '../../interfaces/type.interface';
 
