@@ -10,7 +10,7 @@ import { DiscoverOptions, ExtensionsManager } from '../extensions/extensions-man
 import { getLogger } from '../logger';
 import { EventCollectionEmitter } from './event-collection';
 
-import { Type } from '@kites/common';
+import { Type } from '@kites/common/interfaces';
 import { ExtensionDefinition, KitesExtension } from '../extensions/extensions';
 import { Container } from '../injector';
 import pkg from '../package.json';

@@ -1,4 +1,5 @@
-import { Inject, Injectable, InjectionToken } from '@kites/common';
+import { Inject, Injectable } from '@kites/common';
+import { InjectionToken } from '@kites/common/interfaces';
 import { expect } from 'chai';
 import { Container } from './container';
 
@@ -158,7 +159,7 @@ describe('Container', () => {
       const container = new Container();
       expect(() => {
         container.inject(SomeInferfaceClass);
-      }).throws(/No provider for type Object/);
+      }).throws(/Missing required @Inject/);
     });
 
   });
