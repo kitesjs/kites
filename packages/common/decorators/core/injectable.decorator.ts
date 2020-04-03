@@ -1,7 +1,7 @@
 import { DESIGN_PARAM_TYPES, PARAM_TYPES } from '../../constants';
 import { DUPLICATED_INJECTABLE_DECORATOR } from '../../constants/error.messages';
 import { ScopeOptions } from '../../interfaces/scope-options.interface';
-import { Type } from '../../interfaces/type.interface';
+import { Newable } from '../../interfaces/type.interface';
 
 export interface InjectableOptions extends ScopeOptions { }
 
@@ -24,7 +24,7 @@ export function Injectable() {
   };
 }
 
-export function isInjectable<T>(target: Type<T>) {
+export function isInjectable<T>(target: Newable<T>) {
   // return Reflect.getMetadata(INJECTABLE_METADATA_KEY, target) === true;
   return Reflect.hasOwnMetadata(PARAM_TYPES, target);
 }

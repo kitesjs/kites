@@ -1,13 +1,12 @@
-import { Abstract } from '../abstract.interface';
 import { Provider } from '../provider.interface';
-import { Type } from '../type.interface';
+import { Abstract, Newable } from '../type.interface';
 import { DynamicExtension } from './dynamic-extension';
 
 export interface ExtensionMetadata {
   imports?: Array<
-    Type<any> | DynamicExtension | Promise<DynamicExtension>
+    Newable<any> | DynamicExtension | Promise<DynamicExtension>
   >;
-  controllers?: Array<Type<any>>;
+  controllers?: Array<Newable<any>>;
   providers?: Array<Provider<any>>;
   exports?: Array<
     | DynamicExtension
