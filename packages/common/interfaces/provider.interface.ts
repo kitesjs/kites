@@ -1,10 +1,10 @@
 // import { Abstract } from './abstract.interface';
 import { Scope } from './scope-options.interface';
-import { Abstract, InjectionToken, Newable } from './type.interface';
+import * as interfaces from './type.interface';
 
 export type Factory<T> = () => T;
 
-export type Token<T> = (string | symbol | InjectionToken| Newable<T> | Abstract<T>);
+export type Token<T> = (string | symbol | interfaces.InjectionToken| interfaces.Newable<T> | interfaces.Abstract<T>);
 
 export interface BaseProvider<T> {
   provide: Token<T>;
@@ -12,7 +12,7 @@ export interface BaseProvider<T> {
 }
 
 export interface ClassProvider<T> extends BaseProvider<T> {
-  useClass: Newable<T>;
+  useClass: interfaces.Newable<T>;
 }
 
 export interface ValueProvider<T> extends BaseProvider<T> {

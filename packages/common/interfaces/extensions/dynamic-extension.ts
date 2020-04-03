@@ -1,6 +1,6 @@
-import { Type } from '../type.interface';
+import { Newable } from '../type.interface';
 import { ExtensionMetadata } from './extension-metadata';
 
 export interface DynamicExtension extends ExtensionMetadata {
-  extension: Type<any>;
+  extension: Newable<any>;
 }

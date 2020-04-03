@@ -1,5 +1,5 @@
-import * as METADATA_KEY from '../constants/metadata.keys';
-import * as interfaces from '../interfaces';
+import * as METADATA_KEY from '../../constants/metadata.keys';
+import * as interfaces from '../../interfaces';
 
 class Metadata implements interfaces.Metadata {
 
