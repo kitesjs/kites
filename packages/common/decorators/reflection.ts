@@ -19,12 +19,15 @@ function getDependencies(
   metadataReader: interfaces.MetadataReader, func: Function
 ): interfaces.Target[] {
   const constructorName = getFunctionName(func);
-  const targets: interfaces.Target[] = getTargets(metadataReader, constructorName, func, false);
+  const targets = getTargets(metadataReader, constructorName, func, false);
   return targets;
 }
 
 function getTargets(
-  metadataReader: interfaces.MetadataReader, constructorName: string, func: Function, isBaseClass: boolean
+  metadataReader: interfaces.MetadataReader,
+  constructorName: string,
+  func: Function,
+  isBaseClass: boolean
 ): interfaces.Target[] {
 
   const metadata = metadataReader.getConstructorMetadata(func);
@@ -65,6 +68,7 @@ function getTargets(
   return targets;
 
 }
+
 function getConstructorArgsAsTarget(
   index: number,
   isBaseClass: boolean,
@@ -180,7 +184,7 @@ function getClassPropsAsTargets(metadataReader: interfaces.MetadataReader, const
   return targets;
 }
 
-function formatTargetMetadata(targetMetadata: any[]) {
+function formatTargetMetadata(targetMetadata: interfaces.Metadata[]) {
 
   // Create map from array of metadata for faster access to metadata
   const targetMetadataMap: any = {};
