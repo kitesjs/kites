@@ -28,7 +28,14 @@ export interface IKitesOptions {
   providers?: Array<Type<any>>;
   discover?: DiscoverOptions; // options for discovery
   loadConfig?: boolean;
+  /**
+   * Use to discover extensions
+   * Kites default discover from root directory.
+   */
   rootDirectory?: string;
+  /**
+   * Used to load app profile or configuration
+   */
   appDirectory?: string;
   parentModuleDirectory?: string;
   env?: string;
