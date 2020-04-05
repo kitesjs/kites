@@ -6,10 +6,11 @@ import {
   InjectionToken,
   isClassProvider,
   isValueProvider,
+  Metadata,
   Provider,
   Token,
   Type,
-  ValueProvider
+  ValueProvider,
 } from '@kites/common/interfaces';
 
 type InjectableParam = Type<any>;
@@ -50,8 +51,34 @@ export class Container {
   private injectClass<T>(classProvider: ClassProvider<T>): T {
     const target = classProvider.useClass;
     // const params = this.getInjectedParams(target);
-    const params = this.getInjectedContructorParams(target);
-    return Reflect.construct(target, params);
+    // const params = this.getInjectedContructorParams(target);
+
+    const reader = new MetadataReader();
+    // const meta = reader.getConstructorMetadata(target);
+    const dependencies = getDependencies(reader, target);
+    const params = [];
+    const properties: Metadata[] = [];
+    for (const dependency of dependencies) {
+      const provider = this.providers.get(dependency.serviceIdentifier);
+      const injection = this.injectWithProvider(dependency.serviceIdentifier, provider);
+      if (dependency.type === 'ClassProperty') {
+        properties.push({
+          key: dependency.name,
+          value: injection,
+        });
+      } else {
+        params.push(injection);
+      }
+    }
+
+    const instance = Reflect.construct(target, params);
+    // let instance = new target(...params);
+    properties.forEach(({ key, value }) => {
+      // instance[meta.key] = meta.value;
+      Reflect.defineProperty(instance, key, { value });
+    });
+
+    return instance;
   }
 
   private injectValue<T>(valueProvider: ValueProvider<T>): T {
@@ -68,6 +95,7 @@ export class Container {
     const dependencies = getDependencies(reader, target);
 
     return dependencies.map(dependency => {
+      dependency.type = 'ClassProperty';
       const provider = this.providers.get(dependency.serviceIdentifier);
       return this.injectWithProvider(dependency.serviceIdentifier, provider);
     });

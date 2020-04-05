@@ -38,6 +38,7 @@ export interface Lookup<T> extends Clonable<Lookup<T>> {
 
 export interface Target {
   id: number;
+  name: string;
   serviceIdentifier: Token<any>;
   type: TargetType;
   metadata: Metadata[];

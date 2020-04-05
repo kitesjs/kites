@@ -1,5 +1,6 @@
 import * as METADATA_KEY from '../constants/metadata.keys';
 import * as interfaces from '../interfaces';
+import { id } from '../utils/id';
 import { Metadata } from './metadata';
 
 export class Target implements interfaces.Target {
@@ -8,6 +9,7 @@ export class Target implements interfaces.Target {
   public type: interfaces.TargetType;
   public serviceIdentifier: interfaces.Token<any>;
   // public name: interfaces.QueryableString;
+  public name: string;
   public metadata: Metadata[];
 
   public constructor(
@@ -17,7 +19,8 @@ export class Target implements interfaces.Target {
     namedOrTagged?: (string | Metadata)
   ) {
 
-    // this.id = id();
+    this.id = id();
+    this.name = name;
     this.type = type;
     this.serviceIdentifier = serviceIdentifier;
     // this.name = new QueryableString(name || '');
