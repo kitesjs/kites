@@ -1,4 +1,4 @@
-import { InjectionToken } from '@kites/common';
+import { InjectionToken } from '@kites/common/interfaces';
 
 const TYPE = {
   AuthProvider: new InjectionToken('AuthProvider'),

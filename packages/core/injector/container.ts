@@ -1,17 +1,17 @@
+import { getDependencies, isInjectable, MetadataReader } from '@kites/common/decorators';
 import {
   ClassProvider,
   FactoryProvider,
-  getInjectionToken,
+  // getInjectionToken,
   InjectionToken,
   isClassProvider,
-  isInjectable,
   isValueProvider,
-  PARAMTYPES_METADATA,
+  Metadata,
   Provider,
   Token,
   Type,
-  ValueProvider
-} from '@kites/common';
+  ValueProvider,
+} from '@kites/common/interfaces';
 
 type InjectableParam = Type<any>;
 
@@ -28,7 +28,7 @@ export class Container {
   inject<T>(type: Token<T>): T {
     let provider = this.providers.get(type);
     if (provider === undefined && !(type instanceof InjectionToken) && typeof type !== 'string') {
-      provider = { provide: type, useClass: type };
+      provider = { provide: type, useClass: type as Type<T> };
       this.assertInjectableIfClassProvider(provider);
     }
     return this.injectWithProvider(type, provider);
@@ -50,8 +50,35 @@ export class Container {
 
   private injectClass<T>(classProvider: ClassProvider<T>): T {
     const target = classProvider.useClass;
-    const params = this.getInjectedParams(target);
-    return Reflect.construct(target, params);
+    // const params = this.getInjectedParams(target);
+    // const params = this.getInjectedContructorParams(target);
+
+    const reader = new MetadataReader();
+    // const meta = reader.getConstructorMetadata(target);
+    const dependencies = getDependencies(reader, target);
+    const params = [];
+    const properties: Metadata[] = [];
+    for (const dependency of dependencies) {
+      const provider = this.providers.get(dependency.serviceIdentifier);
+      const injection = this.injectWithProvider(dependency.serviceIdentifier, provider);
+      if (dependency.type === 'ClassProperty') {
+        properties.push({
+          key: dependency.name,
+          value: injection,
+        });
+      } else {
+        params.push(injection);
+      }
+    }
+
+    const instance = Reflect.construct(target, params);
+    // let instance = new target(...params);
+    properties.forEach(({ key, value }) => {
+      // instance[meta.key] = meta.value;
+      Reflect.defineProperty(instance, key, { value });
+    });
+
+    return instance;
   }
 
   private injectValue<T>(valueProvider: ValueProvider<T>): T {
@@ -62,33 +89,45 @@ export class Container {
     return factoryProvider.useFactory();
   }
 
-  private getInjectedParams<T>(target: Type<T>) {
-    const argTypes = Reflect.getMetadata(PARAMTYPES_METADATA, target) as Array<
-      | InjectableParam
-      | undefined
-    >;
+  private getInjectedContructorParams<T>(target: Type<T>) {
+    const reader = new MetadataReader();
+    // const meta = reader.getConstructorMetadata(target);
+    const dependencies = getDependencies(reader, target);
 
-    if (argTypes === undefined) {
-      return [];
-    } else {
-      return argTypes.map((argType, index) => {
-        // The reflect-metadata API fails on circular dependencies,
-        // and will return `undefined` for the argument instead.
-        if (argType === undefined) {
-          throw new Error(
-            `Injection error. Recursive dependency detected in constructor for type ${
-            target.name
-            } with parameter at index ${index}`
-          );
-        }
-
-        const overrideToken = getInjectionToken(target, index);
-        const actualToken = overrideToken === undefined ? argType : overrideToken;
-        const provider = this.providers.get(actualToken);
-        return this.injectWithProvider(actualToken, provider);
-      });
-    }
+    return dependencies.map(dependency => {
+      dependency.type = 'ClassProperty';
+      const provider = this.providers.get(dependency.serviceIdentifier);
+      return this.injectWithProvider(dependency.serviceIdentifier, provider);
+    });
   }
+
+  // private getInjectedParams<T>(target: Type<T>) {
+  //   const argTypes = Reflect.getMetadata(PARAM_TYPES, target) as Array<
+  //     | InjectableParam
+  //     | undefined
+  //   >;
+
+  //   if (argTypes === undefined) {
+  //     return [];
+  //   } else {
+  //     return argTypes.map((argType, index) => {
+  //       // The reflect-metadata API fails on circular dependencies,
+  //       // and will return `undefined` for the argument instead.
+  //       if (argType === undefined) {
+  //         throw new Error(
+  //           `Injection error. Recursive dependency detected in constructor for type ${
+  //           target.name
+  //           } with parameter at index ${index}`
+  //         );
+  //       }
+
+  //       const overrideToken = getInjectionToken(target, index);
+  //       const actualToken = overrideToken === undefined ? argType : overrideToken;
+  //       const provider = this.providers.get(actualToken);
+  //       return this.injectWithProvider(actualToken, provider);
+  //     });
+  //   }
+  // }
 
   private assertInjectableIfClassProvider<T>(provider: Provider<T>) {
     if (isClassProvider(provider) && !isInjectable(provider.useClass)) {
@@ -104,6 +143,8 @@ export class Container {
   private getTokenName<T>(token: Token<T>) {
     if (typeof token === 'string') {
       return token;
+    } else if (typeof token === 'symbol') {
+      return token.toString();
     } else {
       return token instanceof InjectionToken
         ? token.injectionIdentifier

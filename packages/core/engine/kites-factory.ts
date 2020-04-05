@@ -1,4 +1,4 @@
-import { InjectionToken } from '@kites/common';
+import { InjectionToken } from '@kites/common/interfaces';
 import * as path from 'path';
 import { IKitesOptions, KitesInstance } from './kites-instance';
 
