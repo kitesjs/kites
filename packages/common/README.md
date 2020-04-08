@@ -16,7 +16,7 @@ Features
 * [x] Autodiscover extensions
 * [x] Rich decorators system
 * [x] Event-driven programming
-* [x] Reactive programming
+* [ ] Reactive programming
 * [ ] Storage mutiple providers
 * [ ] Micro frontends development
 
