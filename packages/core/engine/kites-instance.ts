@@ -112,7 +112,7 @@ export class KitesInstance extends EventEmitter implements IKites {
     const parent = module.parent || module;
     const defaultLevel = process.env.NODE_ENV === 'production' ? 'info' : 'debug';
     return {
-      loadConfig: false,
+      loadConfig: true,
       appDirectory: appRoot.toString(),
       // TODO: separate kites discover as an api
       // EXAMPLE 1: kites.discover(true)
@@ -237,12 +237,14 @@ export class KitesInstance extends EventEmitter implements IKites {
    * Kites initialize
    */
   async init() {
-    // Keep silent if the option configured
+    // init options first
+    await this._initOptions();
+
+    // keep silent if the option is configured
     if (this.options.logger && this.options.logger.silent === true) {
       this._silentLogs(this.logger);
     }
 
-    await this._initOptions();
     this.logger.info(`Initializing ${this.name}@${this.version} in mode "${this.options.env}"${this.options.loadConfig ? ', using configuration file ' + this.options.configFile : ''}`);
 
     await this.extensionsManager.init();

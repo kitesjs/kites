@@ -1,5 +1,5 @@
 {
-  "discover": true,
+  "discover": false,
   "extensionsLocationCache": true,
   "logger": {
     "console": {
