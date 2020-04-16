@@ -28,7 +28,7 @@ Installation
 $ npm install -g @kites/cli
 
 # init a project
-kites init my-project --template mvc
+kites init my-project
 
 # move to project workspace
 cd my-project
@@ -65,8 +65,8 @@ bootstrap();
 ```js
 const kites = require('@kites/core');
 
-kites.engine().init().then((core) => {
-  core.logger.info('Hello World!');
+kites.engine().init().then((app) => {
+  app.logger.info('Hello World!');
 });
 ```
 
@@ -81,10 +81,8 @@ Templates
 
 Here is the list of **built-in templates** and their implementation status:
 
-* [x] `mvc`: Assembling all into complete ship (**default**)
-* [x] `basic`: Template for building from scratch
-* [x] `apidoc`: Template for API Documentation
-* [x] `express`: Template for Express Application
+* [x] `starter`: Kites Project Starter with Typescript (**default**)
+* [x] `docsify`: Template webserver for documentation site generator
 * [x] `chatbot`: Template for generating an AI Chatbot
 
 More templates, checkout [issue #1](https://github.com/vunb/kites/issues/1)
@@ -106,7 +104,7 @@ import {engine} from '@kites/core';
 
 async function bootstrap() {
   // let kites autodiscover the extensions
-  const app = await engine(true).init();
+  const app = await engine({ discover: true }).init();
   app.logger.info('A new kites started!');
 }
 
@@ -120,7 +118,9 @@ import {engine} from '@kites/core';
 import express from '@kites/express';
 
 async function bootstrap() {
-  const app = await kites()
+  const app = await engine({
+      discover: false,
+    })
     .use(express())
     .on('express:config', app => {
       app.get('/hi', (req, res) => res.send('hello!'));
