@@ -58,14 +58,14 @@ export async function get(config: IDiscoverOptions) {
 }
 
 export async function save(extensions: KitesExtension[], config: IDiscoverOptions) {
-  let location = path.join(__dirname, '../../../');
-  let directories = extensions
+  const location = path.join(__dirname, '../../../');
+  const directories = extensions
     .map(x => path.join(x.directory + '', KITES_CONFIG_FILE))
     .filter(x => x.indexOf(location) > -1);
 
-  let tempDirectory = config.tempDirectory || os.tmpdir();
-  let pathToLocationCache = path.join(tempDirectory, 'extensions');
-  let fileToLocationCache = path.join(pathToLocationCache, 'locations.json');
+  const tempDirectory = config.tempDirectory || os.tmpdir();
+  const pathToLocationCache = path.join(tempDirectory, 'extensions');
+  const fileToLocationCache = path.join(pathToLocationCache, 'locations.json');
   config.logger.info('Saving cache to location: ' + fileToLocationCache);
 
   await mkdirp(pathToLocationCache);
@@ -79,9 +79,12 @@ export async function save(extensions: KitesExtension[], config: IDiscoverOption
     // file is corrupted, nevermind and override all
   }
 
+  // unique extension locations
+  const locations = new Set(directories);
+
   nodes[location] = {
     lastSync: new Date().getTime(),
-    locations: directories
+    locations: Array.from(locations)
   };
 
   await writeFile(fileToLocationCache, JSON.stringify(nodes), 'utf-8');
