@@ -46,7 +46,7 @@ export async function get(config: IDiscoverOptions) {
 
     // return cached
     await Promise.all(cache.locations.map((dir: string) => stat(dir)));
-    config.logger.info('Extensions location cache contains up to date information, skipping crawling in ' + config.directories);
+    config.logger.info('Extensions location cache contains up to date information, skipping crawling in ' + config.directories + ', exclude: ' + location);
 
     let directories = walkSyncLevel(config.directories, KITES_CONFIG_FILE, config.depth, location);
     let result = directories.concat(cache.locations);

@@ -33,7 +33,7 @@ var availableExtensionsCache: any;
  */
 export async function discover(config: IDiscoverOptions) {
 
-  config.logger.info('Searching for available extensions in ' + config.directories);
+  config.logger.info('Searching for available extensions in: ' + config.directories);
 
   if (config.cacheAvailableExtensions && availableExtensionsCache != null) {
     config.logger.info(`Loading extensions from cache: count(${availableExtensionsCache.length})`);
