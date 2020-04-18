@@ -87,7 +87,8 @@ export function walkSync(rootPath: string, fileName: string, exclude?: string | 
  * @param depth max level to discover
  * @param exclude pattern to exclude searching
  */
-export function walkSyncLevel(dirname: string[], filename: string, depth: number = 2, exclude?: string) {
+export function walkSyncLevel(dirname: string[], filename: string, depth: number = 2, exclude?: string)
+  : string[] {
   logger.info('Start searching: ' + dirname);
 
   function readFiles(candidate: string, level: number): string[] {
@@ -122,10 +123,17 @@ export function walkSyncLevel(dirname: string[], filename: string, depth: number
     return results;
   }
 
-  let vResults = [];
+  let vResults: string[] = [];
   for (const item of dirname) {
-    vResults = vResults.concat(readFiles(item, 0));
-  }
+    // resolves a sequence of path segments into an absolute path
+    let fullPath = path.resolve(item);
 
+    if (fullPath.indexOf(exclude) < 0) {
+      vResults = vResults.concat(readFiles(fullPath, 0));
+    } else {
+      logger.info('Exclude: ' + fullPath);
+    }
+
+  }
   return vResults;
 }

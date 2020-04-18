@@ -30,27 +30,33 @@ export async function get(config: IDiscoverOptions) {
     // read file content
     let content = await readFile(pathToLocationCache, 'utf-8');
     let json = JSON.parse(content);
-    let location = path.join(__dirname, '../../../');
-    let cache = json[location];
+    let locations: string[] = [];
 
-    if (!cache) {
-      config.logger.info('Extensions location cache doesn\'t contain entry yet, crawling');
-      return walkSyncLevel(config.directories, KITES_CONFIG_FILE, config.depth);
+    for (const directory of config.directories) {
+      let location = path.resolve(directory);
+      let cache = json[location];
+      let locationInfo = await stat(location);
+
+      if (!cache) {
+        config.logger.info('Extensions location cache doesn\'t contain entry yet, crawling');
+        const result = walkSyncLevel([location], KITES_CONFIG_FILE, config.depth);
+        locations = locations.concat(result);
+      } else if (locationInfo.mtime.getTime() > cache.lastSync) {
+        config.logger.info('Extensions location cache ' + pathToLocationCache + ' contains older information, crawling: ' + locationInfo.mtime.getTime());
+        const result = walkSyncLevel([location], KITES_CONFIG_FILE, config.depth);
+        locations = locations.concat(result);
+      } else {
+        // return cached
+        await Promise.all(cache.locations.map((dir: string) => stat(dir)));
+        config.logger.info('Extensions location cache contains up to date information, skipping crawling in: ' + directory);
+        // get locations from cache
+        locations = locations.concat(cache.locations);
+      }
     }
 
-    let extensionInfo = await stat(location);
-    if (extensionInfo.mtime.getTime() > cache.lastSync) {
-      config.logger.info('Extensions location cache ' + pathToLocationCache + ' contains older information, crawling');
-      return walkSyncLevel(config.directories, KITES_CONFIG_FILE, config.depth);
-    }
-
-    // return cached
-    await Promise.all(cache.locations.map((dir: string) => stat(dir)));
-    config.logger.info('Extensions location cache contains up to date information, skipping crawling in ' + config.directories);
-
-    let directories = walkSyncLevel(config.directories, KITES_CONFIG_FILE, config.depth, location);
-    let result = directories.concat(cache.locations);
-    return result;
+    // Remove duplicates
+    const vResult = new Set(locations);
+    return Array.from(vResult);
   } catch (err) {
     config.logger.info('Extensions location cache not found, crawling directories');
     return walkSyncLevel(config.directories, KITES_CONFIG_FILE, config.depth);
@@ -58,10 +64,17 @@ export async function get(config: IDiscoverOptions) {
 }
 
 export async function save(extensions: KitesExtension[], config: IDiscoverOptions) {
-  const location = path.join(__dirname, '../../../');
-  const directories = extensions
-    .map(x => path.join(x.directory + '', KITES_CONFIG_FILE))
-    .filter(x => x.indexOf(location) > -1);
+
+  const caches = config.directories.reduce((cache, directory) => {
+    let location = path.resolve(directory);
+    let lastSync = new Date().getTime();
+    let locations = extensions
+      .map(x => path.join(x.directory + '', KITES_CONFIG_FILE))
+      .filter(x => x.indexOf(location) > -1);
+    // cache location
+    cache[location] = { lastSync, locations };
+    return cache;
+  }, {});
 
   const tempDirectory = config.tempDirectory || os.tmpdir();
   const pathToLocationCache = path.join(tempDirectory, 'extensions');
@@ -80,12 +93,7 @@ export async function save(extensions: KitesExtension[], config: IDiscoverOption
   }
 
   // unique extension locations
-  const locations = new Set(directories);
-
-  nodes[location] = {
-    lastSync: new Date().getTime(),
-    locations: Array.from(locations)
-  };
+  Object.assign(nodes, caches);
 
   await writeFile(fileToLocationCache, JSON.stringify(nodes), 'utf-8');
   config.logger.info('Writing extension locations cache to ' + fileToLocationCache + ' done!');
