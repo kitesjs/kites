@@ -35,14 +35,14 @@ export async function get(config: IDiscoverOptions) {
     for (const directory of config.directories) {
       let location = path.resolve(directory);
       let cache = json[location];
-      let extensionInfo = await stat(location);
+      let locationInfo = await stat(location);
 
       if (!cache) {
         config.logger.info('Extensions location cache doesn\'t contain entry yet, crawling');
         const result = walkSyncLevel([location], KITES_CONFIG_FILE, config.depth);
         locations = locations.concat(result);
-      } else if (extensionInfo.mtime.getTime() > cache.lastSync) {
-        config.logger.info('Extensions location cache ' + pathToLocationCache + ' contains older information, crawling: ' + extensionInfo.mtime.getTime());
+      } else if (locationInfo.mtime.getTime() > cache.lastSync) {
+        config.logger.info('Extensions location cache ' + pathToLocationCache + ' contains older information, crawling: ' + locationInfo.mtime.getTime());
         const result = walkSyncLevel([location], KITES_CONFIG_FILE, config.depth);
         locations = locations.concat(result);
       } else {
