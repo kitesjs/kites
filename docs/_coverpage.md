@@ -1,8 +1,10 @@
 <!-- ![logo](assets/images/logo.png) -->
 
-# **Kites.JS**
-
-> Template-based Web Application Framework.
+<!-- # **Kites.JS** -->
+<div class="banner">
+<h1>k<span class="highlight small">i</span>tes<span class="highlight"><span class="merge">.</span>js</span></h1>
+<p class="description">Template-based Web Application Framework</p>
+</div>
 
 - 🚀 Extension as a feature
 - ⚡️️ Autodiscover extensions
