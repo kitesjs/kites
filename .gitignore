@@ -58,7 +58,6 @@ typings/
 .env
 .idea
 .vscode
-docs
 build
 build-runtime
 
