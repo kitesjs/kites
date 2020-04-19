@@ -17,5 +17,7 @@
 - **References**
   - API
   - Configuration
+  - [Acknowledgements](references/Acknowledgements.md)
 
 - **Contributing**
+  - [**:heart::coffee: Buy me a coffee**](https://paypal.me/vunb/5)
