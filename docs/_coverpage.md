@@ -1,8 +1,16 @@
 <!-- ![logo](assets/images/logo.png) -->
 
-# **Kites.JS**
+<!-- # **Kites.JS** -->
+<div class="banner">
+<h1>k<span class="highlight small">i</span>tes<span class="highlight"><span class="merge">.</span>js</span></h1>
+<p class="description">Template-based Web Application Framework</p>
+</div>
 
-> Template-based Web Application Framework.
+[![Join the chat at https://gitter.im/nodevn/kites](https://badges.gitter.im/nodevn/kites.svg)](https://gitter.im/nodevn/kites)
+[![npm version](https://img.shields.io/npm/v/@kites/core.svg?style=flat)](https://www.npmjs.com/package/@kites/core)
+[![npm downloads](https://img.shields.io/npm/dm/@kites/core.svg)](https://www.npmjs.com/package/@kites/core)
+[![Travis](https://travis-ci.org/kitesjs/kites.svg?branch=stable)](https://travis-ci.org/kitesjs/kites)
+
 
 - 🚀 Extension as a feature
 - ⚡️️ Autodiscover extensions
