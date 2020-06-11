@@ -1,0 +1,24 @@
+{
+  "name": "@kites/basic-auth",
+  "version": "1.2.5",
+  "description": "Basic auth - An extension for Kites.js",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kitesjs/kites.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "kites"
+  ],
+  "author": "vunb",
+  "license": "MIT",
+  "peerDependencies": {
+    "@kites/common": "^1.1.7",
+    "@kites/core": "^1.1.7",
+    "@kites/express": "^1.1.7",
+    "reflect-metadata": "^0.1.12"
+  }
+}

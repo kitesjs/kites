@@ -113,12 +113,6 @@ export class KitesInstance extends EventEmitter implements IKites {
     const defaultLevel = process.env.NODE_ENV === 'production' ? 'info' : 'debug';
     return {
       loadConfig: true,
-      appDirectory: appRoot.toString(),
-      // TODO: separate kites discover as an api
-      // EXAMPLE 1: kites.discover(true)
-      // EXAMPLE 2: kites.discover(false)
-      // EXAMPLE 3: kites.discover('/path/to/discover')
-      // EXAMPLE 4: kites.discover([true, 2, '/path/to/discover', '/path2'])
       discover: false,
       env: process.env.NODE_ENV || 'development',
       logger: {
@@ -129,6 +123,7 @@ export class KitesInstance extends EventEmitter implements IKites {
       },
       parentModuleDirectory: path.dirname(parent.filename),
       rootDirectory: path.resolve(__dirname, '../../../'),
+      appDirectory: appRoot.toString(),
     };
   }
 

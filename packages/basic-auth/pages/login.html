@@ -1,0 +1,53 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.6.3/css/all.css" />
+  <style>
+    body {
+      padding: 70px;
+    }
+
+    h1 {
+      margin: auto;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="row">
+      <h1><i class="fa fa-lock" aria-hidden="true"></i> Login</h1>
+    </div>
+    <br />
+    <br />
+
+    <form action="/login" method="POST">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="fas fa-user-tie"></i></span>
+        </div>
+        <input type="text" name="username" class="form-control" placeholder="username or email" required />
+      </div><br />
+
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="fa fa-key icon"></i></span>
+        </div>
+        <input type="Password" name="password" class="form-control" placeholder="password" required />
+      </div><br />
+      <div class="checkbox">
+        <label><input type="checkbox" value="" /> Remember me</label>
+      </div><br />
+      <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-off"></span> Login</button>
+      <hr />
+      <div class="footer">
+        <p>Don't have an Account! <a href="#">Sign Up Here</a></p>
+        <p>Forgot <a href="#">Password?</a></p>
+      </div>
+    </form>
+  </div>
+</body>
+
+</html>

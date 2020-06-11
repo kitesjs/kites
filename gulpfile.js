@@ -12,6 +12,7 @@ const packages = {
   express: ts.createProject('packages/express/tsconfig.json'),
   rest: ts.createProject('packages/rest/tsconfig.json'),
   react: ts.createProject('packages/react/tsconfig.json'),
+  'basic-auth': ts.createProject('packages/basic-auth/tsconfig.json'),
 };
 const modules = Object.keys(packages);
 const source = 'packages';
@@ -39,6 +40,7 @@ gulp.task('copy-misc', function () {
     .pipe(gulp.dest(`${source}/express`))
     .pipe(gulp.dest(`${source}/rest`))
     .pipe(gulp.dest(`${source}/react`))
+    .pipe(gulp.dest(`${source}/basic-auth`))
 });
 
 gulp.task('clean:output', function () {
