@@ -1,6 +1,6 @@
 {
   "name": "@kites/basic-auth",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "Basic auth - An extension for Kites.js",
   "main": "index.js",
   "repository": {
