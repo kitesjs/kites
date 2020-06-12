@@ -70,30 +70,13 @@ kites.engine().init().then((app) => {
 });
 ```
 
-Documentation
-=============
-
-* See [Overview](https://kites.nodejs.vn/documentation/overview/) for an overview of concepts, guides and general documentation.
-* See [Templates](https://kites.nodejs.vn/documentation/kites/templates/) for installation guides how to create a new project based on Kites Templates.
-
-Templates
-=========
-
-Here is the list of **built-in templates** and their implementation status:
-
-* [x] `starter`: Kites Project Starter with Typescript (**default**)
-* [x] `docsify`: Template webserver for documentation site generator
-* [x] `chatbot`: Template for generating an AI Chatbot
-
-More templates, checkout [issue #1](https://github.com/vunb/kites/issues/1)
-
 Extensions
 ==========
 
 **Kites** is an eco-system and has many modules which can be assembled into a larger application. You are welcome to write your own extension or even publish it to the community.
 
-Extensions auto discovery
-=========================
+Auto discovery
+==============
 
 Kites has an option to allow the application auto discover extensions in the directory tree. This means `kites` will searches for files `kites.config.js` which describes the extensions and applies all the extensions that are found automatically.
 
@@ -133,6 +116,22 @@ async function bootstrap() {
 // let kites fly!
 bootstrap();
 ```
+
+Templates
+=========
+
+Here is the list of **built-in templates** and their implementation status:
+
+* [x] `starter`: Kites Project Starter with Typescript (**default**)
+* [x] `docsify`: Template webserver for documentation site generator
+* [x] `chatbot`: Template for generating an AI Chatbot
+
+More templates, checkout [issue #1](https://github.com/vunb/kites/issues/1).
+
+Documentation
+=============
+
+* Checkout: [kites.nodejs.vn](https://kites.nodejs.vn)
 
 # License
 
