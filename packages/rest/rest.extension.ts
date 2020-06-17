@@ -3,6 +3,7 @@ import * as express from 'express';
 
 import { Container, ExtensionOptions, IKites, KitesExtension } from '@kites/core';
 import { OutgoingHttpHeaders } from 'http';
+import { posix } from 'path';
 import { PARAMETER_TYPE, TYPE } from './constants';
 import { IController, Middleware, ParameterMetadata } from './interfaces';
 import { HttpResponseMessage } from './results/http-response-message';
@@ -68,8 +69,12 @@ class RestExtension implements KitesExtension {
           }
           const handler = this.handlerFactory(controller, metadata.key, paramList);
           const routeMiddleware = this.resolveMiddleware(...metadata.middleware);
+          const vCtrlPath = '/' + (controllerMetadata.path || '');
+          const vActionPath = '/' + (metadata.path || '');
+          // normalize posix urls
+          const vRoutePath = posix.join(vCtrlPath, vActionPath);
           router[metadata.method](
-            `${controllerMetadata.path}${metadata.path}`,
+            vRoutePath,
             ...controllerMiddleware,
             ...routeMiddleware,
             handler

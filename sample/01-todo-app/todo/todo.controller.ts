@@ -3,7 +3,7 @@ import { KITES_INSTANCE, KitesInstance } from '@kites/core';
 import { Controller, Get, Put, RequestParam } from '@kites/rest';
 import { TodoService } from './todo.service';
 
-@Controller('/todo')
+@Controller('todo')
 export class TodoController {
 
   constructor(
@@ -14,16 +14,19 @@ export class TodoController {
     kites.logger.info(svTodo.getAll());
   }
 
-  @Get('/') list() {
+  @Get()
+  list() {
     this.kites.logger.info('get all todo!!');
     return this.svTodo.getAll();
   }
 
-  @Get('/:id') details(@RequestParam('id') task) {
+  @Get(':id')
+  details(@RequestParam('id') task) {
     return this.svTodo.get(task);
   }
 
-  @Put('/:id') begin(@RequestParam('id') task) {
+  @Put('/:id')
+  begin(@RequestParam('id') task) {
     return this.svTodo.begin(task);
   }
 }

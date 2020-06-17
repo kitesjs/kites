@@ -29,31 +29,31 @@ function HttpMethod(
   };
 }
 
-function All(path: string, ...middleware: Middleware[]) {
+function All(path?: string, ...middleware: Middleware[]) {
   return HttpMethod('all', path, ...middleware);
 }
 
-function Get(path: string, ...middleware: Middleware[]) {
+function Get(path?: string, ...middleware: Middleware[]) {
   return HttpMethod('get', path, ...middleware);
 }
 
-function Post(path: string, ...middleware: Middleware[]) {
+function Post(path?: string, ...middleware: Middleware[]) {
   return HttpMethod('post', path, ...middleware);
 }
 
-function Put(path: string, ...middleware: Middleware[]) {
+function Put(path?: string, ...middleware: Middleware[]) {
   return HttpMethod('put', path, ...middleware);
 }
 
-function Patch(path: string, ...middleware: Middleware[]) {
+function Patch(path?: string, ...middleware: Middleware[]) {
   return HttpMethod('patch', path, ...middleware);
 }
 
-function Head(path: string, ...middleware: Middleware[]) {
+function Head(path?: string, ...middleware: Middleware[]) {
   return HttpMethod('head', path, ...middleware);
 }
 
-function Delete(path: string, ...middleware: Middleware[]) {
+function Delete(path?: string, ...middleware: Middleware[]) {
   return HttpMethod('delete', path, ...middleware);
 }
 
