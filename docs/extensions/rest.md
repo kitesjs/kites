@@ -80,7 +80,7 @@ export class TodoController {
     kites.logger.info(svTodo.getAll());
   }
 
-  @Get('')
+  @Get()
   list() {
     this.kites.logger.info('get all todo!!');
     return this.svTodo.getAll();
