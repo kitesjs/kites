@@ -14,7 +14,8 @@ export class TodoController {
     kites.logger.info(svTodo.getAll());
   }
 
-  @Get('') list() {
+  @Get()
+  list() {
     this.kites.logger.info('get all todo!!');
     return this.svTodo.getAll();
   }
