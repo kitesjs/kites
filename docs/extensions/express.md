@@ -84,6 +84,8 @@ Some events can easily override to make program has the right behaviour.
 * `express:before:config` - Before express configured
 * `express:config` - Custom express configuration
 * `express:config:view` - Before view engine configured, if the event return false, kites express default engine will be used 
+* `express:config:static`
+* `express:config:done`
 
 Example
 =======

@@ -191,6 +191,7 @@ export class ExpressExtension implements KitesExtension {
       app.use(express.static(this.options.static));
     }
 
+    kites.emit('express:config:done', app);
     kites.logger.debug('Express configuration has done!');
   }
 
