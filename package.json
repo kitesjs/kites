@@ -1,6 +1,6 @@
 {
   "name": "@kites/core",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "displayName": "Kites",
   "description": "Template-based Web Application Framework",
   "main": "src/main.js",
