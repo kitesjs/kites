@@ -1,4 +1,4 @@
-import { ExtensionDefinition, KitesInstance } from '@kites/core';
+import { KitesExtension, KitesInstance } from '@kites/core';
 import { readFile } from 'fs';
 import { join as pathJoin } from 'path';
 import { promisify } from 'util';
@@ -8,12 +8,17 @@ import { getAuthToken } from './lib/utils';
 const readFileAsync = promisify(readFile);
 const viewFilePath = pathJoin(__dirname, 'pages/login.html');
 
-export default function (kites: KitesInstance, definition: ExtensionDefinition) {
+/**
+ * Main program
+ * @param kites
+ * @param extension
+ */
+export default function (kites: KitesInstance, extension: KitesExtension) {
 
   // TODO: Get user from database
-  const vUsers = kites.options[definition.name].users || {};
+  const vUsers = kites.options[extension.name].users || {};
   const vMapUsers = new Map(Object.entries(vUsers));
-  kites.logger.info(`Config: ${definition.name}, vUsers: ${vMapUsers.size}`);
+  kites.logger.info(`Config: ${extension.name}, vUsers: ${vMapUsers.size}`);
 
   // config login page & users token
   kites.on('express:before:config', (app) => {
