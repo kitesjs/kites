@@ -16,7 +16,8 @@ Main Features
 Extension Options
 =================
 
-* apiPrefix: Configure api prefix for all controllers
+* `enabled`: Enable/disable extension (default: true)
+* `apiPrefix`: Configure api prefix for all controllers
 
 API Usage
 =========

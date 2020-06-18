@@ -30,6 +30,7 @@ Features
 Options
 =======
 
+* **enabled**: Enable/disable extension (default: true)
 * **static**: Public directory contains static files to serve client, default: `false`
 * **httpPort**: Port which express listens to, default: `3000`
 * **poweredBy**: Header `X-Powered-By` will response to client, default: `Kites`
