@@ -1,6 +1,6 @@
 {
   "name": "@kites/react",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "React - Frontend view engine for Kites",
   "main": "index.js",
   "repository": {
