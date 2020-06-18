@@ -16,7 +16,7 @@ export default function (kites: KitesInstance, definition: ExtensionDefinition) 
   kites.logger.info(`Config: ${definition.name}, vUsers: ${vMapUsers.size}`);
 
   // config login page & users token
-  kites.on('before:express:config', (app) => {
+  kites.on('express:before:config', (app) => {
 
     app.all('/logout', (req, res) => {
       req.user = undefined;
