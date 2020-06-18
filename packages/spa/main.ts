@@ -10,18 +10,18 @@ const readFileAsync = promisify(readFile);
  * @param options
  */
 export default function (kites: KitesInstance, extension: KitesExtension) {
-  // config one page application
-  kites.on('express:config:static', (app) => {
+  // config single page application
+  kites.on('express:config:done', (app) => {
     if (typeof extension.options.pages === 'object') {
       const vRoutes = Object.keys(extension.options.pages);
       for (const vRoute of vRoutes) {
         const vPage = extension.options.pages[vRoute];
         const vFilePath = kites.defaultPath(vPage);
-        kites.logger.debug(`Spa test: ${vRoute}, ${vFilePath}`);
+        kites.logger.debug(`(SPA) test: ${vRoute}, ${vFilePath}`);
         if (existsSync(vFilePath)) {
-          kites.logger.info('Spa config route: ' + vRoute);
+          kites.logger.info('(SPA) config route: ' + vRoute);
           app.get(vRoute, async (req, res) => {
-            kites.logger.debug('Serve static file: ' + vFilePath);
+            kites.logger.debug('(SPA) Serve static file: ' + vFilePath);
             const vContent = await readFileAsync(vFilePath, 'utf-8');
             res.send(vContent);
           });
