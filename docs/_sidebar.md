@@ -8,6 +8,8 @@
 - Extensions
   - [Express](extensions/express.md "@kites/express")
   - [Rest API](extensions/rest.md "@kites/rest")
+  - [Basic Authentication](extensions/basic-auth.md "@kites/basic-auth")
+  - [Single-Page Application](extensions/spa.md "@kites/spa")
 
 - Templates
   - Starter

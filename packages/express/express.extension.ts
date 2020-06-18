@@ -175,8 +175,8 @@ export class ExpressExtension implements KitesExtension {
     app.use(mixinRes(kites));
     app.use(mixinResView(kites));
 
-    kites.logger.debug('Express expanding ...');
-    kites.emit('before:express:config', app);
+    kites.logger.debug('Express before configure ...');
+    kites.emit('express:before:config', app);
 
     // default routes
     app.use('/_kites', defaultRouter());

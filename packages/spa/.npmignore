@@ -1,0 +1,17 @@
+# source
+**/*.ts
+*.ts
+
+# definitions
+!**/*.d.ts
+!*.d.ts
+
+# test
+**/*.spec.js
+*.spec.js
+
+# configuration
+package-lock.json
+tslint.json
+tsconfig.json
+.prettierrc

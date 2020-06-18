@@ -30,6 +30,7 @@ Features
 Options
 =======
 
+* **enabled**: Enable/disable extension (default: true)
 * **static**: Public directory contains static files to serve client, default: `false`
 * **httpPort**: Port which express listens to, default: `3000`
 * **poweredBy**: Header `X-Powered-By` will response to client, default: `Kites`
@@ -80,7 +81,7 @@ These helpers are utilities help you handling response and generating template.
 
 Some events can easily override to make program has the right behaviour.
 
-* `before:express:config` - Before express configured
+* `express:before:config` - Before express configured
 * `express:config` - Custom express configuration
 * `express:config:view` - Before view engine configured, if the event return false, kites express default engine will be used 
 
