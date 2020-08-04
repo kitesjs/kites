@@ -75,8 +75,11 @@ describe('kites engine', () => {
       extensionsLocationCache: false,
       // discover extensions from appDirectory (by default)
       appDirectory: rootDirectory,
-      rootDirectory: rootDirectory
-    }).init();
+      rootDirectory: rootDirectory,
+    })
+    // forced discover for test
+    .afterConfigLoaded(x => x.options.discover = true)
+    .init();
 
     expect(app.aKitesExtensionInitialized).eq(true, 'found a kites extension which has initialized!');
     expect(app.options.sample).eql({
