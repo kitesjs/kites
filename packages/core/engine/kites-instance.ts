@@ -37,6 +37,7 @@ export interface IKitesOptions {
    * Used to load app profile or configuration
    */
   appDirectory?: string;
+  configFile?: string;
   parentModuleDirectory?: string;
   env?: string;
   logger?: any;

@@ -1,4 +1,4 @@
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { HttpResponseMessage } from '../results/http-response-message';
 import { UserPrincipal } from './auth-provider.interface';
 
