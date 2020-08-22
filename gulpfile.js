@@ -32,7 +32,7 @@ gulp.task('default', function () {
 gulp.task('copy-misc', function () {
   return gulp
     .src([
-      'README.md',
+      // 'README.md',
       'LICENSE',
       '.npmignore'
     ])
