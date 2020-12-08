@@ -151,6 +151,9 @@ npm run build:dev
 
 npm test
 
+# 5. Run & load all extensions for test/demo
+npm start
+
 ```
 
 # License
