@@ -1,0 +1,25 @@
+{
+  "name": "@kites/botscript",
+  "version": "1.3.1",
+  "description": "BotScript - A Chatbot Platform Server",
+  "main": "main.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kitesjs/kites.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "kites",
+    "botscript"
+  ],
+  "author": "vunb",
+  "license": "MIT",
+  "peerDependencies": {
+    "@kites/common": "^1.1.7",
+    "@kites/core": "^1.1.7",
+    "@kites/express": "^1.1.7",
+    "reflect-metadata": "^0.1.12"
+  }
+}
