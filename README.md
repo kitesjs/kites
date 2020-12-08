@@ -133,6 +133,26 @@ Documentation
 
 * Checkout: [kites.nodejs.vn](https://kites.nodejs.vn)
 
+Extension Development
+=====================
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/kitesjs/kites.git
+
+# 2. Install dependencies
+
+npm install
+
+# 3. Build dev and make changes
+npm run build:dev
+
+# 4. Run test scripts
+
+npm test
+
+```
+
 # License
 
 MIT License
