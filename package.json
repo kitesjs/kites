@@ -90,7 +90,7 @@
     "express": "^4.17.1",
     "lodash": "^4.17.19",
     "mkdirp": "^1.0.4",
-    "nconf": "^0.10.0",
+    "nconf": "^0.11.4",
     "reflect-metadata": "^0.1.13",
     "winston": "^3.3.3"
   }
